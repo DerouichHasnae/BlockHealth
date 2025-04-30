@@ -1,0 +1,151 @@
+/* Variables - Palette médicale professionnelle */
+:root {
+    --background-dark: #0c2d48 !important; /* Bleu marine profond professionnel */
+    --background-light: #5184b4; /* Bleu institutionnel */
+    --text-light: #668ec2; /* Blanc pur pour meilleure lisibilité */
+    --highlight: #4fc3f7; /* Bleu clair pour éléments importants */
+    --button-primary: #1976d2; /* Bleu professionnel */
+    --button-hover: #1565c0; /* Bleu légèrement plus foncé */
+    --accent: #ffb74d; /* Orange doux pour accents */
+    --card-bg: #f3eded; /* Fond blanc professionnel */
+    --error: #f44336; /* Rouge d'alerte standard */
+    --border-accent: rgba(76, 175, 80, 0.3); /* Bordure verte subtile */
+  }
+  
+  /* Base Styles - Conservé votre structure */
+  .doctor-profile-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--background-dark), var(--background-light));
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-light);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-card {
+    width: 100%;
+    max-width: 80rem;
+    background: var(--card-bg);
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-accent);
+  }
+  
+  .profile-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--background-dark) !important; /* Utilisation du bleu foncé pour le titre */
+    letter-spacing: 1px;
+  }
+  
+  /* Profile Details - Adapté aux nouvelles couleurs */
+  .profile-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .detail-item {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Bordure plus subtile */
+    color: #333; /* Texte foncé pour meilleure lisibilité sur fond blanc */
+  }
+  
+  .detail-label {
+    display: inline-block;
+    min-width: 200px;
+    color: var(--background-light); /* Bleu institutionnel pour les labels */
+    font-weight: 500; /* Plus visible */
+  }
+  
+  .detail-value {
+    color: #222; /* Noir légèrement adouci */
+    font-weight: 600;
+  }
+  
+  /* Button - Style conservé avec nouvelles couleurs */
+  .profile-button {
+    padding: 0.75rem 2rem;
+    background: var(--button-primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-button:hover {
+    background: var(--button-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Effets supplémentaires adaptés */
+  .profile-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive Design - Conservé identique */
+  @media (max-width: 768px) {
+    .profile-card {
+      padding: 2rem;
+    }
+    
+    .profile-title {
+      font-size: 2rem;
+    }
+    
+    .profile-details {
+      grid-template-columns: 1fr;
+    }
+    
+    .detail-item {
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .doctor-profile-container {
+      padding: 1.5rem;
+    }
+    
+    .profile-card {
+      padding: 1.5rem;
+    }
+    
+    .profile-title {
+      font-size: 1.75rem;
+    }
+    
+    .detail-label {
+      min-width: 100%;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .detail-value {
+      font-size: 1rem;
+    }
+    
+    .profile-button {
+      width: 100%;
+      padding: 1rem;
+    }
+  }

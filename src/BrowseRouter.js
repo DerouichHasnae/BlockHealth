@@ -1,0 +1,79 @@
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Web3 from "web3";
+import LoginPage from "./components/LoginPage";
+
+import DoctorDashBoard from "./components/DoctorDashBoard";
+
+import RegisterPage from "./components/RegisterPage";
+import DoctorLogin from "./components/DoctorLogin";
+
+import DoctorRegistry from "./components/DoctorRegistration";
+
+import Footer from "./components/Footer";
+import LandingPage_1 from "./components/LandingPage_1";
+import ViewPatientList from "./components/ViewPatientList";
+
+import ViewDoctorProfile from "./components/ViewDoctorProfile";
+
+import AboutUs from "./components/AboutPage"; 
+
+
+
+const BrowseRouter = () => {
+  const [web3, setWeb3] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [accounts, setAccounts] = useState([]);
+  const [loggedInPatient, setLoggedInPatient] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      if (window.ethereum) {
+        const web3Instance = new Web3(window.ethereum);
+        try {
+          await window.ethereum.enable();
+          setWeb3(web3Instance);
+
+          const fetchedAccounts = await web3Instance.eth.getAccounts();
+          setAccounts(fetchedAccounts);
+        } catch (error) {
+          console.error("User denied access to accounts.");
+        }
+      } else {
+        console.log("Please install MetaMask extension");
+      }
+    };
+
+    init();
+  }, []);
+  return (
+    <BrowserRouter>
+
+      <Routes>
+      <Route path="/AboutPage" element={<AboutUs></AboutUs>}></Route>
+
+        <Route path="/" element={<LandingPage_1></LandingPage_1>}></Route>
+        <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
+        
+        <Route path="/doctor_registration" element={<DoctorRegistry></DoctorRegistry>}></Route>
+        
+        <Route path="/doctor_login"  element={<DoctorLogin></DoctorLogin>} ></Route>
+      
+        
+        <Route path="/login" element={<LoginPage />}></Route>
+   
+        <Route path="/doctor/:hhNumber" element={<DoctorDashBoard />}></Route>
+     
+        <Route path="/doctor/:hhNumber/viewdoctorprofile"  element={<ViewDoctorProfile />} ></Route>
+      
+      
+        <Route  path="/doctor/:hhNumber/patientlist"    element={<ViewPatientList />}  ></Route>
+       
+       
+      </Routes>
+      <Footer></Footer>
+    </BrowserRouter>
+  );
+};
+
+export default BrowseRouter;

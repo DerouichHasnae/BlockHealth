@@ -1,0 +1,115 @@
+/* Base Styles */
+:root {
+    --primary: #0d9488 !important;
+    --primary-dark: #115e59 !important;
+    --background-dark: #ffffff !important;
+    --background-light: #1e293b !important;
+    --text-light: #f8fafc !important;
+    --text-muted: #94a3b8 !important;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3) !important;
+    --border-radius: 0.5rem !important;
+}
+  
+.login-container {
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, var(--background-dark), var(--background-light)) !important;
+    font-family: 'IBM Plex Mono', monospace !important;
+    color: var(--text-light) !important;
+    padding: 2rem !important;
+}
+  
+.login-content {
+    width: 100% !important;
+    max-width: 24rem !important;
+    text-align: center !important;
+}
+  
+.login-title {
+    font-size: 2rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 2rem !important;
+    letter-spacing: -0.025em !important;
+    color: var(--text-light) !important;
+}
+  
+.login-subtitle {
+    color: var(--text-muted) !important;
+    margin-bottom: 3rem !important;
+    font-size: 0.875rem !important;
+}
+  
+.login-buttons-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+    width: 100% !important;
+}
+  
+.login-button {
+    background-color: var(--primary) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: var(--border-radius) !important;
+    width: 100% !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: none !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    box-shadow: var(--shadow) !important;
+}
+  
+.login-button:hover {
+    background-color: var(--primary-dark) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
+}
+  
+.login-button:active {
+    transform: translateY(0) !important;
+}
+  
+.login-footer {
+    margin-top: 3rem !important;
+    color: var(--text-muted) !important;
+    font-size: 0.75rem !important;
+}
+  
+/* Responsive Design */
+@media (max-width: 640px) {
+    .login-container {
+        padding: 1.5rem !important;
+    }
+    
+    .login-title {
+        font-size: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .login-subtitle {
+        margin-bottom: 2rem !important;
+    }
+}
+  
+/* Animation */
+@keyframes fadeIn {
+    from { 
+        opacity: 0 !important; 
+        transform: translateY(10px) !important; 
+    }
+    to { 
+        opacity: 1 !important; 
+        transform: translateY(0) !important; 
+    }
+}
+  
+.login-content {
+    animation: fadeIn 0.5s ease-out forwards !important;
+}
