@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FiHome, FiUser, FiUsers, FiSettings, FiLogOut } from "react-icons/fi";
 import NavBar_Logout from "./NavBar_Logout";
 import DoctorRegistration from "../build/contracts/DoctorRegistration.json";
-import "./DoctorDashBoard.css";
+import "../CSS/DoctorDashBoard.css";
 
 const DoctorDashBoardPage = () => {
   const { hhNumber } = useParams();

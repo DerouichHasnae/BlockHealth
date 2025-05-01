@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Web3 from "web3";
 import DoctorRegistration from "../build/contracts/DoctorRegistration.json";
 import { useNavigate } from "react-router-dom";
-import "./DoctorLogin.css";
+import "../CSS/DoctorLogin.css";
 import NavBar from "./NavBar";
 
 const DoctorLogin = () => {

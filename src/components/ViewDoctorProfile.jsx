@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DoctorRegistration from "../build/contracts/DoctorRegistration.json";
 import Web3 from "web3";
 import { useNavigate, useParams } from "react-router-dom";
-import "./ViewDoctorProfile.css";
+import "../CSS/ViewDoctorProfile.css";
 import NavBar_Logout from "./NavBar_Logout";
 
 const ViewDoctorProfile = () => {

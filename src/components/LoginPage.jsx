@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
-import "./LoginPage.css";
+import "../CSS/LoginPage.css";
 import { FaUserMd, FaUserInjured } from "react-icons/fa";
 
 const LoginPage = () => {
@@ -21,10 +21,12 @@ const LoginPage = () => {
             <FaUserMd /> Doctor Login
           </button>
           <button
-            className="login-button"
-            onClick={() => navigate("")}
-          >
-            <FaUserInjured /> Patient Login
+          className="bg-teal-500 text-white font-bold py-2 px-4 rounded w-full transition duration-300 ease-in-out transform hover:scale-110 hover:bg-gray-600"
+          onClick={() => {
+            navigate("/patient_login");
+          }}
+        >
+          Patient Login
           </button>
         </div>
         

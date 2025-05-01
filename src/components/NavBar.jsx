@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
-import "./NavBar.css";
-import logosvg from "../data/logo.png";
-import user from "../data/user.svg";
-import tick from "../data/tick.svg";
-import down from "../data/upload.svg";
-import store from "../data/store.png";
-import doc from "../data/doc.svg";
-import disease from "../data/disease.png";
-import doctor from "../data/Dr Andrew.jpg";
+import "../CSS/NavBar.css";
+import logosvg from "../data/images/logo.png";
+import user from "../data/images/user.svg";
+import tick from "../data/images/tick.svg";
+import down from "../data/images/upload.svg";
+import store from "../data/images/store.png";
+import doc from "../data/images/doc.svg";
+import disease from "../data/images/disease.png";
+import doctor from "../data/images/Dr Andrew.jpg";
 import { motion } from "framer-motion";
 const NavBar = () => {
   const navigate = useNavigate();
