@@ -27,40 +27,41 @@ const PatientRegistry = () => {
 
   const navigate = useNavigate();
 
-useEffect(() => {
-  const initWeb3 = async () => {
-    if (window.ethereum) {
-      const web3Instance = new Web3(window.ethereum);
-      try {
-        // Demande d'accès au portefeuille
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-        setWeb3(web3Instance);
-
-        // Récupère les comptes
-        const accounts = await web3Instance.eth.getAccounts();
-        setWalletAddress(accounts[0]); // Stocke l'adresse automatiquement
-
-        // Récupère l'ID du réseau
-        const networkId = await web3Instance.eth.net.getId();
-        const deployedNetwork = PatientRegistration.networks[networkId];
-
-        // Instancie le contrat
-        const contractInstance = new web3Instance.eth.Contract(
-          PatientRegistration.abi,
-          deployedNetwork && deployedNetwork.address
-        );
-
-        setContract(contractInstance);
-      } catch (error) {
-        console.error("Accès refusé au portefeuille :", error);
+  useEffect(() => {
+    const initWeb3 = async () => {
+      if (window.ethereum) {
+        const web3Instance = new Web3(window.ethereum);
+        try {
+          // Demande d'accès au portefeuille
+          await window.ethereum.request({ method: "eth_requestAccounts" });
+          setWeb3(web3Instance);
+  
+          // Récupère les comptes
+          const accounts = await web3Instance.eth.getAccounts();
+          setWalletAddress(accounts[0]); // Stocke l'adresse automatiquement
+  
+          // Récupère l'ID du réseau
+          const networkId = await web3Instance.eth.net.getId();
+          const deployedNetwork = PatientRegistration.networks[networkId];
+  
+          // Instancie le contrat
+          const contractInstance = new web3Instance.eth.Contract(
+            PatientRegistration.abi,
+            deployedNetwork && deployedNetwork.address
+          );
+  
+          setContract(contractInstance);
+        } catch (error) {
+          console.error("Accès refusé au portefeuille :", error);
+        }
+      } else {
+        console.error("Metamask n'est pas installé.");
       }
-    } else {
-      console.error("Metamask n'est pas installé.");
-    }
-  };
-
-  initWeb3();
-}, []);
+    };
+  
+    initWeb3();
+  }, []);
+  
 
   const handleRegister = async () => {
     if (
@@ -97,17 +98,20 @@ useEffect(() => {
     setPasswordError("Password must be atleast 8 characters long.");
     return;
     }
+
     if (password !== confirmPassword) {
       setConfirmPassword("");
       setConfirmPasswordError("Passwords do not match.");
       return;
     }
+
     // Check if dateOfBirth is in the format dd/mm/yyyy
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (!datePattern.test(dateOfBirth)) {
       alert("Please enter Date of Birth in the format dd/mm/yyyy");
       return;
     }
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -116,11 +120,14 @@ useEffect(() => {
     } else {
       setEmailError(""); // Clear email error if valid
     }
+
     // Password validation: minimum length
     if (password.length < 8) {
       alert("Password must be at least 8 characters long.");
       return;
-    } 
+    }
+
+      
     try {
       const web3 = new Web3(window.ethereum);
 
@@ -139,6 +146,7 @@ useEffect(() => {
         alert("Patient already exists");
         return;
       }
+
       await contract.methods
       .registerPatient(
         walletAddress,
@@ -160,18 +168,23 @@ useEffect(() => {
         alert("An error occurred while registering the doctor.");
       }
   };
+  
+
   const handleEmailChange = (e) => {
     const inputEmail = e.target.value;
     setEmail(inputEmail);
   };
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setPasswordError("");
   };
+
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
     setConfirmPasswordError("");
   };
+
   const handlehhNumberChange = (e) => {
     const inputhhNumber = e.target.value;
     const phoneRegex = /^\d{6}$/;
@@ -183,9 +196,11 @@ useEffect(() => {
       sethhNumberError("Please enter a 6-digit HH Number.");
     }
   };
+
   const cancelOperation = () => {
     navigate("/");
   };
+
   return (
     <div>
     <NavBar></NavBar>
@@ -195,18 +210,7 @@ useEffect(() => {
          Patient Registration
         </h2>
         <form className="bg-gray-900 p-6 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="mb-4">
-           
-            <input
-              type="text"
-              id="walletAddress"
-              name="walletAddress"
-              placeholder="Crypto Wallet's Public Address"
-              value={walletAddress}
-              onChange={(e) => setWalletAddress(e.target.value)}
-              className="mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover:bg-gray-800 transition duration-200"
-            />
-            </div>
+         
           <div className="mb-4">
             <label className="block font-bold text-white" htmlFor="name">
               Full Name

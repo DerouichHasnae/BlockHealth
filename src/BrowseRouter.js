@@ -17,7 +17,7 @@ import ViewProfile from "./components/ViewProfile";
 import ViewDoctorProfile from "./components/ViewDoctorProfile";
 import AboutUs from "./components/AboutPage"; 
 
-
+import UploadRecord from "./components/UploadRecord";
 
 const BrowseRouter = () => {
   const [web3, setWeb3] = useState(null);
@@ -58,6 +58,7 @@ const BrowseRouter = () => {
           path="/patient_registration"
           element={<PatientRegistry></PatientRegistry>}
         ></Route>
+
         <Route
           path="/doctor_registration"
           element={<DoctorRegistry></DoctorRegistry>}
@@ -75,6 +76,8 @@ const BrowseRouter = () => {
         
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/patient/:hhNumber" element={<PatientDashBoard />}></Route>
+        <Route path="/patient/:hhNumber/uploadrecord" element={<UploadRecord />} />
+
         <Route path="/doctor/:hhNumber" element={<DoctorDashBoard />}></Route>
         <Route
           path="/patient/:hhNumber/viewprofile"

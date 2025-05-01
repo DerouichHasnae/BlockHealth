@@ -1,0 +1,106 @@
+/* Container principal */
+.profile-container {
+    min-height: 100vh;
+    background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  
+  /* Contenu du profil */
+  .profile-content {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 30px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Titre */
+  .profile-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-align: center;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+  }
+  
+  /* Chaque ligne de détail */
+  .profile-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-size: 1.05rem;
+    color: #34495e;
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 6px;
+  }
+  
+  /* Labels */
+  .profile-detail-label {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  /* Valeurs */
+  .profile-detail-value {
+    color: #555;
+  }
+  
+  /* Bouton */
+  .profile-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .profile-close-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .profile-close-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .profile-content {
+      padding: 30px 20px;
+    }
+  
+    .profile-detail {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .profile-detail-value {
+      margin-top: 4px;
+    }
+  }
+  
+  

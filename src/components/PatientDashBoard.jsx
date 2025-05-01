@@ -1,86 +1,158 @@
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import { useParams, useNavigate } from "react-router-dom";
-import NavBar_Logout from "./NavBar_Logout";
+import "../CSS/PatientDashboard.css";
 import PatientRegistration from "../build/contracts/PatientRegistration.json";
+import { FiUser, FiFileText, FiHome, FiBell, FiCalendar } from "react-icons/fi";
 
 const PatientDashBoard = () => {
-  const { hhNumber } = useParams(); // Retrieve the hhNumber from the URL parameter
-
+  const { hhNumber } = useParams();
   const navigate = useNavigate();
-  
-  const viewRecord = () => {
-    navigate("/patient/" + hhNumber + "/viewrecords");
-  };
-
-  const viewprofile = () => {
-    navigate("/patient/" + hhNumber + "/viewprofile");
-  };
-  
 
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
-  const [patientPhoneNo, setPatientPhoneNo] = useState(null);
   const [patientDetails, setPatientDetails] = useState(null);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  const viewRecord = () => {
+    navigate(`/patient/${hhNumber}/viewrecords`);
+    setActiveTab("records");
+  };
+  
+  const viewProfile = () => {
+    navigate(`/patient/${hhNumber}/viewprofile`);
+    setActiveTab("profile");
+  };
+  
+  const goToDashboard = () => {
+    navigate(`/patient/${hhNumber}`);
+    setActiveTab("dashboard");
+  };
+  useEffect(() => {
+    const fetchPatientDetails = async () => {
+      if (!contract || !hhNumber) return;
+  
+      try {
+        const result = await contract.methods.getPatientDetails(hhNumber).call();
+        setPatientDetails(result);
+      } catch (error) {
+        console.error("Error fetching patient details:", error);
+        setError("Failed to load patient details");
+      }
+    };
+  
+    fetchPatientDetails();
+  }, [contract, hhNumber]);
+  
 
   useEffect(() => {
     const init = async () => {
       if (window.ethereum) {
-        const web3Instance = new Web3(window.ethereum);
-        setWeb3(web3Instance);
-
-        const networkId = await web3Instance.eth.net.getId();
-        const deployedNetwork = PatientRegistration.networks[networkId];
-        const contractInstance = new web3Instance.eth.Contract(
-          PatientRegistration.abi,
-          deployedNetwork && deployedNetwork.address,
-        );
-        setContract(contractInstance);
-        setPatientPhoneNo(hhNumber);
         try {
-          const result = await contractInstance.methods.getPatientDetails(patientPhoneNo).call();
-          setPatientDetails(result);
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length === 0) {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+          }
+    
+          const web3Instance = new Web3(window.ethereum);
+          setWeb3(web3Instance);
+    
+          const networkId = await web3Instance.eth.net.getId();
+          const deployedNetwork = PatientRegistration.networks[networkId];
+          const contractInstance = new web3Instance.eth.Contract(
+            PatientRegistration.abi,
+            deployedNetwork?.address
+          );
+          setContract(contractInstance);
         } catch (error) {
-          console.error('Error retrieving patient details:', error);
-          setError('Error retrieving patient details');
+          console.error("Error initializing Web3:", error);
+          setError("Error connecting to blockchain");
         }
       } else {
-        console.log('Please install MetaMask extension');
-        setError('Please install MetaMask extension');
+        setError("Please install MetaMask extension");
       }
     };
+    
 
     init();
-  }, [patientPhoneNo]);
+  }, [hhNumber]);
 
   return (
-    <div>
-      <NavBar_Logout />
-      <div className="bg-gradient-to-b from-black to-gray-800 p-4 sm:p-10 font-mono text-white h-screen flex flex-col justify-center items-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-6">Patient Dashboard</h2>
-        {patientDetails && (
-          <p className="text-xl sm:text-2xl mb-24">
-            Welcome{" "}
-            <span className="font-bold text-yellow-500">{patientDetails.name}!</span>
-          </p>
-        )}
-        <div className="flex flex-wrap justify-center gap-5 w-full px-4 sm:px-0">
-          <button
-            onClick={viewprofile}
-            className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+    <div className="dashboard-container">
+      <aside className="sidebar">
+        <h2>e-Health Records</h2>
+        <ul>
+          <li 
+            onClick={goToDashboard} 
+            className={activeTab === "dashboard" ? "active" : ""}
           >
-            View Profile
-          </button>
-          <button
+            <FiHome className="icon" /> Dashboard
+          </li>
+          <li 
+            onClick={viewProfile}
+            className={activeTab === "profile" ? "active" : ""}
+          >
+            <FiUser className="icon" /> My Profile
+          </li>
+          <li 
             onClick={viewRecord}
-            className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+            className={activeTab === "records" ? "active" : ""}
           >
-            View Record
-          </button>
+            <FiFileText className="icon" /> Medical Records
+          </li>
+          <li onClick={() => navigate(`/patient/${hhNumber}/uploadrecord`)}>
+            <FiFileText className="icon" /> Upload Records
+          </li>
 
+          <li>
+            <FiCalendar className="icon" /> Appointments
+          </li>
+          <li>
+            <FiBell className="icon" /> Notifications
+          </li>
+        </ul>
+      </aside>
+
+      <main className="main-content">
+      <header className="dashboard-header">
+  <h1>Patient Dashboard</h1>
+  {patientDetails ? (
+    <p className="dashboard-welcome">
+    Welcome back,  <span className="patient-name">{patientDetails.name}!</span>
+    </p>
+  ) : (
+    <p className="dashboard-loading">Loading profile...</p>
+  )}
+</header>
+
+
+
+        {error && (
+          <div className="error-message">
+            <p>{error}</p>
+          </div>
+        )}
+
+        <div className="dashboard-grid">
+          <div className="dashboard-card">
+            <h3>Recent Activities</h3>
+            <p>Your recent medical interactions will appear here.</p>
+          </div>
+          
+          <div className="dashboard-card">
+            <h3>Health Summary</h3>
+            <p>Key health metrics and summary will be displayed here.</p>
+          </div>
+          
+          <div className="dashboard-card">
+            <h3>Upcoming Appointments</h3>
+            <p>Your scheduled appointments will appear here.</p>
+          </div>
+          
+          
         </div>
-      </div>
+      </main>
     </div>
   );
 };

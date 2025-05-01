@@ -19,12 +19,20 @@ contract PatientRegistration {
         string patient_name;
     }
 
+      struct MedicalRecord {
+        string ipfsHash; // hash IPFS du fichier
+        string description;
+        uint256 timestamp;
+    }
+
     mapping(string => bool) public isPatientRegistered;
     mapping(string => Patient) public patients;
     mapping(string => PatientList[]) private Dpermission;
     mapping(string => mapping(string => bool)) public doctorPermissions;
+    mapping(string => MedicalRecord[]) private patientRecords;
 
     event PatientRegistered(string hhNumber, string name, address walletAddress);
+    event MedicalRecordUploaded(string hhNumber, string ipfsHash, string description, uint256 timestamp);
 
     function registerPatient(
         address _walletAddress,
@@ -113,5 +121,29 @@ contract PatientRegistration {
 
     function getPatientList(string memory _doctorNumber) public view returns (PatientList[] memory) {
         return Dpermission[_doctorNumber];
+    }
+        // ✅ Upload medical record (IPFS hash)
+    function uploadMedicalRecord(string memory _hhNumber, string memory _ipfsHash, string memory _description) external {
+        require(isPatientRegistered[_hhNumber], "Patient not registered");
+        require(
+            msg.sender == patients[_hhNumber].walletAddress,
+            "Only the patient can upload their records"
+        );
+
+        MedicalRecord memory newRecord = MedicalRecord({
+            ipfsHash: _ipfsHash,
+            description: _description,
+            timestamp: block.timestamp
+        });
+
+        patientRecords[_hhNumber].push(newRecord);
+
+        emit MedicalRecordUploaded(_hhNumber, _ipfsHash, _description, block.timestamp);
+    }
+
+    // ✅ Get all medical records of patient
+    function getMedicalRecords(string memory _hhNumber) external view returns (MedicalRecord[] memory) {
+        require(isPatientRegistered[_hhNumber], "Patient not registered");
+        return patientRecords[_hhNumber];
     }
 }
