@@ -15,6 +15,7 @@ const UploadRecord = () => {
   const [contract, setContract] = useState(null);
   const [web3, setWeb3] = useState(null);
   const [status, setStatus] = useState("");
+  
 
   useEffect(() => {
     const init = async () => {
@@ -61,9 +62,10 @@ const UploadRecord = () => {
       setStatus("Record uploaded successfully!");
     } catch (err) {
       console.error("Upload failed:", err);
-      setStatus("Upload failed");
+      setStatus(`Upload failed: ${err.message}`);
     }
-  };
+};
+
 
   return (
     <div className="upload-container">

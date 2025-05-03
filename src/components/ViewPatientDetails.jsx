@@ -10,6 +10,8 @@ function ViewPatientDetails() {
   const [contract, setContract] = useState(null);
   const [patientInfo, setPatientInfo] = useState(null);
   const [status, setStatus] = useState("");
+  const [medicalRecords, setMedicalRecords] = useState([]);
+
 
   useEffect(() => {
     const init = async () => {
@@ -48,7 +50,19 @@ function ViewPatientDetails() {
 
     init();
   }, [hhNumber]);
-
+  const loadMedicalRecords = async () => {
+    if (!contract || !hhNumber) return;
+  
+    try {
+      const records = await contract.methods.getMedicalRecords(hhNumber).call();
+      setMedicalRecords(records);
+      setStatus("Records loaded successfully.");
+    } catch (error) {
+      console.error("Error loading medical records:", error);
+      setStatus("Failed to load medical records.");
+    }
+  };
+  
   return (
     <div className="view-patient-container">
       <h2>Patient Details</h2>
@@ -66,8 +80,33 @@ function ViewPatientDetails() {
       )}
 
       <div className="button-group">
-        <button onClick={() => alert("Opening records...")}>🗂 View Records</button>
-        <button onClick={() => alert("Consulting prescription...")}>💊 Prescription/Consultancy</button>
+      <button onClick={loadMedicalRecords}>🗂 View Records</button>
+      {medicalRecords.length > 0 && (
+  <div className="medical-records">
+    <h3>Medical Records</h3>
+    <ul>
+      {medicalRecords.map((record, index) => (
+        <li key={index}>
+          <p><strong>Description:</strong> {record.description}</p>
+          <p><strong>Medical File:</strong> 
+  <a 
+    href={`https://ipfs.io/ipfs/${record.ipfsHash}`} 
+    target="_blank" 
+    rel="noreferrer"
+    style={{ color: "blue", textDecoration: "underline" }}
+  >
+    📄 View PDF
+  </a>
+</p>
+
+          <p><strong>Date:</strong> {new Date(record.timestamp * 1000).toLocaleString()}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+      <button onClick={() => alert("Consulting prescription...")}>💊 Prescription/Consultancy</button>
       </div>
 
       <p>{status}</p>

@@ -146,4 +146,50 @@ contract PatientRegistration {
         require(isPatientRegistered[_hhNumber], "Patient not registered");
         return patientRecords[_hhNumber];
     }
+    // Liste des patients révoqués pour chaque médecin
+mapping(string => PatientList[]) private revokedPatients;
+
+// 🔴 Supprimer un patient de la liste d'accès du médecin
+function revokeAccess(string memory _doctorNumber, string memory _patientNumber) public {
+    PatientList[] storage list = Dpermission[_doctorNumber];
+    for (uint i = 0; i < list.length; i++) {
+        if (keccak256(abi.encodePacked(list[i].patient_number)) == keccak256(abi.encodePacked(_patientNumber))) {
+            // Ajouter à la liste révoquée
+            revokedPatients[_doctorNumber].push(list[i]);
+
+            // Supprimer de la liste active
+            list[i] = list[list.length - 1];
+            list.pop();
+
+            // Supprimer l'autorisation
+            doctorPermissions[_patientNumber][_doctorNumber] = false;
+            break;
+        }
+    }
+}
+
+// ✅ Récupérer un patient révoqué (restaurer)
+function restoreAccess(string memory _doctorNumber, string memory _patientNumber) public {
+    PatientList[] storage revoked = revokedPatients[_doctorNumber];
+    for (uint i = 0; i < revoked.length; i++) {
+        if (keccak256(abi.encodePacked(revoked[i].patient_number)) == keccak256(abi.encodePacked(_patientNumber))) {
+            // Remettre dans la liste active
+            Dpermission[_doctorNumber].push(revoked[i]);
+
+            // Supprimer de la liste révoquée
+            revoked[i] = revoked[revoked.length - 1];
+            revoked.pop();
+
+            // Rétablir l'autorisation
+            doctorPermissions[_patientNumber][_doctorNumber] = true;
+            break;
+        }
+    }
+}
+
+// ✅ Afficher la liste des patients révoqués
+function getRevokedPatients(string memory _doctorNumber) public view returns (PatientList[] memory) {
+    return revokedPatients[_doctorNumber];
+}
+
 }
