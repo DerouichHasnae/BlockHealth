@@ -1,0 +1,65 @@
+/* ViewPatientDetails.css */
+
+.view-patient-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  h2, h3 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .patient-info p,
+  .records-list li p {
+    font-size: 16px;
+    margin: 6px 0;
+    color: #34495e;
+  }
+  
+  .patient-info {
+    background-color: #f3f6f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .records-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .records-list li {
+    background-color: #ecf0f1;
+    padding: 15px;
+    border-left: 4px solid #3498db;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: transform 0.2s ease;
+  }
+  
+  .records-list li:hover {
+    transform: scale(1.02);
+  }
+  
+  p strong {
+    color: #2c3e50;
+  }
+  
+  p {
+    line-height: 1.6;
+  }
+  
+  .status-message {
+    margin-top: 20px;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+  

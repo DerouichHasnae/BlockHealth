@@ -1,0 +1,54 @@
+.grant-permission-container {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+  }
+  
+  .grant-permission-container h2 {
+    margin-bottom: 30px;
+    font-size: 24px;
+    color: #2c3e50;
+  }
+  
+  .grant-permission-container input {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+  }
+  
+  .grant-permission-container input:focus {
+    border-color: #0077b6;
+    outline: none;
+  }
+  
+  .grant-permission-container button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .grant-permission-container button:hover {
+    background-color: #005f87;
+  }
+  
+  .grant-permission-container p {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #555;
+  }
+  

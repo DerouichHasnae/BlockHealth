@@ -1,0 +1,87 @@
+.patient-login-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #1f2937, #111827);
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+  }
+  
+  .patient-login-box {
+    width: 100%;
+    max-width: 600px;
+    background-color: #1e1e2f;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  }
+  
+  .patient-login-box h2 {
+    font-size: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #00bfa6;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #ffffff;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #000;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: #00bfa6;
+    outline: none;
+  }
+  
+  .error-message {
+    color: #ff4d4f;
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .button-group button {
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #00bfa6;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-group button:hover {
+    background-color: #009e8e;
+  }
+  
+  .button-group button:active {
+    background-color: #007f73;
+  }
+  

@@ -104,6 +104,10 @@ const PatientDashBoard = () => {
           <li onClick={() => navigate(`/patient/${hhNumber}/uploadrecord`)}>
             <FiFileText className="icon" /> Upload Records
           </li>
+          <li onClick={() => navigate(`/patient/${hhNumber}/grantpermission`)}>
+  <FiUser className="icon" /> Grant Permission
+</li>
+
 
           <li>
             <FiCalendar className="icon" /> Appointments

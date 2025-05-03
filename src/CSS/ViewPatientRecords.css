@@ -1,0 +1,106 @@
+.view-records-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f0f4f8, #ffffff);
+  padding: 3rem 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2937;
+  transition: background 0.3s ease;
+}
+
+.records-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #0f172a;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.records-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #2563eb;
+  margin: 0.5rem auto 0;
+  border-radius: 9999px;
+}
+
+.error-message {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin: 1rem auto;
+  max-width: 600px;
+  font-weight: 500;
+}
+
+.records-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .records-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .records-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.record-card {
+  background-color: #ffffff;
+  padding: 1.8rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border-left: 5px solid #2563eb;
+  animation: fadeInUp 0.6s ease;
+}
+
+.record-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 24px rgba(0, 0, 0, 0.1);
+}
+
+.record-card p {
+  margin: 0.4rem 0;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.record-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.record-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
