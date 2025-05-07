@@ -17,9 +17,12 @@ import ViewProfile from "./components/ViewProfile";
 import ViewDoctorProfile from "./components/ViewDoctorProfile";
 import AboutUs from "./components/AboutPage"; 
 import ViewPatientDetails from "./components/ViewPatientDetails";
-
+import RevokedPatients from "./components/RevokedPatients";
 import UploadRecord from "./components/UploadRecord";
 import GrantPermission from "./components/GrantPermission";
+import DoctorAvailabilityPage from "./components/DoctorAvailabilityPage"; 
+import Availability from "./components/Availability"; // Importer le composant Availability
+
 const BrowseRouter = () => {
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
@@ -59,6 +62,7 @@ const BrowseRouter = () => {
           path="/patient_registration"
           element={<PatientRegistry></PatientRegistry>}
         ></Route>
+        <Route path="/doctor/:hhNumber/availability" element={<Availability/>} />
 
         <Route
           path="/doctor_registration"
@@ -105,10 +109,12 @@ const BrowseRouter = () => {
           path="/doctor/:hhNumber/patientlist"
           element={<ViewPatientList />}
         ></Route>
+                <Route path="/doctor/revokedpatients/:hhNumber" element={<RevokedPatients />} />
+
        
        
       </Routes>
-    <Footer></Footer>
+   
     </BrowserRouter>
   );
 };

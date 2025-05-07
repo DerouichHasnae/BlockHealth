@@ -5,12 +5,12 @@ import PatientRegistration from "../build/contracts/PatientRegistration.json";
 import NavBar_Logout from "./NavBar_Logout";
 import "../CSS/ViewPatientList.css"; // Import du fichier CSS
 
-function ViewPatientList() {
+function RevokedPatients() {
   const { hhNumber } = useParams(); // Récupère le numéro du médecin depuis l'URL
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
   const [account, setAccount] = useState("");
-  const [patients, setPatients] = useState([]);
+  const [revokedPatients, setRevokedPatients] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,50 +31,43 @@ function ViewPatientList() {
         );
         setContract(contractInstance);
 
-        const patientList = await contractInstance.methods
-          .getPatientList(hhNumber)
+        // Récupérer la liste des patients révoqués
+        const revokedList = await contractInstance.methods
+          .getRevokedPatients(hhNumber)
           .call();
-        setPatients(patientList);
+        setRevokedPatients(revokedList);
       }
     };
 
     init();
   }, [hhNumber]);
 
-  const handleViewDetails = (patientHhNumber) => {
-    navigate(`/doctor/viewpatient/${patientHhNumber}`);
-  };
-
-  const handleDelete = async (patientHhNumber) => {
+  const handleRestore = async (patientHhNumber) => {
     try {
       await contract.methods
-        .revokeAccess(hhNumber, patientHhNumber) // Révocation d'accès
+        .restoreAccess(hhNumber, patientHhNumber) // Récupérer l'accès
         .send({ from: account });
 
-      // Mettre à jour la liste localement après suppression
-      const updatedList = patients.filter(
+      // Mettre à jour la liste localement après restauration
+      const updatedRevokedList = revokedPatients.filter(
         (p) => p.patient_number !== patientHhNumber
       );
-      setPatients(updatedList);
+      setRevokedPatients(updatedRevokedList);
 
-      alert("Access revoked successfully.");
+      alert("Access restored successfully.");
     } catch (error) {
-      console.error("Error revoking access:", error);
-      alert("Failed to revoke access.");
+      console.error("Error restoring access:", error);
+      alert("Failed to restore access.");
     }
-  };
-
-  const handleViewRevokedPatients = () => {
-    navigate(`/doctor/revokedpatients/${hhNumber}`); // Redirige vers la page des patients révoqués
   };
 
   return (
     <div className="view-patient-container">
       <NavBar_Logout />
       <div className="view-patient-content">
-        <h2 className="title">Patients Who Granted You Access</h2>
-        {patients.length === 0 ? (
-          <p className="no-patients">No patients have granted you access yet.</p>
+        <h2 className="title">Revoked Patients</h2>
+        {revokedPatients.length === 0 ? (
+          <p className="no-patients">No patients have been revoked yet.</p>
         ) : (
           <table className="patient-table">
             <thead>
@@ -84,21 +77,15 @@ function ViewPatientList() {
               </tr>
             </thead>
             <tbody>
-              {patients.map((patient, index) => (
+              {revokedPatients.map((patient, index) => (
                 <tr key={index}>
                   <td>{patient.patient_name}</td>
                   <td>
                     <button
-                      className="btn-view"
-                      onClick={() => handleViewDetails(patient.patient_number)}
+                      className="btn-restore"
+                      onClick={() => handleRestore(patient.patient_number)}
                     >
-                      View
-                    </button>
-                    <button
-                      className="btn-delete"
-                      onClick={() => handleDelete(patient.patient_number)}
-                    >
-                      Delete
+                      Restore
                     </button>
                   </td>
                 </tr>
@@ -106,13 +93,9 @@ function ViewPatientList() {
             </tbody>
           </table>
         )}
-
-        <button className="btn-view-revoked" onClick={handleViewRevokedPatients}>
-          View Revoked Patients
-        </button>
       </div>
     </div>
   );
 }
 
-export default ViewPatientList;
+export default RevokedPatients;

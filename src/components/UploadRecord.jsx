@@ -28,6 +28,7 @@ const UploadRecord = () => {
             PatientRegistration.abi,
             deployedNetwork?.address
           );
+        
           setWeb3(web3Instance);
           setContract(contractInstance);
         } catch (err) {
@@ -62,9 +63,11 @@ const UploadRecord = () => {
       setStatus("Record uploaded successfully!");
     } catch (err) {
       console.error("Upload failed:", err);
+      console.error(err);  // Log l'erreur complète
       setStatus(`Upload failed: ${err.message}`);
     }
 };
+
 
 
   return (

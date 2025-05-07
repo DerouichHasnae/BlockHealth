@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { useParams, useNavigate } from "react-router-dom";
-import { FiHome, FiUser, FiUsers, FiSettings, FiLogOut } from "react-icons/fi";
+import { FiHome, FiUser, FiUsers, FiSettings, FiLogOut, FiCalendar } from "react-icons/fi";
 import NavBar_Logout from "./NavBar_Logout";
 import DoctorRegistration from "../build/contracts/DoctorRegistration.json";
 import "../CSS/DoctorDashBoard.css";
@@ -81,6 +81,15 @@ const DoctorDashBoardPage = () => {
             >
               <span className="menu-icon"><FiUsers /></span>
               Patients
+            </a>
+          </li>
+          <li className="menu-item">
+            <a 
+              className={`menu-link ${activeMenu === 'availability' ? 'active' : ''}`}
+              onClick={() => handleNavigation(`/doctor/${hhNumber}/availability`, 'availability')}
+            >
+              <span className="menu-icon"><FiCalendar /></span>
+              My Availability
             </a>
           </li>
           <li className="menu-item">
