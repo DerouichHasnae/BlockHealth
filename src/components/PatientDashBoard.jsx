@@ -109,9 +109,12 @@ const PatientDashBoard = () => {
 </li>
 
 
-          <li>
-            <FiCalendar className="icon" /> Appointments
-          </li>
+<li 
+  onClick={() => navigate(`/patient/${hhNumber}/appointments`)}
+  className={activeTab === "appointments" ? "active" : ""}
+>
+  <FiCalendar className="icon" /> Appointments
+</li>
           <li>
             <FiBell className="icon" /> Notifications
           </li>

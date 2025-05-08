@@ -68,4 +68,5 @@ contract DiagnosticRegistration {
         require(diagnosticAddresses[_hhNumber] != address(0), "Diagnostic not registered");
         return keccak256(abi.encodePacked(_password)) == keccak256(abi.encodePacked(diagnostics[_hhNumber].password));
     }
+    
 }

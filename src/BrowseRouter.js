@@ -20,8 +20,10 @@ import ViewPatientDetails from "./components/ViewPatientDetails";
 import RevokedPatients from "./components/RevokedPatients";
 import UploadRecord from "./components/UploadRecord";
 import GrantPermission from "./components/GrantPermission";
-import DoctorAvailabilityPage from "./components/DoctorAvailabilityPage"; 
-import Availability from "./components/Availability"; // Importer le composant Availability
+
+import Availability from "./components/Availability"; 
+import DoctorList from "./components/DoctorList"
+
 
 const BrowseRouter = () => {
   const [web3, setWeb3] = useState(null);
@@ -83,6 +85,10 @@ const BrowseRouter = () => {
         <Route path="/patient/:hhNumber" element={<PatientDashBoard />}></Route>
         <Route path="/patient/:hhNumber/uploadrecord" element={<UploadRecord />} />
         <Route path="/patient/:hhNumber/grantpermission" element={<GrantPermission />} />
+        <Route 
+          path="/patient/:hhNumber/appointments" 
+          element={<DoctorList />} 
+        />
 
 
         <Route path="/doctor/:hhNumber" element={<DoctorDashBoard />}></Route>

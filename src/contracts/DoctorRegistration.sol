@@ -17,7 +17,7 @@ contract DoctorRegistration {
         string password;
     }
 
-    struct PatientList{
+    struct PatientList {
         string patient_number;
         string patient_name;
     }
@@ -26,6 +26,8 @@ contract DoctorRegistration {
     mapping(string => Doctor) private doctors;
     mapping(string => PatientList[]) private Dpermission;
     mapping(string => mapping(string => bool)) public doctorPermissions;
+
+    string[] private allHhNumbers; // ✅ Correction ici
 
     event DoctorRegistered(string hhNumber, string doctorName, address walletAddress);
 
@@ -62,6 +64,7 @@ contract DoctorRegistration {
         doctors[_hhNumber] = newDoctor;
         doctorAddresses[_hhNumber] = msg.sender;
         emit DoctorRegistered(_hhNumber, _doctorName, msg.sender);
+        allHhNumbers.push(_hhNumber); // ✅ Ajout correct ici
     }
 
     function isRegisteredDoctor(string memory _hhNumber) external view returns (bool) {
@@ -106,15 +109,12 @@ contract DoctorRegistration {
         string memory _doctorNumber,
         string memory _patientName
     ) external {
-            PatientList memory newRecord = PatientList(
-                _patientNumber,
-                _patientName
-            );
-            Dpermission[_doctorNumber].push(newRecord);
+        PatientList memory newRecord = PatientList(_patientNumber, _patientName);
+        Dpermission[_doctorNumber].push(newRecord);
         doctorPermissions[_patientNumber][_doctorNumber] = true;
     }
 
-    function isPermissionGranted(string memory _patientNumber,string memory _doctorNumber) external view returns (bool) {
+    function isPermissionGranted(string memory _patientNumber, string memory _doctorNumber) external view returns (bool) {
         return doctorPermissions[_patientNumber][_doctorNumber];
     }
 
@@ -123,8 +123,10 @@ contract DoctorRegistration {
 
         // Remove the patient's record from the list
         for (uint i = 0; i < Dpermission[_doctorNumber].length; i++) {
-            if (keccak256(abi.encodePacked(Dpermission[_doctorNumber][i].patient_number)) == keccak256(abi.encodePacked(_patientNumber))) {
-                // Delete the patient's record by shifting elements
+            if (
+                keccak256(abi.encodePacked(Dpermission[_doctorNumber][i].patient_number)) ==
+                keccak256(abi.encodePacked(_patientNumber))
+            ) {
                 for (uint j = i; j < Dpermission[_doctorNumber].length - 1; j++) {
                     Dpermission[_doctorNumber][j] = Dpermission[_doctorNumber][j + 1];
                 }
@@ -134,9 +136,11 @@ contract DoctorRegistration {
         }
     }
 
-
     function getPatientList(string memory _doctorNumber) public view returns (PatientList[] memory) {
         return Dpermission[_doctorNumber];
     }
 
+    function getAllHhNumbers() external view returns (string[] memory) {
+        return allHhNumbers;
+    }
 }

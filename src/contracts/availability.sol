@@ -54,14 +54,6 @@ contract Availability {
         return disponibilites[_hhNumber];
     }
 
-    function reserverCreneau(string memory _hhNumber, uint _index) public {
-        require(_index < disponibilites[_hhNumber].length, "Index invalide");
-        require(
-            disponibilites[_hhNumber][_index].patient == address(0),
-            "Deja reserve"
-        );
-        
-        disponibilites[_hhNumber][_index].patient = msg.sender;
-        emit CreneauReserve(_hhNumber, _index, msg.sender);
-    }
+   
+  
 }
