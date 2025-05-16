@@ -1,0 +1,52 @@
+.appointments-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.appointments-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.appointments-subtitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.no-reservations {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+}
+
+.appointments-list {
+  margin-top: 20px;
+}
+
+.appointments-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.appointment-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.appointment-item strong {
+  font-size: 16px;
+  color: #333;
+}
+
+.appointment-item span {
+  font-size: 14px;
+  color: #555;
+}

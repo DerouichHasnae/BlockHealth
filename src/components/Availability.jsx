@@ -2,73 +2,137 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Web3 from "web3";
 import AvailabilityABI from "../build/contracts/Availability.json";
+import DoctorRegistrationABI from "../build/contracts/DoctorRegistration.json";
 import "../CSS/Availability.css";
 
 function Availability() {
-  const { hhNumber } = useParams();
+  const { specialization } = useParams();
+  const normalizedSpecialization = specialization ? specialization.toLowerCase() : "";
   const [date, setDate] = useState("");
   const [jourSemaine, setJourSemaine] = useState("1");
   const [heureDebut, setHeureDebut] = useState("");
   const [heureFin, setHeureFin] = useState("");
+  const [dureeConsultation, setDureeConsultation] = useState("15");
   const [creneaux, setCreneaux] = useState([]);
   const [contract, setContract] = useState(null);
+  const [doctorContract, setDoctorContract] = useState(null);
   const [account, setAccount] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const initWeb3 = async () => {
-      if (window.ethereum) {
-        try {
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const web3 = new Web3(window.ethereum);
-          const accounts = await web3.eth.getAccounts();
-          setAccount(accounts[0]);
+      setIsLoading(true);
+      setError("");
 
-          const networkId = await web3.eth.net.getId();
-          const deployedNetwork = AvailabilityABI.networks[networkId];
-          const contractInstance = new web3.eth.Contract(
-            AvailabilityABI.abi,
-            deployedNetwork && deployedNetwork.address
-          );
-          setContract(contractInstance);
+      if (!window.ethereum) {
+        setError("Veuillez installer MetaMask !");
+        setIsLoading(false);
+        return;
+      }
 
-          fetchCreneaux(contractInstance);
-        } catch (error) {
-          console.error("Error initializing Web3:", error);
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const web3 = new Web3(window.ethereum);
+        const accounts = await web3.eth.getAccounts();
+        setAccount(accounts[0]);
+
+        const networkId = await web3.eth.net.getId();
+
+        const availabilityNetwork = AvailabilityABI.networks[networkId];
+        if (!availabilityNetwork) {
+          setError("Contrat Availability non déployé sur ce réseau");
+          setIsLoading(false);
+          return;
         }
-      } else {
-        console.log("Please install MetaMask!");
+        const availabilityInstance = new web3.eth.Contract(
+          AvailabilityABI.abi,
+          availabilityNetwork.address
+        );
+        setContract(availabilityInstance);
+
+        const doctorNetwork = DoctorRegistrationABI.networks[networkId];
+        if (!doctorNetwork) {
+          setError("Contrat DoctorRegistration non déployé sur ce réseau");
+          setIsLoading(false);
+          return;
+        }
+        const doctorInstance = new web3.eth.Contract(
+          DoctorRegistrationABI.abi,
+          doctorNetwork.address
+        );
+        setDoctorContract(doctorInstance);
+
+        const isAuthorized = await doctorInstance.methods
+          .isDoctorInSpecialization(accounts[0], normalizedSpecialization)
+          .call();
+        if (!isAuthorized) {
+          setError("Vous n'êtes pas autorisé pour cette spécialité");
+          setIsLoading(false);
+          return;
+        }
+
+        await fetchCreneaux(availabilityInstance);
+      } catch (err) {
+        console.error("Erreur initialisation Web3 :", err);
+        setError(`Erreur : ${err.message}`);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     initWeb3();
-  }, [hhNumber]);
+  }, [normalizedSpecialization]);
 
   const fetchCreneaux = async (contractInstance) => {
     if (!contractInstance) return;
-    
+
     try {
-      const result = await contractInstance.methods.getDisponibilites(hhNumber).call();
-      const creneauxNormalises = result.map(c => ({
-        date: Number(c.date),
-        jourSemaine: Number(c.jourSemaine),
-        debut: Number(c.debut),
-        fin: Number(c.fin),
-        patient: c.patient
-      }));
+      const result = await contractInstance.methods.getDisponibilites(normalizedSpecialization).call();
+      console.log("Créneaux reçus:", result);
+      const creneauxNormalises = result
+        .map((c) => ({
+          date: Number(c.date),
+          jourSemaine: Number(c.jourSemaine),
+          debut: Number(c.debut),
+          fin: Number(c.fin),
+          dureeConsultation: Number(c.dureeConsultation),
+        }))
+        .filter((c) => {
+          const isValid =
+            c.debut < c.fin &&
+            c.dureeConsultation > 0 &&
+            c.fin - c.debut <= 12 * 3600 &&
+            c.debut >= c.date &&
+            c.fin <= c.date + 24 * 3600;
+          if (!isValid) {
+            console.log("Créneau invalide ignoré:", {
+              date: c.date,
+              dateUTC: new Date(c.date * 1000).toUTCString(),
+              debut: c.debut,
+              debutUTC: new Date(c.debut * 1000).toUTCString(),
+              fin: c.fin,
+              finUTC: new Date(c.fin * 1000).toUTCString(),
+              dureeConsultation: c.dureeConsultation,
+            });
+          }
+          return isValid;
+        });
+      console.log("Créneaux normalisés:", creneauxNormalises);
       setCreneaux(creneauxNormalises);
     } catch (error) {
       console.error("Erreur récupération créneaux:", error);
+      setError(`Erreur récupération créneaux : ${error.message}`);
     }
   };
 
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     setDate(selectedDate);
-    
-    // Calcul automatique du jour de la semaine
+
     if (selectedDate) {
       const dateObj = new Date(selectedDate);
-      const dayOfWeek = dateObj.getDay(); // 0 (dimanche) à 6 (samedi)
+      const dayOfWeek = dateObj.getDay();
       setJourSemaine(dayOfWeek.toString());
     }
   };
@@ -76,93 +140,119 @@ function Availability() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!contract || !account || !date) {
-      alert("Veuillez remplir tous les champs et connecter MetaMask");
+    if (!contract || !account || !date || !heureDebut || !heureFin || !dureeConsultation) {
+      setError("Veuillez remplir tous les champs et connecter MetaMask");
       return;
     }
 
     try {
-      // Convertir la date en timestamp (à minuit)
-      const dateTimestamp = Math.floor(new Date(date).getTime() / 1000);
-      
-      // Convertir heures en timestamp complet
+      const [year, month, day] = date.split("-").map(Number);
+      const dateTimestamp = Math.floor(Date.UTC(year, month - 1, day) / 1000);
+
+      for (const creneau of creneaux) {
+        if (creneau.date === dateTimestamp) {
+          setError("Un créneau existe déjà pour cette date");
+          return;
+        }
+      }
+
       const [hDeb, mDeb] = heureDebut.split(":").map(Number);
       const [hFin, mFin] = heureFin.split(":").map(Number);
 
-      const dateDebut = new Date(date);
-      const dateFin = new Date(date);
-      dateDebut.setHours(hDeb, mDeb, 0, 0);
-      dateFin.setHours(hFin, mFin, 0, 0);
+      const timestampDebut = Math.floor(Date.UTC(year, month - 1, day, hDeb, mDeb) / 1000);
+      const timestampFin = Math.floor(Date.UTC(year, month - 1, day, hFin, mFin) / 1000);
+      const dureeConsultationSec = parseInt(dureeConsultation) * 60;
 
-      const timestampDebut = Math.floor(dateDebut.getTime() / 1000);
-      const timestampFin = Math.floor(dateFin.getTime() / 1000);
+      if (timestampDebut >= timestampFin) {
+        setError("L'heure de fin doit être après l'heure de début");
+        return;
+      }
+      if (dureeConsultationSec <= 0) {
+        setError("La durée de consultation doit être positive");
+        return;
+      }
+      if (timestampDebut < dateTimestamp || timestampFin > dateTimestamp + 24 * 3600) {
+        setError("Les heures doivent être dans la même journée que la date sélectionnée");
+        return;
+      }
 
+      console.log("Ajout créneau:", {
+        specialization: normalizedSpecialization,
+        date: new Date(dateTimestamp * 1000).toUTCString(),
+        jourSemaine: parseInt(jourSemaine),
+        debut: new Date(timestampDebut * 1000).toUTCString(),
+        fin: new Date(timestampFin * 1000).toUTCString(),
+        dureeConsultation: dureeConsultationSec,
+      });
+
+      // Envoi de la transaction avec Web3.js
       await contract.methods
         .ajouterCreneau(
-          hhNumber,
+          normalizedSpecialization,
           dateTimestamp,
           parseInt(jourSemaine),
           timestampDebut,
-          timestampFin
+          timestampFin,
+          dureeConsultationSec
         )
-        .send({ from: account });
+        .send({ from: account })
+        .on('receipt', (receipt) => {
+          console.log("Transaction minée:", receipt);
+        })
+        .on('error', (error) => {
+          throw new Error(`Erreur lors de la transaction: ${error.message}`);
+        });
 
-      // Attendre la confirmation
-      await new Promise(resolve => setTimeout(resolve, 3000));
       await fetchCreneaux(contract);
 
-      // Réinitialiser le formulaire
       setDate("");
       setHeureDebut("");
       setHeureFin("");
+      setDureeConsultation("15");
+      setError("");
     } catch (error) {
       console.error("Erreur ajout créneau :", error);
-      alert(`Erreur lors de la création: ${error.message}`);
+      setError(`Erreur lors de la création : ${error.message}`);
     }
   };
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString('fr-FR');
+    return date.toLocaleDateString("fr-FR");
   };
 
   const formatTime = (timestamp) => {
     const date = new Date(timestamp * 1000);
-    return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" });
   };
 
   const joursSemaine = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
 
   return (
     <div className="availability-container">
-      <h2 className="availability-title">Définir vos disponibilités - {hhNumber}</h2>
-      
+      <h2 className="availability-title">Définir vos disponibilités - {specialization}</h2>
+      <p className="availability-note">Remarque : Les heures sont en UTC.</p>
+
+      {isLoading && <p className="loading-message">Chargement...</p>}
+      {error && <p className="error-message">{error}</p>}
+
       <form onSubmit={handleSubmit} className="availability-form">
         <div>
           <label>Date (YYYY-MM-DD) :</label>
-          <input
-            type="date"
-            value={date}
-            onChange={handleDateChange}
-            required
-          />
+          <input type="date" value={date} onChange={handleDateChange} required />
         </div>
-        
+
         <div>
           <label>Jour de la semaine :</label>
-          <select 
-            value={jourSemaine} 
-            onChange={(e) => setJourSemaine(e.target.value)}
-            disabled
-          >
+          <select value={jourSemaine} onChange={(e) => setJourSemaine(e.target.value)} disabled>
             {joursSemaine.map((jour, index) => (
               <option key={index} value={index}>{jour}</option>
             ))}
           </select>
         </div>
-        
+
         <div>
-          <label>Heure début :</label>
+          <label>Heure début (UTC) :</label>
           <input
             type="time"
             value={heureDebut}
@@ -170,9 +260,9 @@ function Availability() {
             required
           />
         </div>
-        
+
         <div>
-          <label>Heure fin :</label>
+          <label>Heure fin (UTC) :</label>
           <input
             type="time"
             value={heureFin}
@@ -180,7 +270,18 @@ function Availability() {
             required
           />
         </div>
-        
+
+        <div>
+          <label>Durée consultation (minutes) :</label>
+          <input
+            type="number"
+            value={dureeConsultation}
+            onChange={(e) => setDureeConsultation(e.target.value)}
+            min="5"
+            required
+          />
+        </div>
+
         <button type="submit">Créer le créneau</button>
       </form>
 
@@ -194,11 +295,13 @@ function Availability() {
               .sort((a, b) => a.debut - b.debut)
               .map((creneau, index) => (
                 <li key={index}>
-                  <strong>{joursSemaine[creneau.jourSemaine]} {formatDate(creneau.date)}</strong>
+                  <strong>
+                    {joursSemaine[creneau.jourSemaine]} {formatDate(creneau.date)}
+                  </strong>
                   <br />
-                  {`${formatTime(creneau.debut)} - ${formatTime(creneau.fin)}`}
-                  {creneau.patient !== "0x0000000000000000000000000000000000000000" && 
-                    <span className="reserved"> (Réservé)</span>}
+                  {`${formatTime(creneau.debut)} - ${formatTime(creneau.fin)} (Consultations de ${
+                    creneau.dureeConsultation / 60
+                  } min)`}
                 </li>
               ))
           )}

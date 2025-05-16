@@ -1,3 +1,4 @@
+// src/components/PatientDashBoard.jsx
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import { useParams, useNavigate } from "react-router-dom";
@@ -19,20 +20,26 @@ const PatientDashBoard = () => {
     navigate(`/patient/${hhNumber}/viewrecords`);
     setActiveTab("records");
   };
-  
+
   const viewProfile = () => {
     navigate(`/patient/${hhNumber}/viewprofile`);
     setActiveTab("profile");
   };
-  
+
   const goToDashboard = () => {
     navigate(`/patient/${hhNumber}`);
     setActiveTab("dashboard");
   };
+
+  const selectSpecialty = () => {
+    navigate(`/doctors/${hhNumber}`); // Nouvelle redirection
+    setActiveTab("appointments");
+  };
+
   useEffect(() => {
     const fetchPatientDetails = async () => {
       if (!contract || !hhNumber) return;
-  
+
       try {
         const result = await contract.methods.getPatientDetails(hhNumber).call();
         setPatientDetails(result);
@@ -41,23 +48,22 @@ const PatientDashBoard = () => {
         setError("Failed to load patient details");
       }
     };
-  
+
     fetchPatientDetails();
   }, [contract, hhNumber]);
-  
 
   useEffect(() => {
     const init = async () => {
       if (window.ethereum) {
         try {
-          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          const accounts = await window.ethereum.request({ method: "eth_accounts" });
           if (accounts.length === 0) {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            await window.ethereum.request({ method: "eth_requestAccounts" });
           }
-    
+
           const web3Instance = new Web3(window.ethereum);
           setWeb3(web3Instance);
-    
+
           const networkId = await web3Instance.eth.net.getId();
           const deployedNetwork = PatientRegistration.networks[networkId];
           const contractInstance = new web3Instance.eth.Contract(
@@ -73,7 +79,6 @@ const PatientDashBoard = () => {
         setError("Please install MetaMask extension");
       }
     };
-    
 
     init();
   }, [hhNumber]);
@@ -83,19 +88,19 @@ const PatientDashBoard = () => {
       <aside className="sidebar">
         <h2>e-Health Records</h2>
         <ul>
-          <li 
-            onClick={goToDashboard} 
+          <li
+            onClick={goToDashboard}
             className={activeTab === "dashboard" ? "active" : ""}
           >
             <FiHome className="icon" /> Dashboard
           </li>
-          <li 
+          <li
             onClick={viewProfile}
             className={activeTab === "profile" ? "active" : ""}
           >
             <FiUser className="icon" /> My Profile
           </li>
-          <li 
+          <li
             onClick={viewRecord}
             className={activeTab === "records" ? "active" : ""}
           >
@@ -105,16 +110,14 @@ const PatientDashBoard = () => {
             <FiFileText className="icon" /> Upload Records
           </li>
           <li onClick={() => navigate(`/patient/${hhNumber}/grantpermission`)}>
-  <FiUser className="icon" /> Grant Permission
-</li>
-
-
-<li 
-  onClick={() => navigate(`/patient/${hhNumber}/appointments`)}
-  className={activeTab === "appointments" ? "active" : ""}
->
-  <FiCalendar className="icon" /> Appointments
-</li>
+            <FiUser className="icon" /> Grant Permission
+          </li>
+          <li
+            onClick={selectSpecialty} // Modifier pour sélectionner une spécialité
+            className={activeTab === "appointments" ? "active" : ""}
+          >
+            <FiCalendar className="icon" /> Appointments
+          </li>
           <li>
             <FiBell className="icon" /> Notifications
           </li>
@@ -122,18 +125,16 @@ const PatientDashBoard = () => {
       </aside>
 
       <main className="main-content">
-      <header className="dashboard-header">
-  <h1>Patient Dashboard</h1>
-  {patientDetails ? (
-    <p className="dashboard-welcome">
-    Welcome back,  <span className="patient-name">{patientDetails.name}!</span>
-    </p>
-  ) : (
-    <p className="dashboard-loading">Loading profile...</p>
-  )}
-</header>
-
-
+        <header className="dashboard-header">
+          <h1>Patient Dashboard</h1>
+          {patientDetails ? (
+            <p className="dashboard-welcome">
+              Welcome back, <span className="patient-name">{patientDetails.name}!</span>
+            </p>
+          ) : (
+            <p className="dashboard-loading">Loading profile...</p>
+          )}
+        </header>
 
         {error && (
           <div className="error-message">
@@ -146,18 +147,14 @@ const PatientDashBoard = () => {
             <h3>Recent Activities</h3>
             <p>Your recent medical interactions will appear here.</p>
           </div>
-          
           <div className="dashboard-card">
             <h3>Health Summary</h3>
             <p>Key health metrics and summary will be displayed here.</p>
           </div>
-          
           <div className="dashboard-card">
             <h3>Upcoming Appointments</h3>
             <p>Your scheduled appointments will appear here.</p>
           </div>
-          
-          
         </div>
       </main>
     </div>

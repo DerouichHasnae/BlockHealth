@@ -42,8 +42,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -56,8 +55,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -86,8 +84,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_doctorRegistrationAddress\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"getAllSpecialties\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_hhNumber\",\"type\":\"string\"}],\"name\":\"getDoctorDetails\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"hospital\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"specialization\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_specialty\",\"type\":\"string\"}],\"name\":\"getDoctorsBySpecialty\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_hhNumber\",\"type\":\"string\"}],\"name\":\"registerDoctor\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/DoctorRegistry.sol\":\"DoctorRegistry\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/DoctorRegistration.sol\":{\"keccak256\":\"0x206bd790cc1b78216faeb278cd18ce063dafe0a7faf7b6ba3b4a19bc04c51a7f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ead18f1fce3b07ecb3b9694b4b86c115e94011539d9fd63a9bd32fee0defdab1\",\"dweb:/ipfs/QmeQtv9apmouZu7uthcS9b2gmC3PzZcahNtH3N9p5q7ND6\"]},\"project:/contracts/DoctorRegistry.sol\":{\"keccak256\":\"0xb457b71d8aacb2c177ba519dc256a02b839e43ff5a90e84e55459a92b245c4a8\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6b14ed7cfe1b9c73d86b3ca2011fc57c436e1b5a1de9ac105568be4efd3ed506\",\"dweb:/ipfs/Qmcyf9JFATQE4795RMkzu3PVGKYhfuPj5GSQukJcY7N4ZG\"]}},\"version\":1}",
@@ -15367,8 +15364,7 @@
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-05-08T20:41:06.204Z",
-  "networkType": "ethereum",
+  "updatedAt": "2025-05-11T22:43:37.045Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

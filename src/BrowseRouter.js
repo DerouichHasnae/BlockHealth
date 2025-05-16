@@ -20,9 +20,11 @@ import ViewPatientDetails from "./components/ViewPatientDetails";
 import RevokedPatients from "./components/RevokedPatients";
 import UploadRecord from "./components/UploadRecord";
 import GrantPermission from "./components/GrantPermission";
-
+import AppointmentsPage from "./components/AppointmentsPage";
 import Availability from "./components/Availability"; 
 import DoctorList from "./components/DoctorList"
+import DoctorSpecialtyPage from "./components/DoctorSpecialtyPage";
+import PatientView from "./components/PatientView";
 
 
 const BrowseRouter = () => {
@@ -64,12 +66,15 @@ const BrowseRouter = () => {
           path="/patient_registration"
           element={<PatientRegistry></PatientRegistry>}
         ></Route>
-        <Route path="/doctor/:hhNumber/availability" element={<Availability/>} />
-
+          
         <Route
           path="/doctor_registration"
           element={<DoctorRegistry></DoctorRegistry>}
-        ></Route>
+        >
+
+        </Route>
+                <Route path="/doctor/:hhNumber/appointments" element={<AppointmentsPage />} />
+
       
         <Route
           path="/patient_login"
@@ -85,26 +90,22 @@ const BrowseRouter = () => {
         <Route path="/patient/:hhNumber" element={<PatientDashBoard />}></Route>
         <Route path="/patient/:hhNumber/uploadrecord" element={<UploadRecord />} />
         <Route path="/patient/:hhNumber/grantpermission" element={<GrantPermission />} />
-        <Route 
-          path="/patient/:hhNumber/appointments" 
-          element={<DoctorList />} 
-        />
-
+       <Route path="/doctors/:hhNumber" element={<DoctorList />} />
+<Route path="/medecins/:specialty/:hhNumber" element={<DoctorSpecialtyPage />} />
 
         <Route path="/doctor/:hhNumber" element={<DoctorDashBoard />}></Route>
         <Route
           path="/patient/:hhNumber/viewprofile"
           element={<ViewProfile />}
         ></Route>
-        <Route
-          path="/doctor/:hhNumber/viewdoctorprofile"
-          element={<ViewDoctorProfile />}
-        ></Route>
+        <Route path="/doctor/:hhNumber/viewdoctorprofile"element={<ViewDoctorProfile />}></Route>
+        <Route path="/availability/:specialization" element={<Availability />}> </Route>
         
         <Route
           path="/patient/:hhNumber/viewrecords"
           element={<ViewPatientRecords />}
         ></Route>
+        <Route path="/patient/:hhNumber/view" element={<PatientView />} />
 
 <Route path="/doctor/viewpatient/:hhNumber" element={<ViewPatientDetails />} />
 

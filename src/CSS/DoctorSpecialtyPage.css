@@ -1,0 +1,176 @@
+/* DoctorSpecialtyPage.css */
+
+/* Root container */
+.container {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* Main card */
+.card {
+  max-width: 896px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+/* Main title */
+.title {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+}
+
+/* Section title */
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+/* Doctor list section */
+.doctor-list {
+  margin-bottom: 2rem;
+}
+
+/* Doctor list item */
+.doctor-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.doctor-item:hover {
+  background-color: #e0f2fe;
+}
+
+/* Doctor name */
+.doctor-name {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #2563eb;
+}
+
+/* Doctor ID */
+.doctor-id {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Availability section */
+.availability-section {
+  margin-top: 1.5rem;
+}
+
+/* Availability title */
+.availability-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+/* Availability block */
+.availability-block {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 6px;
+}
+
+/* Availability date */
+.availability-date {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Availability list */
+.availability-list {
+  margin-top: 0.5rem;
+}
+
+/* Availability slot */
+.availability-slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Slot time */
+.slot-time {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Available slot */
+.slot-available {
+  color: #16a34a;
+  cursor: pointer;
+}
+
+.slot-available:hover {
+  color: #15803d;
+}
+
+/* Reserved slot */
+.slot-reserved {
+  color: #6b7280;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* Slot icon */
+.slot-icon {
+  margin-right: 0.5rem;
+  color: #4b5563;
+}
+
+/* No doctors message */
+.no-doctors {
+  color: #4b5563;
+  font-size: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .doctor-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .availability-slot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}

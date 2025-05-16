@@ -1,0 +1,64 @@
+.patient-view-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.patient-view-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.patient-details, .patient-records {
+  margin-bottom: 30px;
+}
+
+.patient-details h3, .patient-records h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.patient-details p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.patient-records ul {
+  list-style: none;
+  padding: 0;
+}
+
+.record-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.record-item p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.loading-message, .error-message {
+  text-align: center;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.loading-message {
+  background-color: #e0f7fa;
+  color: #006064;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+}
