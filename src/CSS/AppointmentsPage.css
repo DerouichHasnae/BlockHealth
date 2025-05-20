@@ -1,52 +1,202 @@
+/* Conteneur principal */
 .appointments-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
 }
 
+/* Titre principal */
 .appointments-title {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
   margin-bottom: 20px;
   text-align: center;
 }
 
-.appointments-subtitle {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.no-reservations {
-  font-size: 16px;
-  color: #666;
+/* Message de chargement */
+.loading-message {
+  font-size: 1.2rem;
+  color: #4b5563;
   text-align: center;
-}
-
-.appointments-list {
   margin-top: 20px;
 }
 
-.appointments-list ul {
-  list-style: none;
-  padding: 0;
+/* Message d'erreur */
+.error-message {
+  font-size: 1.2rem;
+  color: #dc2626;
+  text-align: center;
+  margin-top: 20px;
+  background-color: #fee2e2;
+  padding: 10px;
+  border-radius: 6px;
 }
 
+/* Section de recherche */
+.search-section {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #1f2937;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+/* Sous-titre de la liste des réservations */
+.appointments-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 15px;
+}
+
+/* Message si aucune réservation */
+.no-reservations {
+  font-size: 1.1rem;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Liste des réservations */
+.appointments-list {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Éléments de la liste */
 .appointment-item {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
   padding: 15px;
-  margin-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1rem;
+  color: #1f2937;
+}
+
+.appointment-item:last-child {
+  border-bottom: none;
 }
 
 .appointment-item strong {
-  font-size: 16px;
-  color: #333;
+  font-weight: 600;
+  color: #111827;
 }
 
-.appointment-item span {
-  font-size: 14px;
-  color: #555;
+/* Boutons d'action */
+.action-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Style des boutons (Confirmer, Annuler, Voir) */
+button {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Bouton Confirmer (vert) */
+.bg-green-500 {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.bg-green-500:hover {
+  background-color: #059669;
+}
+
+/* Bouton Annuler (rouge) */
+.bg-red-500 {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.bg-red-500:hover {
+  background-color: #dc2626;
+}
+
+/* Bouton Voir (bleu) */
+.bg-blue-500 {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.bg-blue-500:hover {
+  background-color: #2563eb;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .appointments-container {
+    padding: 15px;
+  }
+
+  .appointments-title {
+    font-size: 1.8rem;
+  }
+
+  .appointments-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .search-input {
+    max-width: 100%;
+  }
+
+  .appointment-item {
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .appointments-title {
+    font-size: 1.5rem;
+  }
+
+  .appointments-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
 }

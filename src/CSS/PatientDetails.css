@@ -1,0 +1,242 @@
+
+/* Conteneur principal */
+.patient-details-container {
+  max-width: 1000px;
+  margin: 100px auto; /* Espace généreux en haut, comme demandé */
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  font-family: 'Roboto', 'Arial', sans-serif;
+  min-height: 500px;
+  position: relative;
+}
+
+/* Titre principal */
+.patient-details-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 32px;
+  letter-spacing: 0.5px;
+}
+
+/* Message de chargement */
+.loading-message {
+  font-size: 1.3rem;
+  color: #475569;
+  text-align: center;
+  padding: 20px;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Message d'erreur */
+.error-message {
+  font-size: 1.3rem;
+  color: #dc2626;
+  text-align: center;
+  padding: 20px;
+  background-color: #fef2f2;
+  border-radius: 8px;
+  border: 1px solid #dc2626;
+  margin-bottom: 24px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Section des prescriptions */
+.prescriptions-section {
+  margin-bottom: 40px;
+}
+
+.prescriptions-section h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+/* Liste des prescriptions */
+.prescription-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Élément de prescription */
+.prescription-item {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.prescription-item:hover {
+  transform: translateY(-2px);
+}
+
+.prescription-item p {
+  margin: 8px 0;
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+.prescription-item p strong {
+  color: #10b981;
+}
+
+/* Section des observations */
+.observations-section {
+  margin-bottom: 40px;
+}
+
+.observations-section h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+/* Liste des observations */
+.observation-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Élément d'observation */
+.observation-item {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.observation-item:hover {
+  transform: translateY(-2px);
+}
+
+.observation-item p {
+  margin: 8px 0;
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+.observation-item p strong {
+  color: #10b981;
+}
+
+/* Conteneur des boutons d'action */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* Bouton de retour */
+.back-button {
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.back-button:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.back-button:active {
+  transform: translateY(0);
+}
+
+/* Animation pour les messages */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .patient-details-container {
+    max-width: 95%;
+    margin: 60px auto; /* Réduit pour tablettes */
+    padding: 20px;
+  }
+
+  .patient-details-title {
+    font-size: 2rem;
+  }
+
+  .prescriptions-section h3,
+  .observations-section h3 {
+    font-size: 1.5rem;
+  }
+
+  .prescription-item,
+  .observation-item {
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .back-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .loading-message,
+  .error-message {
+    font-size: 1.2rem;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .patient-details-container {
+    padding: 16px;
+    margin: 40px auto; /* Réduit pour mobiles */
+  }
+
+  .patient-details-title {
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+  }
+
+  .prescriptions-section h3,
+  .observations-section h3 {
+    font-size: 1.4rem;
+  }
+
+  .prescription-item,
+  .observation-item {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
+  .back-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .loading-message,
+  .error-message {
+    font-size: 1.1rem;
+    padding: 12px;
+  }
+}

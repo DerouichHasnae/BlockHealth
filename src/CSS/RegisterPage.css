@@ -1,83 +1,106 @@
-/* RegisterPage.css */
+
+
+/* Register Container */
 .register-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #F5F7FA; /* Fond clair pour contraste */
+  min-height: calc(100vh - 80px); /* Compensate la barre de navigation fixe */
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* Register Content */
 .register-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 350px;
-    padding: 2rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  background: #FFFFFF; /* Fond blanc pour la carte */
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
+/* Register Header */
 .register-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
 }
 
+/* Register Icon */
 .register-icon {
-    font-size: 2.5rem;
-    color: #3b82f6;
-    margin-bottom: 0.5rem;
+  font-size: 2rem;
+  color: #3D8BFD; /* Teal pour l'icône */
 }
 
+/* Register Title */
 .register-title {
-    font-size: 1.8rem;
-    color: #1e3a8a;
-    margin: 0;
-    font-weight: 600;
-    letter-spacing: -0.5px;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #0A3D62; /* Bleu profond */
+  text-align: center;
 }
 
+/* Register Button */
 .register-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    background-color: #3b82f6;
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 0.9rem 1.5rem;
-    border-radius: 8px;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  background: #3D8BFD; /* Teal */
+  color: #FFFFFF; /* Blanc */
+  border: none;
 }
 
 .register-button:hover {
-    transform: translateY(-3px);
-    background-color: #2563eb;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  background: #4B5EAA; /* Gris sombre pour simuler hover:bg-gray-600 */
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(61, 139, 253, 0.5);
 }
 
-.register-button:active {
-    transform: translateY(0);
-}
-
+/* Button Icon */
 .button-icon {
-    font-size: 1.2rem;
+  font-size: 1.25rem;
 }
 
-/* Style différent pour le bouton Patient */
-.register-button:nth-child(3) {
-    background-color: #3b82f6;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 2rem 1rem;
+  }
+
+  .register-content {
+    padding: 1.5rem;
+  }
+
+  .register-title {
+    font-size: 1.5rem;
+  }
+
+  .register-icon {
+    font-size: 1.5rem;
+  }
+
+  .register-button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
 }
 
-.register-button:nth-child(3):hover {
-    background-color: #3b82f6;
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

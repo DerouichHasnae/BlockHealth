@@ -1,0 +1,124 @@
+.patient-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.patient-list-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.restore-patient-button {
+  padding: 8px 16px;
+  background-color: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.restore-patient-button:hover {
+  background-color: #7c3aed;
+}
+
+.patient-list-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.patient-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.patient-table th,
+.patient-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.patient-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #444;
+}
+
+.patient-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.view-button,
+.delete-button,
+.restore-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-right: 5px;
+}
+
+.view-button {
+  background-color: #0066cc;
+  color: white;
+}
+
+.view-button:hover {
+  background-color: #003366;
+}
+
+.delete-button {
+  background-color: #dc2626;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #b91c1c;
+}
+
+.restore-button {
+  background-color: #16a34a;
+  color: white;
+}
+
+.restore-button:hover {
+  background-color: #15803d;
+}
+
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.loading-message {
+  background-color: #e0f7fa;
+  color: #006064;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+}

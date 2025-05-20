@@ -99,7 +99,7 @@ const DoctorLogin = () => {
 
   return (
     <div className="doctor-login-container">
-      <NavBar />
+
       <div className="login-form-wrapper">
         <h2 className="login-title">Connexion Médecin</h2>
         

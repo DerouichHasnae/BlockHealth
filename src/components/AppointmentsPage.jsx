@@ -17,6 +17,7 @@ const AppointmentsPage = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [specialization, setSpecialization] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // État pour la barre de recherche
 
   useEffect(() => {
     const initWeb3AndContract = async () => {
@@ -117,7 +118,7 @@ const AppointmentsPage = () => {
         timestampDebut: Number(r.timestampDebut),
         patient: r.patient,
         patientHhNumber: r.patientHhNumber,
-        status: Number(r.status) // 0: PENDING, 1: CONFIRMED, 2: CANCELLED
+        status: Number(r.status), // 0: PENDING, 1: CONFIRMED, 2: CANCELLED
       }));
 
       console.log("Normalized reservations:", normalizedReservations);
@@ -194,77 +195,101 @@ const AppointmentsPage = () => {
 
   const getStatusLabel = (status) => {
     switch (status) {
-      case 0: return "En attente";
-      case 1: return "Confirmé";
-      case 2: return "Annulé";
-      default: return "Inconnu";
+      case 0:
+        return "En attente";
+      case 1:
+        return "Confirmé";
+      case 2:
+        return "Annulé";
+      default:
+        return "Inconnu";
     }
   };
 
+  // Filtrer les réservations en fonction du terme de recherche
+  const filteredReservations = reservations.filter((reservation) =>
+    reservation.patientHhNumber.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="appointments-container">
-      <h2 className="appointments-title">Réservations pour {hhNumber}</h2>
+      <h2 className="appointments-title">Réservations </h2>
 
       {isLoading && <p className="loading-message">Chargement des réservations...</p>}
       {error && <p className="error-message">{error}</p>}
 
-      {!isLoading && !error && reservations.length === 0 ? (
-        <p className="no-reservations">Aucune réservation pour le moment.</p>
-      ) : (
-        <div className="appointments-list">
-          <h3 className="appointments-subtitle">Liste des réservations :</h3>
-          <ul>
-            {reservations
-              .sort((a, b) => a.timestampDebut - b.timestampDebut)
-              .map((reservation, index) => {
-                const creneau = getCreneauDetails(reservation.creneauIndex);
-                const timestampFin =
-                  reservation.timestampDebut + (creneau.dureeConsultation || 900);
+      {!isLoading && !error && (
+        <>
+          {/* Barre de recherche */}
+          <div className="search-section">
+            <input
+              type="text"
+              placeholder="Rechercher par HH Number du patient..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
 
-                return (
-                  <li key={index} className="appointment-item">
-                    <strong>
-                      {formatDate(reservation.timestampDebut)} -{" "}
-                      {formatTime(reservation.timestampDebut)} à {formatTime(timestampFin)}
-                    </strong>
-                    <br />
-                    Patient : {reservation.patientHhNumber || "hhNumber non disponible"}
-                    <br />
-                    Statut : {getStatusLabel(reservation.status)}
-                    <br />
-                    Créneau : {creneau.jourSemaine !== undefined ? (
-                      `(${["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][creneau.jourSemaine]} ${formatDate(creneau.debut)} ${formatTime(creneau.debut)}-${formatTime(creneau.fin)})`
-                    ) : (
-                      "Détails du créneau non disponibles"
-                    )}
-                    <br />
-                    {reservation.status === 0 && (
-                      <div className="action-buttons">
+          <div className="appointments-list">
+            <h3 className="appointments-subtitle">Liste des réservations :</h3>
+            {filteredReservations.length === 0 ? (
+              <p className="no-reservations">Aucune réservation trouvée.</p>
+            ) : (
+              <ul>
+                {filteredReservations
+                  .sort((a, b) => a.timestampDebut - b.timestampDebut)
+                  .map((reservation, index) => {
+                    const creneau = getCreneauDetails(reservation.creneauIndex);
+                    const timestampFin =
+                      reservation.timestampDebut + (creneau.dureeConsultation || 900);
+
+                    return (
+                      <li key={index} className="appointment-item">
+                        <strong>
+                          {formatDate(reservation.timestampDebut)} -{" "}
+                          {formatTime(reservation.timestampDebut)} à {formatTime(timestampFin)}
+                        </strong>
+                        <br />
+                        Patient : {reservation.patientHhNumber || "hhNumber non disponible"}
+                        <br />
+                        Statut : {getStatusLabel(reservation.status)}
+                        <br />
+                        Créneau : {creneau.jourSemaine !== undefined ? (
+                          `(${["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][creneau.jourSemaine]} ${formatDate(creneau.debut)} ${formatTime(creneau.debut)}-${formatTime(creneau.fin)})`
+                        ) : (
+                          "Détails du créneau non disponibles"
+                        )}
+                        <br />
+                        {reservation.status === 0 && (
+                          <div className="action-buttons">
+                            <button
+                              onClick={() => confirmReservation(reservation.timestampDebut)}
+                              className="bg-green-500 text-white px-2 py-1 rounded mr-2"
+                            >
+                              Confirmer
+                            </button>
+                            <button
+                              onClick={() => cancelReservation(reservation.timestampDebut)}
+                              className="bg-red-500 text-white px-2 py-1 rounded mr-2"
+                            >
+                              Annuler
+                            </button>
+                          </div>
+                        )}
                         <button
-                          onClick={() => confirmReservation(reservation.timestampDebut)}
-                          className="bg-green-500 text-white px-2 py-1 rounded mr-2"
+                          onClick={() => viewPatientDetails(reservation.patientHhNumber)}
+                          className="bg-blue-500 text-white px-2 py-1 rounded"
                         >
-                          Confirmer
+                          Voir
                         </button>
-                        <button
-                          onClick={() => cancelReservation(reservation.timestampDebut)}
-                          className="bg-red-500 text-white px-2 py-1 rounded mr-2"
-                        >
-                          Annuler
-                        </button>
-                      </div>
-                    )}
-                    <button
-                      onClick={() => viewPatientDetails(reservation.patientHhNumber)}
-                      className="bg-blue-500 text-white px-2 py-1 rounded"
-                    >
-                      Voir
-                    </button>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
+                      </li>
+                    );
+                  })}
+              </ul>
+            )}
+          </div>
+        </>
       )}
     </div>
   );

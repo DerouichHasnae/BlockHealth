@@ -1,5 +1,5 @@
 {
-  "contractName": "IDoctorRegistration",
+  "contractName": "IPatientRegistration",
   "abi": [
     {
       "inputs": [
@@ -9,57 +9,12 @@
           "type": "string"
         }
       ],
-      "name": "getDoctorDetails",
+      "name": "isPatientRegistered",
       "outputs": [
         {
-          "internalType": "address",
-          "name": "_walletAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "string",
-          "name": "_doctorName",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_hospitalName",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_dateOfBirth",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_gender",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_email",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_specialization",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_department",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_designation",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_workExperience",
-          "type": "string"
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
         }
       ],
       "stateMutability": "view",
@@ -68,17 +23,17 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "doctorAddress",
-          "type": "address"
+          "internalType": "string",
+          "name": "_patientNumber",
+          "type": "string"
         },
         {
           "internalType": "string",
-          "name": "specialization",
+          "name": "_doctorNumber",
           "type": "string"
         }
       ],
-      "name": "isDoctorInSpecialization",
+      "name": "isPermissionGranted",
       "outputs": [
         {
           "internalType": "bool",
@@ -90,7 +45,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_hhNumber\",\"type\":\"string\"}],\"name\":\"getDoctorDetails\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"_walletAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_doctorName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_hospitalName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_dateOfBirth\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_gender\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_email\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_specialization\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_department\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_designation\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_workExperience\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"doctorAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"specialization\",\"type\":\"string\"}],\"name\":\"isDoctorInSpecialization\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interface.sol\":\"IDoctorRegistration\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interface.sol\":{\"keccak256\":\"0x22d1662e78496cf14507dd4cde9eee40bc9d6f2a0c9f87db7c0ab0cf5aa947cd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://76ab486a9a0e9de046fb6f6d569d82f1a22916fd39ce779008a589cbb7550f25\",\"dweb:/ipfs/QmX4Xi6tNMFrFTZk9YNqWaip9SQj6ZpPUDkyjwyaGTYRtp\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_hhNumber\",\"type\":\"string\"}],\"name\":\"isPatientRegistered\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_patientNumber\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_doctorNumber\",\"type\":\"string\"}],\"name\":\"isPermissionGranted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interface.sol\":\"IPatientRegistration\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interface.sol\":{\"keccak256\":\"0x22d1662e78496cf14507dd4cde9eee40bc9d6f2a0c9f87db7c0ab0cf5aa947cd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://76ab486a9a0e9de046fb6f6d569d82f1a22916fd39ce779008a589cbb7550f25\",\"dweb:/ipfs/QmX4Xi6tNMFrFTZk9YNqWaip9SQj6ZpPUDkyjwyaGTYRtp\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -805,7 +760,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-05-20T06:42:14.687Z",
+  "updatedAt": "2025-05-20T06:42:14.690Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

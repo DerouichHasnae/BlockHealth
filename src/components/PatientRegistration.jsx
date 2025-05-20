@@ -20,7 +20,7 @@ const PatientRegistry = () => {
   const [bg, setBloodGroup] = useState("");
   const [email, setEmail] = useState(""); 
   const [emailError, setEmailError] = useState("");
-  const [password, setPassword] = useState(""); // Define password state variable
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -32,19 +32,15 @@ const PatientRegistry = () => {
       if (window.ethereum) {
         const web3Instance = new Web3(window.ethereum);
         try {
-          // Demande d'accès au portefeuille
           await window.ethereum.request({ method: "eth_requestAccounts" });
           setWeb3(web3Instance);
   
-          // Récupère les comptes
           const accounts = await web3Instance.eth.getAccounts();
-          setWalletAddress(accounts[0]); // Stocke l'adresse automatiquement
+          setWalletAddress(accounts[0]);
   
-          // Récupère l'ID du réseau
           const networkId = await web3Instance.eth.net.getId();
           const deployedNetwork = PatientRegistration.networks[networkId];
   
-          // Instancie le contrat
           const contractInstance = new web3Instance.eth.Contract(
             PatientRegistration.abi,
             deployedNetwork && deployedNetwork.address
@@ -61,7 +57,6 @@ const PatientRegistry = () => {
   
     initWeb3();
   }, []);
-  
 
   const handleRegister = async () => {
     if (
@@ -76,8 +71,7 @@ const PatientRegistry = () => {
       !walletAddress ||
       !password ||
       !confirmPassword
-    )
-     {
+    ) {
       alert(
         "You have missing input fields. Please fill in all the required fields."
       );
@@ -91,12 +85,11 @@ const PatientRegistry = () => {
       return;
     }
 
-    // Password validation: minimum length
     if (password.length < 8) {
-    setPassword("");
-    setConfirmPassword("");
-    setPasswordError("Password must be atleast 8 characters long.");
-    return;
+      setPassword("");
+      setConfirmPassword("");
+      setPasswordError("Password must be at least 8 characters long.");
+      return;
     }
 
     if (password !== confirmPassword) {
@@ -105,32 +98,22 @@ const PatientRegistry = () => {
       return;
     }
 
-    // Check if dateOfBirth is in the format dd/mm/yyyy
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (!datePattern.test(dateOfBirth)) {
       alert("Please enter Date of Birth in the format dd/mm/yyyy");
       return;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setEmailError("Please enter a valid email address.");
       return;
     } else {
-      setEmailError(""); // Clear email error if valid
+      setEmailError("");
     }
 
-    // Password validation: minimum length
-    if (password.length < 8) {
-      alert("Password must be at least 8 characters long.");
-      return;
-    }
-
-      
     try {
       const web3 = new Web3(window.ethereum);
-
       const networkId = await web3.eth.net.getId();
 
       const contract = new web3.eth.Contract(
@@ -148,27 +131,26 @@ const PatientRegistry = () => {
       }
 
       await contract.methods
-      .registerPatient(
-        walletAddress,
-        name,
-        dateOfBirth,
-        gender,
-        bg,
-        homeAddress,
-        email,
-        hhNumber,
-        password
-      )
-      .send({ from: walletAddress });
+        .registerPatient(
+          walletAddress,
+          name,
+          dateOfBirth,
+          gender,
+          bg,
+          homeAddress,
+          email,
+          hhNumber,
+          password
+        )
+        .send({ from: walletAddress });
 
       alert("Patient registered successfully!");
       navigate("/");
-      } catch (error) {
-        console.error("Error:", error);
-        alert("An error occurred while registering the doctor.");
-      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while registering the patient.");
+    }
   };
-  
 
   const handleEmailChange = (e) => {
     const inputEmail = e.target.value;
@@ -202,19 +184,13 @@ const PatientRegistry = () => {
   };
 
   return (
-    <div>
-    <NavBar></NavBar>
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-black to-gray-800 font-mono">
-      <div className="w-full max-w-4xl">
-        <h2 className="text-3xl text-white mb-6 font-bold text-center">
-         Patient Registration
-        </h2>
-        <form className="bg-gray-900 p-6 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-4">
-         
-          <div className="mb-4">
-            <label className="block font-bold text-white" htmlFor="name">
-              Full Name
-            </label>
+    <div className="patient-registry">
+      <NavBar />
+      <div className="registry-container">
+        <h2 className="registry-title">Patient Registration</h2>
+        <form className="registry-form">
+          <div className="form-group">
+            <label className="form-label" htmlFor="name">Full Name</label>
             <input
               type="text"
               id="name"
@@ -222,72 +198,64 @@ const PatientRegistry = () => {
               placeholder="Enter Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover:bg-gray-800 transition duration-200"
+              className="form-input"
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block font-bold text-white" htmlFor="dateOfBirth">
-              Date of Birth
-            </label>
+          <div className="form-group">
+            <label className="form-label" htmlFor="dateOfBirth">Date of Birth</label>
             <input
               id="dateOfBirth"
               name="dateOfBirth"
-              type="date" // Use type="date" for date picker
+              type="date"
               required
-              className="mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover-bg-gray-800 transition duration-200"
+              className="form-input"
               value={dateOfBirth}
               onChange={(e) => setDateOfBirth(e.target.value)}
             />
           </div>
-            
-          <div className="mb-4">
-          <label className="block font-bold text-white" htmlFor="gender">
-            Gender
-          </label>
-          <select
-            id="gender"
-            name="gender"
-            required
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-            className="mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover-bg-gray-800 transition duration-200"
-          >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
 
-        <div className="mb-4">
-          <label className="block font-bold text-white" htmlFor="gender">
-            Blood Group
-          </label>
-          <select
-            id="bg"
-            name="bg"
-            required
-            value={bg}
-            onChange={(e) => setBloodGroup(e.target.value)}
-            className="mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover-bg-gray-800 transition duration-200"
-          >
-            <option value="">Select Blood Group</option>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="B+">O+</option>
-            <option value="B-">O-</option>
-            <option value="B+">AB+</option>
-            <option value="B-">AB-</option>
-          </select>
-        </div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="gender">Gender</label>
+            <select
+              id="gender"
+              name="gender"
+              required
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="form-input"
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
 
-          <div className="mb-4">
-            <label className="block font-bold text-white" htmlFor="homeAddress">
-              Home Address
-            </label>
+          <div className="form-group">
+            <label className="form-label" htmlFor="bg">Blood Group</label>
+            <select
+              id="bg"
+              name="bg"
+              required
+              value={bg}
+              onChange={(e) => setBloodGroup(e.target.value)}
+              className="form-input"
+            >
+              <option value="">Select Blood Group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="homeAddress">Home Address</label>
             <input
               type="text"
               id="homeAddress"
@@ -295,113 +263,98 @@ const PatientRegistry = () => {
               placeholder="Enter your Permanent Address"
               value={homeAddress}
               onChange={(e) => setHomeAddress(e.target.value)}
-              className="mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover:bg-gray-800 transition duration-200"
+              className="form-input"
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block font-bold text-white" htmlFor="hhNumber">
-              HH Number
-            </label>
+          <div className="form-group">
+            <label className="form-label" htmlFor="hhNumber">HH Number</label>
             <input
               id="hhNumber"
               name="hhNumber"
               type="text"
               required
-              className={`mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover-bg-gray-800 transition duration-200 ${hhNumberError && "border-red-500"}`}
+              className={`form-input ${hhNumberError ? 'input-error' : ''}`}
               placeholder="Enter your HH Number"
               value={hhNumber}
               onChange={handlehhNumberChange}
             />
             {hhNumberError && (
-              <p className="text-red-500 text-sm mt-1">{hhNumberError}</p>
+              <p className="error-message">{hhNumberError}</p>
             )}
           </div>
-          
-          <div className="mb-4">
-            <label className="block font-bold text-white" htmlFor="email">
-              Email Address
-            </label>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="email">Email Address</label>
             <input
               id="email"
               name="email"
               type="email"
               required
-              className={`mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover-bg-gray-800 transition duration-200 ${
-                emailError && "border-red-500"
-              }`}
+              className={`form-input ${emailError ? 'input-error' : ''}`}
               placeholder="Enter your Email-id"
               value={email}
               onChange={handleEmailChange}
             />
             {emailError && (
-              <p className="text-red-500 text-sm mt-1">{emailError}</p>
+              <p className="error-message">{emailError}</p>
             )}
           </div>
-            
-          <div className="mb-4">
-              <label className="block font-bold text-white" htmlFor="password">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className={`mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover-bg-gray-800 transition duration-200 ${
-                  passwordError && "border-red-500"
-                }`}
-                placeholder="Enter your Password"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-              {passwordError && (
-                <p className="text-red-500 text-sm mt-1">{passwordError}</p>
-              )}
-            </div>
-            
-          <div className="mb-4">
-              <label className="block font-bold text-white" htmlFor="confirmPassword">
-                Confirm Password
-              </label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                required
-                className={`mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover-bg-gray-800 transition duration-200 ${
-                  confirmPasswordError && "border-red-500"
-                }`}
-                placeholder="Confirm your Password"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-              />
-              {confirmPasswordError && (
-                <p className="text-red-500 text-sm mt-1">{confirmPasswordError}</p>
-              )}
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              className={`form-input ${passwordError ? 'input-error' : ''}`}
+              placeholder="Enter your Password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            {passwordError && (
+              <p className="error-message">{passwordError}</p>
+            )}
           </div>
 
+          <div className="form-group">
+            <label className="form-label" htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+              className={`form-input ${confirmPasswordError ? 'input-error' : ''}`}
+              placeholder="Confirm your Password"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+            />
+            {confirmPasswordError && (
+              <p className="error-message">{confirmPasswordError}</p>
+            )}
+          </div>
 
-          <div className="space-x-4 md:col-span-2 flex justify-center mt-6">
+          <div className="form-buttons">
             <button
               type="button"
               onClick={handleRegister}
               disabled={!contract || isLoading}
-              className="px-5 py-2.5 bg-teal-500 text-white font-bold text-lg rounded-lg cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-600 disabled:bg-gray-500 disabled:cursor-not-allowed w-full md:w-auto"
+              className="submit-button"
             >
               Register
             </button>
             <button
+              type="button"
               onClick={cancelOperation}
-              className="px-5 py-2.5 bg-teal-500 text-white font-bold text-lg rounded-lg cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-600 disabled:bg-gray-500 disabled:cursor-not-allowed w-full md:w-auto"
-              >
+              className="cancel-button"
+            >
               Close
             </button>
           </div>
         </form>
       </div>
-      </div>
-      </div>
+    </div>
   );
 };
 

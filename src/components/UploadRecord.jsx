@@ -3,7 +3,7 @@ import Web3 from "web3";
 import { useParams } from "react-router-dom";
 import PatientRegistration from "../build/contracts/PatientRegistration.json";
 import { create } from 'ipfs-http-client';
-import "../CSS/Upload.css";
+import "../CSS/UploadRecord.css";
 
 // Utilise ton nœud IPFS local
 const ipfs = create({ url: 'http://localhost:5001' });

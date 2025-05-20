@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Web3 from "web3";
 import AvailabilityABI from "../build/contracts/Availability.json";
-import "../CSS/Availability.css";
+import "../CSS/DoctorSpecialtyPage.css"; // Assurez-vous d'avoir ce fichier CSS
 
 const DoctorSpecialtyPage = () => {
   const { specialty, hhNumber } = useParams(); // Ajout de hhNumber
@@ -191,7 +191,7 @@ const DoctorSpecialtyPage = () => {
   return (
     <div className="availability-container">
       <h2 className="availability-title">Créneaux disponibles pour {specialty}</h2>
-      <p className="availability-note">Remarque : Les heures sont en UTC.</p>
+   
 
       {isLoading && <p className="loading-message">Chargement...</p>}
       {error && <p className="error-message">{error}</p>}

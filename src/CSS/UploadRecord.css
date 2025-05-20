@@ -1,16 +1,196 @@
+/* Arrière-plan global */
+
+
+/* Conteneur principal */
 .upload-container {
-    text-align: center;
-    margin-top: 2rem;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  margin-top: 160px;
+  background: linear-gradient(135deg, #e6f1fa 0%, #dfcef3 100%);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', 'Arial', sans-serif;
+  min-height: 500px;
+}
+
+/* Titre du formulaire */
+.upload-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+/* Formulaire */
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Étiquettes */
+.upload-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Champs d'entrée */
+.upload-input {
+  margin-top: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #f9fafb;
+  color: #1f2937;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.upload-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+}
+
+/* Style spécifique pour l'input de type fichier */
+.upload-input[type="file"] {
+  padding: 8px;
+  background-color: transparent;
+  border: none;
+}
+
+/* Bouton de soumission */
+.upload-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #6787bb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  align-self: center;
+  margin-top: 16px;
+}
+
+.upload-button:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.upload-button:active {
+  transform: translateY(0);
+}
+
+.upload-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Message de statut */
+.upload-status {
+  margin-top: 20px;
+  font-size: 1rem;
+  text-align: center;
+  color: #374151;
+}
+
+.upload-status:empty {
+  display: none;
+}
+
+/* Couleurs pour différents états du statut */
+.upload-status::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.upload-status:not(:empty) {
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.upload-status:not(:empty)[data-status*="success"] {
+  color: #15803d;
+  background-color: #dcfce7;
+}
+
+.upload-status:not(:empty)[data-status*="success"]::before {
+  background-color: #15803d;
+}
+
+.upload-status:not(:empty)[data-status*="failed"] {
+  color: #b91c1c;
+  background-color: #fee2e2;
+}
+
+.upload-status:not(:empty)[data-status*="failed"]::before {
+  background-color: #b91c1c;
+}
+
+.upload-status:not(:empty)[data-status*="Uploading"] {
+  color: #1d4ed8;
+  background-color: #dbeafe;
+}
+
+.upload-status:not(:empty)[data-status*="Uploading"]::before {
+  background-color: #1d4ed8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .upload-container {
+    margin: 20px;
+    padding: 16px;
   }
-  .upload-container input {
-    margin-bottom: 1rem;
+
+  .upload-title {
+    font-size: 1.6rem;
   }
-  .upload-container button {
-    padding: 0.5rem 1rem;
-    background-color: #4f46e5;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+
+  .upload-input {
+    font-size: 0.95rem;
+    padding: 10px;
   }
-  
+
+  .upload-button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .upload-container {
+    margin: 10px;
+    padding: 12px;
+  }
+
+  .upload-title {
+    font-size: 1.4rem;
+  }
+
+  .upload-label {
+    font-size: 0.9rem;
+  }
+
+  .upload-input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .upload-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}

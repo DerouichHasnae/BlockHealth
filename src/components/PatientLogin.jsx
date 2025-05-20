@@ -69,7 +69,7 @@ const PatientLogin = () => {
 
   return (
     <div>
-      <NavBar />
+ 
       <div className="patient-login-container">
   <div className="patient-login-box">
     <h2>Patient Login</h2>

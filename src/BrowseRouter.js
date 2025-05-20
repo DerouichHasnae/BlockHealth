@@ -25,7 +25,10 @@ import Availability from "./components/Availability";
 import DoctorList from "./components/DoctorList"
 import DoctorSpecialtyPage from "./components/DoctorSpecialtyPage";
 import PatientView from "./components/PatientView";
-
+import PrescriptionForm from "./components/PrescriptionForm";
+import PatientAppointments from "./components/PatientAppointments";
+import PatientList from "./components/PatientList";
+import PatientDetails from "./components/PatientDetails";
 
 const BrowseRouter = () => {
   const [web3, setWeb3] = useState(null);
@@ -73,7 +76,9 @@ const BrowseRouter = () => {
         >
 
         </Route>
-                <Route path="/doctor/:hhNumber/appointments" element={<AppointmentsPage />} />
+                  <Route path="/patient/:hhNumber/appointments" element={<PatientAppointments />} />
+
+                   <Route path="/doctor/:doctorHhNumber/patient/:patientHhNumber/details" element={<PatientDetails />} />
 
       
         <Route
@@ -93,19 +98,28 @@ const BrowseRouter = () => {
        <Route path="/doctors/:hhNumber" element={<DoctorList />} />
 <Route path="/medecins/:specialty/:hhNumber" element={<DoctorSpecialtyPage />} />
 
-        <Route path="/doctor/:hhNumber" element={<DoctorDashBoard />}></Route>
-        <Route
-          path="/patient/:hhNumber/viewprofile"
-          element={<ViewProfile />}
-        ></Route>
-        <Route path="/doctor/:hhNumber/viewdoctorprofile"element={<ViewDoctorProfile />}></Route>
-        <Route path="/availability/:specialization" element={<Availability />}> </Route>
+   
+        <Route path="/patient/:hhNumber/viewprofile" element={<ViewProfile />} ></Route>
+
+ 
+
+        <Route path="/doctor/:hhNumber" element={<DoctorDashBoard />} />
+        <Route path="/doctor/:hhNumber/viewdoctorprofile" element={<DoctorDashBoard />} />
+        <Route path="/doctor/:hhNumber/patientlist" element={<DoctorDashBoard />} />
+        <Route path="/doctor/:hhNumber/appointments" element={<DoctorDashBoard />} />
+        <Route path="/availability/:specialization" element={<DoctorDashBoard />} />
+
+
         
+
+
         <Route
           path="/patient/:hhNumber/viewrecords"
           element={<ViewPatientRecords />}
         ></Route>
         <Route path="/patient/:hhNumber/view" element={<PatientView />} />
+        
+        <Route path="/patient/:hhNumber/prescription" element={<PrescriptionForm/>} />
 
 <Route path="/doctor/viewpatient/:hhNumber" element={<ViewPatientDetails />} />
 

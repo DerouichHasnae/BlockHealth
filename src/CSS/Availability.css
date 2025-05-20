@@ -1,60 +1,88 @@
+/* General Container */
 .availability-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  padding: 20px !important;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
+
+/* Title */
 .availability-title {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 24px !important;
+  margin-bottom: 20px !important;
 }
+
+/* Form */
 .availability-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 30px;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
+  margin-bottom: 30px !important;
 }
+
+/* Form Group */
 .availability-form div {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
 }
+
+/* Labels */
 .availability-form label {
-  margin-bottom: 5px;
+  margin-bottom: 5px !important;
 }
+
+/* Inputs and Selects */
 .availability-form input,
 .availability-form select {
-  padding: 8px;
-  font-size: 16px;
+  padding: 8px !important;
+  font-size: 16px !important;
 }
+
+/* Submit Button */
 .availability-form button {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
+  padding: 10px !important;
+  background-color: #007bff !important;
+  color: rgb(0, 0, 0) !important;
+  border: none !important;
+  cursor: pointer !important;
 }
+
+/* Button Hover */
 .availability-form button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3 !important;
 }
+
+/* Creneaux Section */
 .availability-creneaux-section {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
+
+/* Creneaux Title */
 .availability-creneaux-title {
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 20px !important;
+  margin-bottom: 10px !important;
 }
+
+/* Creneaux List */
 .availability-creneaux-list {
-  list-style: none;
-  padding: 0;
+  list-style: none !important;
+  padding: 0 !important;
 }
+
+/* Creneaux List Items */
 .availability-creneaux-list li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  padding: 10px !important;
+  border-bottom: 1px solid #020000 !important;
 }
+
+/* No Creneaux Message */
 .no-creneaux {
-  color: #888;
+  color: #888 !important;
 }
+
+/* Loading and Error Messages */
 .loading-message,
 .error-message {
-  color: #d32f2f;
-  font-weight: bold;
+  color: #d32f2f !important;
+  font-weight: bold !important;
 }

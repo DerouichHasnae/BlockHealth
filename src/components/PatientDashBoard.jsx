@@ -1,40 +1,21 @@
-// src/components/PatientDashBoard.jsx
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import { useParams, useNavigate } from "react-router-dom";
 import "../CSS/PatientDashboard.css";
 import PatientRegistration from "../build/contracts/PatientRegistration.json";
 import { FiUser, FiFileText, FiHome, FiBell, FiCalendar } from "react-icons/fi";
+import ViewProfile from "./ViewProfile";
+import ViewPatientRecords from "./ViewPatientRecords";
 
 const PatientDashBoard = () => {
   const { hhNumber } = useParams();
   const navigate = useNavigate();
-
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
   const [patientDetails, setPatientDetails] = useState(null);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("dashboard");
-
-  const viewRecord = () => {
-    navigate(`/patient/${hhNumber}/viewrecords`);
-    setActiveTab("records");
-  };
-
-  const viewProfile = () => {
-    navigate(`/patient/${hhNumber}/viewprofile`);
-    setActiveTab("profile");
-  };
-
-  const goToDashboard = () => {
-    navigate(`/patient/${hhNumber}`);
-    setActiveTab("dashboard");
-  };
-
-  const selectSpecialty = () => {
-    navigate(`/doctors/${hhNumber}`); // Nouvelle redirection
-    setActiveTab("appointments");
-  };
+  const [activeSection, setActiveSection] = useState("dashboard");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -44,8 +25,8 @@ const PatientDashBoard = () => {
         const result = await contract.methods.getPatientDetails(hhNumber).call();
         setPatientDetails(result);
       } catch (error) {
-        console.error("Error fetching patient details:", error);
-        setError("Failed to load patient details");
+        console.error("Erreur lors du chargement des détails du patient :", error);
+        setError("Échec du chargement des détails du patient");
       }
     };
 
@@ -72,67 +53,180 @@ const PatientDashBoard = () => {
           );
           setContract(contractInstance);
         } catch (error) {
-          console.error("Error initializing Web3:", error);
-          setError("Error connecting to blockchain");
+          console.error("Erreur d'initialisation de Web3 :", error);
+          setError("Erreur de connexion à la blockchain");
         }
       } else {
-        setError("Please install MetaMask extension");
+        setError("Veuillez installer l'extension MetaMask");
       }
     };
 
     init();
   }, [hhNumber]);
 
+  // Fonctions pour changer la section active ou naviguer
+  const showDashboard = () => {
+    setActiveSection("dashboard");
+    setMenuOpen(false);
+  };
+  const showProfile = () => {
+    setActiveSection("profile");
+    setMenuOpen(false);
+  };
+  const showRecords = () => {
+    setActiveSection("records");
+    setMenuOpen(false);
+  };
+  const showUploadRecord = () => {
+    console.log("showUploadRecord - hhNumber:", hhNumber);
+    if (hhNumber) {
+      navigate(`/patient/${hhNumber}/uploadrecord`);
+      setMenuOpen(false);
+    } else {
+      setError("Identifiant patient manquant pour la redirection");
+      console.error("showUploadRecord - hhNumber manquant");
+    }
+  };
+  const showGrantPermission = () => {
+    console.log("showGrantPermission - hhNumber:", hhNumber);
+    if (hhNumber) {
+      navigate(`/patient/${hhNumber}/grantpermission`);
+      setMenuOpen(false);
+    } else {
+      setError("Identifiant patient manquant pour la redirection");
+      console.error("showGrantPermission - hhNumber manquant");
+    }
+  };
+  const showDoctorList = () => {
+    console.log("showDoctorList - hhNumber:", hhNumber);
+    if (hhNumber) {
+      navigate(`/doctors/${hhNumber}`);
+      setMenuOpen(false);
+    } else {
+      setError("Identifiant patient manquant pour la redirection");
+      console.error("showDoctorList - hhNumber manquant");
+    }
+  };
+  const showAppointments = () => {
+    console.log("showAppointments - hhNumber:", hhNumber);
+    if (hhNumber) {
+      navigate(`/patient/${hhNumber}/appointments`);
+      setMenuOpen(false);
+    } else {
+      setError("Identifiant patient manquant pour la redirection");
+      console.error("showAppointments - hhNumber manquant");
+    }
+  };
+  const showNotifications = () => {
+    setActiveSection("notifications");
+    setMenuOpen(false);
+  };
+
+  // Rendu conditionnel de la section active
+  const renderActiveSection = () => {
+    switch (activeSection) {
+      case "profile":
+        return <ViewProfile />;
+      case "records":
+        return <ViewPatientRecords />;
+      case "notifications":
+        return (
+          <div className="notifications-section">
+            <h3>Notifications</h3>
+            <p>Aucune notification pour le moment.</p>
+          </div>
+        );
+      case "dashboard":
+      default:
+        return (
+          <div className="dashboard-grid">
+            <div className="dashboard-card">
+              <h3>Activités Récentes</h3>
+              <p>Vos interactions médicales récentes apparaîtront ici.</p>
+            </div>
+            <div className="dashboard-card">
+              <h3>Résumé de Santé</h3>
+              <p>Les métriques clés de santé seront affichées ici.</p>
+            </div>
+            <div className="dashboard-card">
+              <h3>Rendez-vous à Venir</h3>
+              <p>Vos rendez-vous programmés apparaîtront ici.</p>
+            </div>
+          </div>
+        );
+    }
+  };
+
   return (
     <div className="dashboard-container">
-      <aside className="sidebar">
-        <h2>e-Health Records</h2>
-        <ul>
-          <li
-            onClick={goToDashboard}
-            className={activeTab === "dashboard" ? "active" : ""}
-          >
-            <FiHome className="icon" /> Dashboard
-          </li>
-          <li
-            onClick={viewProfile}
-            className={activeTab === "profile" ? "active" : ""}
-          >
-            <FiUser className="icon" /> My Profile
-          </li>
-          <li
-            onClick={viewRecord}
-            className={activeTab === "records" ? "active" : ""}
-          >
-            <FiFileText className="icon" /> Medical Records
-          </li>
-          <li onClick={() => navigate(`/patient/${hhNumber}/uploadrecord`)}>
-            <FiFileText className="icon" /> Upload Records
-          </li>
-          <li onClick={() => navigate(`/patient/${hhNumber}/grantpermission`)}>
-            <FiUser className="icon" /> Grant Permission
-          </li>
-          <li
-            onClick={selectSpecialty} // Modifier pour sélectionner une spécialité
-            className={activeTab === "appointments" ? "active" : ""}
-          >
-            <FiCalendar className="icon" /> Appointments
-          </li>
-          <li>
-            <FiBell className="icon" /> Notifications
-          </li>
-        </ul>
+      <aside className={`sidebar ${menuOpen ? "open" : ""}`}>
+        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          <FiHome className="icon" />
+        </button>
+        <div className="menu-content">
+          <h2>e-Health Records</h2>
+          <ul>
+            <li
+              onClick={showDashboard}
+              className={activeSection === "dashboard" ? "active" : ""}
+            >
+              <FiHome className="icon" /> Tableau de Bord
+            </li>
+            <li
+              onClick={showProfile}
+              className={activeSection === "profile" ? "active" : ""}
+            >
+              <FiUser className="icon" /> Mon Profil
+            </li>
+            <li
+              onClick={showRecords}
+              className={activeSection === "records" ? "active" : ""}
+            >
+              <FiFileText className="icon" /> Dossiers Médicaux
+            </li>
+            <li
+              onClick={showUploadRecord}
+              className={activeSection === "uploadRecord" ? "active" : ""}
+            >
+              <FiFileText className="icon" /> Télécharger Dossier
+            </li>
+            <li
+              onClick={showGrantPermission}
+              className={activeSection === "grantPermission" ? "active" : ""}
+            >
+              <FiUser className="icon" /> Accorder Permission
+            </li>
+            <li
+              onClick={showDoctorList}
+              className={activeSection === "doctorList" ? "active" : ""}
+            >
+              <FiCalendar className="icon" /> Prendre Rendez-vous
+            </li>
+            <li
+              onClick={showAppointments}
+              className={activeSection === "appointments" ? "active" : ""}
+            >
+              <FiCalendar className="icon" /> Mes Rendez-vous
+            </li>
+            <li
+              onClick={showNotifications}
+              className={activeSection === "notifications" ? "active" : ""}
+            >
+              <FiBell className="icon" /> Notifications
+            </li>
+          </ul>
+        </div>
       </aside>
 
       <main className="main-content">
         <header className="dashboard-header">
-          <h1>Patient Dashboard</h1>
+          <h1>Tableau de Bord Patient</h1>
           {patientDetails ? (
             <p className="dashboard-welcome">
-              Welcome back, <span className="patient-name">{patientDetails.name}!</span>
+              Bienvenue, <span className="patient-name">{patientDetails.name} !</span>
             </p>
           ) : (
-            <p className="dashboard-loading">Loading profile...</p>
+            <p className="dashboard-loading">Chargement du profil...</p>
           )}
         </header>
 
@@ -142,20 +236,7 @@ const PatientDashBoard = () => {
           </div>
         )}
 
-        <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <h3>Recent Activities</h3>
-            <p>Your recent medical interactions will appear here.</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>Health Summary</h3>
-            <p>Key health metrics and summary will be displayed here.</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>Upcoming Appointments</h3>
-            <p>Your scheduled appointments will appear here.</p>
-          </div>
-        </div>
+        <div className="dynamic-section">{renderActiveSection()}</div>
       </main>
     </div>
   );

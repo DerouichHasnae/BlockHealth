@@ -29,13 +29,12 @@ const RegisterPage = () => {
           
           {/* Bouton Patient avec icône */}
           <button
-          className="bg-teal-500 text-white font-bold py-2 px-4 rounded w-full transition duration-300 ease-in-out transform hover:scale-110 hover:bg-gray-600" // Added transform and grey color for hover
-          onClick={() => {
-            navigate("/patient_registration");
-          }}
-        >
-          Patient Registration
-        </button>
+            className="register-button"
+            onClick={() => navigate("/patient_registration")}
+          >
+            <FaUserInjured className="button-icon" />
+            <span>Patient Registration</span>
+          </button>
         </div>
       </div>
     </div>

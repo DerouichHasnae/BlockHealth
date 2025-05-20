@@ -58,8 +58,8 @@ const DoctorRegistry = () => {
           }
   
           const web3Instance = new Web3(window.ethereum);
-          const networkId = await web3Instance.eth.net.getId();  // id reseau gan
-          const deployedNetwork = DoctorRegistration.networks[networkId]; //add con
+          const networkId = await web3Instance.eth.net.getId();
+          const deployedNetwork = DoctorRegistration.networks[networkId];
   
           if (!deployedNetwork) {
             alert("Le contrat n'est pas déployé sur ce réseau.");
@@ -78,14 +78,12 @@ const DoctorRegistry = () => {
             setDoctorAddress(newAccounts[0] || "");
             setIsConnected(newAccounts.length > 0);
           });
-  
         } catch (error) {
           console.error("Erreur de connexion :", error);
           alert("Erreur de connexion au réseau Ethereum.");
         }
       }
     };
-  
     init();
   }, []);
 
@@ -173,253 +171,252 @@ const DoctorRegistry = () => {
 
   return (
     <div className="doctor-registration-container">
-      <NavBar />
+
       <div className="registration-card">
         <div className="registration-header">
           <h1 className="registration-title">
             <FaUserMd /> Inscription du Médecin
           </h1>
           {isConnected && (
-            <p className="text-sm text-gray-600">
+            <p className="connection-status">
               Connecté avec: {doctorAddress.substring(0, 6)}...{doctorAddress.substring(doctorAddress.length - 4)}
             </p>
           )}
         </div>
 
         <form className="registration-form" onSubmit={handleRegister}>
-          {/* Section Informations Personnelles */}
-          <div className="form-section">
-            <h2 className="section-title">
-              <FaUserMd /> Informations Personnelles
-            </h2>
-            
-            <div className="form-group">
-              <label className="form-label" htmlFor="doctorName">
-                <FaUserMd /> Nom/Prénom
-              </label>
-              <input
-                id="doctorName"
-                className={`form-input ${errors.doctorName ? 'error' : ''}`}
-                type="text"
-                value={doctorName}
-                onChange={(e) => setDoctorName(e.target.value)}
-                placeholder="Nom complet"
-              />
-              {errors.doctorName && <span className="error-message">{errors.doctorName}</span>}
+          <div className="form-sections-container">
+            {/* Section Informations Personnelles */}
+            <div className="form-section personal-info">
+              <h2 className="section-title">
+                <FaUserMd /> Informations Personnelles
+              </h2>
+              <div className="form-group-grid">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="doctorName">
+                    <FaUserMd /> Nom/Prénom
+                  </label>
+                  <input
+                    id="doctorName"
+                    className={`form-input ${errors.doctorName ? 'error' : ''}`}
+                    type="text"
+                    value={doctorName}
+                    onChange={(e) => setDoctorName(e.target.value)}
+                    placeholder="Nom complet"
+                  />
+                  {errors.doctorName && <span className="error-message">{errors.doctorName}</span>}
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="dateOfBirth">
+                    <FaBirthdayCake /> Date de naissance
+                  </label>
+                  <input
+                    id="dateOfBirth"
+                    className={`form-input ${errors.dateOfBirth ? 'error' : ''}`}
+                    type="date"
+                    value={dateOfBirth}
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                  />
+                  {errors.dateOfBirth && <span className="error-message">{errors.dateOfBirth}</span>}
+                </div>
+              </div>
+              <div className="form-group-grid">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="gender">
+                    <FaTransgender /> Genre
+                  </label>
+                  <select
+                    id="gender"
+                    className={`form-input ${errors.gender ? 'error' : ''}`}
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                  >
+                    <option value="">Sélectionner le sexe</option>
+                    <option value="Male">Homme</option>
+                    <option value="Female">Féminin</option>
+                  </select>
+                  {errors.gender && <span className="error-message">{errors.gender}</span>}
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="email">
+                    <FaEnvelope /> Adresse email
+                  </label>
+                  <input
+                    id="email"
+                    className={`form-input ${errors.email ? 'error' : ''}`}
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="votre@email.com"
+                  />
+                  {errors.email && <span className="error-message">{errors.email}</span>}
+                </div>
+              </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label" htmlFor="dateOfBirth">
-                <FaBirthdayCake /> Date de naissance
-              </label>
-              <input
-                id="dateOfBirth"
-                className={`form-input ${errors.dateOfBirth ? 'error' : ''}`}
-                type="date"
-                value={dateOfBirth}
-                onChange={(e) => setDateOfBirth(e.target.value)}
-              />
-              {errors.dateOfBirth && <span className="error-message">{errors.dateOfBirth}</span>}
+            {/* Section Informations Professionnelles */}
+            <div className="form-section professional-info">
+              <h2 className="section-title">
+                <FaBriefcase /> Informations Professionnelles
+              </h2>
+              <div className="form-group-grid-three">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="hospitalName">
+                    <FaHospital /> Nom de l'Hôpital
+                  </label>
+                  <input
+                    id="hospitalName"
+                    className={`form-input ${errors.hospitalName ? 'error' : ''}`}
+                    type="text"
+                    value={hospitalName}
+                    onChange={(e) => setHospitalName(e.target.value)}
+                    placeholder="Nom de l'hôpital"
+                  />
+                  {errors.hospitalName && <span className="error-message">{errors.hospitalName}</span>}
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="hospitalLocation">
+                    <FaMapMarkerAlt /> Localisation
+                  </label>
+                  <input
+                    id="hospitalLocation"
+                    className={`form-input ${errors.hospitalLocation ? 'error' : ''}`}
+                    type="text"
+                    value={hospitalLocation}
+                    onChange={(e) => setHospitalLocation(e.target.value)}
+                    placeholder="Adresse de l'hôpital"
+                  />
+                  {errors.hospitalLocation && <span className="error-message">{errors.hospitalLocation}</span>}
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="hhNumber">
+                    <FaIdCard /> Numéro HH
+                  </label>
+                  <input
+                    id="hhNumber"
+                    className={`form-input ${errors.hhNumber ? 'error' : ''}`}
+                    type="text"
+                    value={hhNumber}
+                    onChange={(e) => sethhNumber(e.target.value)}
+                    placeholder="123456"
+                    maxLength="6"
+                  />
+                  {errors.hhNumber && <span className="error-message">{errors.hhNumber}</span>}
+                </div>
+              </div>
+              <div className="form-group-grid-three">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="specialization">
+                    <FaStethoscope /> Spécialisation
+                  </label>
+                  <select
+                    id="specialization"
+                    className={`form-input ${errors.specialization ? 'error' : ''}`}
+                    value={specialization}
+                    onChange={(e) => setSpecialization(e.target.value)}
+                  >
+                    <option value="">Sélectionner spécialisation</option>
+                    <option value="Cardiology">Cardiologie</option>
+                    <option value="Neurology">Neurologie</option>
+                    <option value="Oncology">Oncologie</option>
+                    <option value="Gynecology">Gynécologie</option>
+                    <option value="Dermatology">Dermatologie</option>
+                    <option value="Ophthalmology">Ophtalmologie</option>
+                    <option value="Psychiatry">Psychiatrie</option>
+                    <option value="Radiology">Radiologie</option>
+                    <option value="Other">Autre</option>
+                  </select>
+                  {errors.specialization && <span className="error-message">{errors.specialization}</span>}
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="department">
+                    <FaProcedures /> Service
+                  </label>
+                  <select
+                    id="department"
+                    className={`form-input ${errors.department ? 'error' : ''}`}
+                    value={department}
+                    onChange={(e) => setDepartment(e.target.value)}
+                  >
+                    <option value="">Sélectionner un service</option>
+                    <option value="Casualty">Blessures</option>
+                    <option value="Surgery">Chirurgie</option>
+                    <option value="Laboratory Services">Laboratoire</option>
+                    <option value="Other">Autre</option>
+                  </select>
+                  {errors.department && <span className="error-message">{errors.department}</span>}
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="designation">
+                    <FaUserTag /> Désignation
+                  </label>
+                  <select
+                    id="designation"
+                    className={`form-input ${errors.designation ? 'error' : ''}`}
+                    value={designation}
+                    onChange={(e) => setDesignation(e.target.value)}
+                  >
+                    <option value="">Sélectionner la désignation</option>
+                    <option value="Doctor">Docteur</option>
+                    <option value="Surgeon">Chirurgien</option>
+                    <option value="Nurse">Infirmier(ère)</option>
+                    <option value="Other">Autre</option>
+                  </select>
+                  {errors.designation && <span className="error-message">{errors.designation}</span>}
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="workExperience">
+                  <FaBriefcase /> Expérience (années)
+                </label>
+                <input
+                  id="workExperience"
+                  className={`form-input ${errors.workExperience ? 'error' : ''}`}
+                  type="number"
+                  value={workExperience}
+                  onChange={(e) => setWorkExperience(e.target.value)}
+                  placeholder="5"
+                  min="0"
+                />
+                {errors.workExperience && <span className="error-message">{errors.workExperience}</span>}
+              </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label" htmlFor="gender">
-                <FaTransgender /> Genre
-              </label>
-              <select
-                id="gender"
-                className={`form-input ${errors.gender ? 'error' : ''}`}
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <option value="">Sélectionner le sexe</option>
-                <option value="Male">Homme</option>
-                <option value="Female">Féminin</option>
-              </select>
-              {errors.gender && <span className="error-message">{errors.gender}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="email">
-                <FaEnvelope /> Adresse email
-              </label>
-              <input
-                id="email"
-                className={`form-input ${errors.email ? 'error' : ''}`}
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="votre@email.com"
-              />
-              {errors.email && <span className="error-message">{errors.email}</span>}
-            </div>
-          </div>
-
-          {/* Section Informations Professionnelles */}
-          <div className="form-section">
-            <h2 className="section-title">
-              <FaBriefcase /> Informations Professionnelles
-            </h2>
-            
-            <div className="form-group">
-              <label className="form-label" htmlFor="hospitalName">
-                <FaHospital /> Nom de l'Hôpital
-              </label>
-              <input
-                id="hospitalName"
-                className={`form-input ${errors.hospitalName ? 'error' : ''}`}
-                type="text"
-                value={hospitalName}
-                onChange={(e) => setHospitalName(e.target.value)}
-                placeholder="Nom de l'hôpital"
-              />
-              {errors.hospitalName && <span className="error-message">{errors.hospitalName}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="hospitalLocation">
-                <FaMapMarkerAlt /> Localisation de l'hôpital
-              </label>
-              <input
-                id="hospitalLocation"
-                className={`form-input ${errors.hospitalLocation ? 'error' : ''}`}
-                type="text"
-                value={hospitalLocation}
-                onChange={(e) => setHospitalLocation(e.target.value)}
-                placeholder="Adresse de l'hôpital"
-              />
-              {errors.hospitalLocation && <span className="error-message">{errors.hospitalLocation}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="hhNumber">
-                <FaIdCard /> Numéro HH
-              </label>
-              <input
-                id="hhNumber"
-                className={`form-input ${errors.hhNumber ? 'error' : ''}`}
-                type="text"
-                value={hhNumber}
-                onChange={(e) => sethhNumber(e.target.value)}
-                placeholder="123456"
-                maxLength="6"
-              />
-              {errors.hhNumber && <span className="error-message">{errors.hhNumber}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="specialization">
-                <FaStethoscope /> Spécialisation
-              </label>
-              <select
-                id="specialization"
-                className={`form-input ${errors.specialization ? 'error' : ''}`}
-                value={specialization}
-                onChange={(e) => setSpecialization(e.target.value)}
-              >
-                <option value="">Sélectionner spécialisation</option>
-                <option value="Cardiology">Cardiologie</option>
-                <option value="Neurology">Neurologie</option>
-                <option value="Oncology">Oncologie</option>
-                <option value="Gynecology">Gynécologie</option>
-                <option value="Dermatology">Dermatologie</option>
-                <option value="Ophthalmology">Ophtalmologie</option>
-                <option value="Psychiatry">Psychiatrie</option>
-                <option value="Radiology">Radiologie</option>
-                <option value="Other">Autre</option>
-              </select>
-              {errors.specialization && <span className="error-message">{errors.specialization}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="department">
-                <FaProcedures /> Service
-              </label>
-              <select
-                id="department"
-                className={`form-input ${errors.department ? 'error' : ''}`}
-                value={department}
-                onChange={(e) => setDepartment(e.target.value)}
-              >
-                <option value="">Sélectionner un service</option>
-                <option value="Casualty">Blessures</option>
-                <option value="Surgery">Chirurgie</option>
-                <option value="Laboratory Services">Laboratoire</option>
-                <option value="Other">Autre</option>
-              </select>
-              {errors.department && <span className="error-message">{errors.department}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="designation">
-                <FaUserTag /> Désignation
-              </label>
-              <select
-                id="designation"
-                className={`form-input ${errors.designation ? 'error' : ''}`}
-                value={designation}
-                onChange={(e) => setDesignation(e.target.value)}
-              >
-                <option value="">Sélectionner la désignation</option>
-                <option value="Doctor">Docteur</option>
-                <option value="Surgeon">Chirurgien</option>
-                <option value="Nurse">Infirmier(ère)</option>
-                <option value="Other">Autre</option>
-              </select>
-              {errors.designation && <span className="error-message">{errors.designation}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="workExperience">
-                <FaBriefcase /> Expérience (années)
-              </label>
-              <input
-                id="workExperience"
-                className={`form-input ${errors.workExperience ? 'error' : ''}`}
-                type="number"
-                value={workExperience}
-                onChange={(e) => setWorkExperience(e.target.value)}
-                placeholder="5"
-                min="0"
-              />
-              {errors.workExperience && <span className="error-message">{errors.workExperience}</span>}
-            </div>
-          </div>
-
-          {/* Section Sécurité */}
-          <div className="form-section">
-            <h2 className="section-title">
-              <FaLock /> Sécurité
-            </h2>
-            
-            <div className="form-group">
-              <label className="form-label" htmlFor="password">
-                <FaLock /> Mot de passe
-              </label>
-              <input
-                id="password"
-                className={`form-input ${errors.password ? 'error' : ''}`}
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Minimum 8 caractères"
-              />
-              {errors.password && <span className="error-message">{errors.password}</span>}
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="confirmPassword">
-                <FaLockOpen /> Confirmer le mot de passe
-              </label>
-              <input
-                id="confirmPassword"
-                className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirmez votre mot de passe"
-              />
-              {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+            {/* Section Sécurité */}
+            <div className="form-section security-info">
+              <h2 className="section-title">
+                <FaLock /> Sécurité
+              </h2>
+              <div className="form-group-grid">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="password">
+                    <FaLock /> Mot de passe
+                  </label>
+                  <input
+                    id="password"
+                    className={`form-input ${errors.password ? 'error' : ''}`}
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Minimum 8 caractères"
+                  />
+                  {errors.password && <span className="error-message">{errors.password}</span>}
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="confirmPassword">
+                    <FaLockOpen /> Confirmer
+                  </label>
+                  <input
+                    id="confirmPassword"
+                    className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirmez votre mot de passe"
+                  />
+                  {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+                </div>
+              </div>
             </div>
           </div>
 

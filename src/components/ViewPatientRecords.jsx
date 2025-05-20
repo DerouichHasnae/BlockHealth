@@ -53,7 +53,7 @@ function ViewPatientRecords() {
 
   return (
     <div>
-      <NavBar_Logout />
+   
       <div className="view-records-container">
   <h2 className="records-title">My Medical Records</h2>
   {error && <p className="error-message">{error}</p>}

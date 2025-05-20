@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
+
 contract PatientRegistration {
     struct Patient {
         address walletAddress;
@@ -122,7 +123,7 @@ contract PatientRegistration {
     function getPatientList(string memory _doctorNumber) public view returns (PatientList[] memory) {
         return Dpermission[_doctorNumber];
     }
-        // ✅ Upload medical record (IPFS hash)
+        //  Upload medical record (IPFS hash)
     function uploadMedicalRecord(string memory _hhNumber, string memory _ipfsHash, string memory _description) external {
         require(isPatientRegistered[_hhNumber], "Patient not registered");
         require(
@@ -141,7 +142,7 @@ contract PatientRegistration {
         emit MedicalRecordUploaded(_hhNumber, _ipfsHash, _description, block.timestamp);
     }
 
-    // ✅ Get all medical records of patient
+    // Get all medical records of patient
     function getMedicalRecords(string memory _hhNumber) external view returns (MedicalRecord[] memory) {
         require(isPatientRegistered[_hhNumber], "Patient not registered");
         return patientRecords[_hhNumber];
@@ -149,7 +150,7 @@ contract PatientRegistration {
     // Liste des patients révoqués pour chaque médecin
 mapping(string => PatientList[]) private revokedPatients;
 
-// 🔴 Supprimer un patient de la liste d'accès du médecin
+// Supprimer un patient de la liste d'accès du médecin
 function revokeAccess(string memory _doctorNumber, string memory _patientNumber) public {
     PatientList[] storage list = Dpermission[_doctorNumber];
     for (uint i = 0; i < list.length; i++) {
@@ -168,7 +169,7 @@ function revokeAccess(string memory _doctorNumber, string memory _patientNumber)
     }
 }
 
-// ✅ Récupérer un patient révoqué (restaurer)
+// Récupérer un patient révoqué (restaurer)
 function restoreAccess(string memory _doctorNumber, string memory _patientNumber) public {
     PatientList[] storage revoked = revokedPatients[_doctorNumber];
     for (uint i = 0; i < revoked.length; i++) {
@@ -187,7 +188,7 @@ function restoreAccess(string memory _doctorNumber, string memory _patientNumber
     }
 }
 
-// ✅ Afficher la liste des patients révoqués
+// Afficher la liste des patients révoqués
 function getRevokedPatients(string memory _doctorNumber) public view returns (PatientList[] memory) {
     return revokedPatients[_doctorNumber];
 }

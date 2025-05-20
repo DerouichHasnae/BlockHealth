@@ -1,176 +1,170 @@
-/* DoctorSpecialtyPage.css */
 
-/* Root container */
-.container {
-  min-height: 100vh;
-  background-color: #f3f4f6;
-  display: flex;
-  justify-content: center;
-  padding: 1.5rem;
-}
 
-/* Main card */
-.card {
-  max-width: 896px;
-  width: 100%;
+/* Conteneur principal */
+.availability-container {
+  max-width: 900px;
+  margin: 100px auto;
+  padding: 24px;
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  font-family: 'Inter', 'Arial', sans-serif;
+  min-height: 400px;
 }
 
-/* Main title */
-.title {
-  font-size: 1.875rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 1.5rem;
-  text-transform: capitalize;
-}
-
-/* Section title */
-.section-title {
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 1rem;
-}
-
-/* Doctor list section */
-.doctor-list {
-  margin-bottom: 2rem;
-}
-
-/* Doctor list item */
-.doctor-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  background-color: #f9fafb;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.doctor-item:hover {
-  background-color: #e0f2fe;
-}
-
-/* Doctor name */
-.doctor-name {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #2563eb;
-}
-
-/* Doctor ID */
-.doctor-id {
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-/* Availability section */
-.availability-section {
-  margin-top: 1.5rem;
-}
-
-/* Availability title */
+/* Titre principal */
 .availability-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
   color: #1f2937;
-  margin-bottom: 1rem;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
-/* Availability block */
-.availability-block {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background-color: #f9fafb;
+/* Message de chargement */
+.loading-message {
+  font-size: 1.2rem;
+  color: #4b5563;
+  text-align: center;
+  padding: 16px;
+  background-color: #f3f4f6;
   border-radius: 6px;
 }
 
-/* Availability date */
-.availability-date {
-  font-size: 1.125rem;
+/* Message d'erreur */
+.error-message {
+  font-size: 1.2rem;
+  color: #b91c1c;
+  text-align: center;
+  padding: 16px;
+  background-color: #fee2e2;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+/* Section des créneaux */
+.availability-creneaux-section {
+  margin-top: 20px;
+}
+
+/* Titre des créneaux (jour et date) */
+.availability-creneaux-title {
+  font-size: 1.5rem;
   font-weight: 600;
   color: #374151;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
+  margin-bottom: 16px;
 }
 
-/* Availability list */
-.availability-list {
-  margin-top: 0.5rem;
+/* Liste des créneaux */
+.availability-creneaux-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
 }
 
-/* Availability slot */
-.availability-slot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem;
-  border-radius: 4px;
-  transition: all 0.3s ease-in-out;
-}
-
-/* Slot time */
-.slot-time {
+/* Élément de la liste des créneaux */
+.availability-creneaux-list-item {
+  padding: 12px;
   font-size: 1rem;
-  display: flex;
-  align-items: center;
-}
-
-/* Available slot */
-.slot-available {
-  color: #16a34a;
+  border-radius: 6px;
+  text-align: center;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.slot-available:hover {
+/* Créneau disponible */
+.availability-creneaux-list-item.available {
+  background-color: #dcfce7;
   color: #15803d;
+  border: 1px solid #15803d;
 }
 
-/* Reserved slot */
-.slot-reserved {
+.availability-creneaux-list-item.available:hover {
+  background-color: #bbf7d0;
+  transform: translateY(-2px);
+}
+
+/* Créneau réservé */
+.availability-creneaux-list-item.reserved {
+  background-color: #f3f4f6;
   color: #6b7280;
-  text-decoration: line-through;
+  border: 1px solid #d1d5db;
   cursor: not-allowed;
 }
 
-/* Slot icon */
-.slot-icon {
-  margin-right: 0.5rem;
-  color: #4b5563;
-}
-
-/* No doctors message */
-.no-doctors {
-  color: #4b5563;
-  font-size: 1rem;
+/* Message si aucun créneau */
+.no-creneaux {
+  font-size: 1.2rem;
+  color: #6b7280;
+  text-align: center;
+  padding: 20px;
+  background-color: #f9fafb;
+  border-radius: 6px;
 }
 
 /* Responsive design */
-@media (max-width: 640px) {
-  .card {
-    padding: 1rem;
+@media (max-width: 768px) {
+  .availability-container {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 20px;
   }
 
-  .title {
-    font-size: 1.5rem;
+  .availability-title {
+    font-size: 1.8rem;
   }
 
-  .doctor-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  .availability-creneaux-title {
+    font-size: 1.4rem;
   }
 
-  .availability-slot {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
+  .availability-creneaux-list {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+  }
+
+  .availability-creneaux-list-item {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .loading-message,
+  .error-message,
+  .no-creneaux {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .availability-container {
+    padding: 16px;
+  }
+
+  .availability-title {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+
+  .availability-creneaux-title {
+    font-size: 1.3rem;
+  }
+
+  .availability-creneaux-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .availability-creneaux-list-item {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .loading-message,
+  .error-message,
+  .no-creneaux {
+    font-size: 1rem;
+    padding: 16px;
   }
 }
