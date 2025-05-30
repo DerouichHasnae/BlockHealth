@@ -2,15 +2,17 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const DoctorList = () => {
-  const { hhNumber } = useParams(); // Récupérer hhNumber
+const DoctorList = ({ onSpecialtyChange }) => {
+  const { hhNumber } = useParams();
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const navigate = useNavigate();
 
   const handleSpecialtyChange = (e) => {
     const spec = e.target.value;
     setSelectedSpecialty(spec);
-    if (spec && hhNumber) {
+    if (onSpecialtyChange) {
+      onSpecialtyChange(spec); // Appeler la fonction passée en prop
+    } else if (spec && hhNumber) {
       navigate(`/medecins/${spec}/${hhNumber}`);
     } else {
       alert("hhNumber manquant. Veuillez vous connecter.");

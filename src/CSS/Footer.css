@@ -1,0 +1,362 @@
+/* Footer.css */
+.footer {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: #ffffff;
+  padding: 4rem 1.5rem 2rem;
+  position: relative;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.footer-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,213.3C960,224,1056,192,1152,165.3C1248,139,1344,117,1392,106.7L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>');
+  background-size: cover;
+  pointer-events: none;
+  animation: wave 10s infinite ease-in-out;
+}
+
+@keyframes wave {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap; /* Prevent wrapping to keep sections horizontal */
+  gap: 2rem;
+  overflow-x: auto; /* Allow horizontal scrolling on small screens */
+  scrollbar-width: thin; /* Firefox: slim scrollbar */
+  scrollbar-color: #60a5fa #1e3a8a; /* Firefox: scrollbar colors */
+}
+
+/* Webkit scrollbar styling */
+.footer-content::-webkit-scrollbar {
+  height: 8px;
+}
+
+.footer-content::-webkit-scrollbar-track {
+  background: #1e3a8a;
+}
+
+.footer-content::-webkit-scrollbar-thumb {
+  background: #60a5fa;
+  border-radius: 4px;
+}
+
+.footer-section {
+  flex: 1; /* Each section takes equal width */
+  min-width: 200px; /* Minimum width to prevent squashing */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-title {
+  font-size: 1.25rem; /* Slightly smaller for compact horizontal layout */
+  font-weight: 700;
+  color: #e0f2fe;
+  margin-bottom: 0.75rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.footer-title:hover {
+  color: #ffffff;
+}
+
+.footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: #60a5fa;
+  transition: width 0.3s ease;
+}
+
+.footer-section:hover .footer-title::after {
+  width: 80px;
+}
+
+.footer-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #bfdbfe;
+}
+
+.social-links {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.social-link {
+  color: #bfdbfe;
+  transition: all 0.3s ease;
+  transform: rotate(0deg);
+}
+
+.social-link:hover {
+  color: #ffffff;
+  transform: rotate(10deg) scale(1.2);
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-link {
+  font-size: 0.9rem;
+  color: #bfdbfe;
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+  padding-left: 0.75rem;
+}
+
+.footer-link::before {
+  content: '→';
+  position: absolute;
+  left: -1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.footer-link:hover::before {
+  opacity: 1;
+}
+
+.footer-contact {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: #bfdbfe;
+}
+
+.contact-icon {
+  color: #60a5fa;
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.contact-item:hover .contact-icon {
+  transform: translateY(-3px);
+}
+
+.contact-link {
+  color: #bfdbfe;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+  color: #ffffff;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.newsletter-input {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  color: #1e3a8a;
+  font-size: 0.85rem;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.newsletter-input:focus {
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
+}
+
+.newsletter-button {
+  padding: 0.6rem 1.2rem;
+  background-color: #60a5fa;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.newsletter-button:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.newsletter-message {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.newsletter-message.success {
+  color: #34d399;
+}
+
+.newsletter-message.error {
+  color: #f87171;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  border-top: 1px solid #3b82f6;
+  padding-top: 1.5rem;
+  font-size: 0.85rem;
+  color: #bfdbfe;
+}
+
+.legal-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.legal-link {
+  color: #bfdbfe;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.legal-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.scroll-to-top {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  background-color: #60a5fa;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  background-color: #2563eb;
+  transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-wrap: nowrap; /* Ensure no wrapping */
+    padding-bottom: 1rem; /* Space for scrollbar */
+  }
+
+  .footer-section {
+    min-width: 180px; /* Slightly smaller for mobile */
+  }
+
+  .footer-title {
+    font-size: 1.1rem;
+  }
+
+  .footer-text, .footer-link, .contact-item, .footer-bottom {
+    font-size: 0.8rem;
+  }
+
+  .newsletter-input, .newsletter-button {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .social-links {
+    gap: 0.5rem;
+  }
+
+  .scroll-to-top {
+    right: 1rem;
+    bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 2rem 1rem;
+  }
+
+  .footer-section {
+    min-width: 160px;
+  }
+
+  .footer-title {
+    font-size: 1rem;
+  }
+
+  .footer-text, .footer-link, .contact-item, .footer-bottom {
+    font-size: 0.75rem;
+  }
+
+  .newsletter-input, .newsletter-button {
+    font-size: 0.75rem;
+  }
+}
+
+/* Ensure footer sticks to bottom */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.footer {
+  flex-shrink: 0;
+}

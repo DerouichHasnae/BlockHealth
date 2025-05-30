@@ -65,41 +65,32 @@ const BrowseRouter = () => {
         <Route path="/" element={<LandingPage_1></LandingPage_1>}></Route>
         <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
         
-        <Route
-          path="/patient_registration"
-          element={<PatientRegistry></PatientRegistry>}
-        ></Route>
+        <Route path="/patient_registration"  element={<PatientRegistry></PatientRegistry>}></Route>
           
-        <Route
-          path="/doctor_registration"
-          element={<DoctorRegistry></DoctorRegistry>}
-        >
+        <Route  path="/doctor_registration"  element={<DoctorRegistry></DoctorRegistry>} >
 
         </Route>
-                  <Route path="/patient/:hhNumber/appointments" element={<PatientAppointments />} />
 
                    <Route path="/doctor/:doctorHhNumber/patient/:patientHhNumber/details" element={<PatientDetails />} />
 
       
         <Route
-          path="/patient_login"
-          element={<PatientLogin></PatientLogin>}
-        ></Route>
-        <Route
-          path="/doctor_login"
-          element={<DoctorLogin></DoctorLogin>}
-        ></Route>
+          path="/patient_login" element={<PatientLogin></PatientLogin>} ></Route>
+        <Route path="/doctor_login" element={<DoctorLogin></DoctorLogin>}  ></Route>
       
         
         <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="/patient/:hhNumber" element={<PatientDashBoard />}></Route>
-        <Route path="/patient/:hhNumber/uploadrecord" element={<UploadRecord />} />
-        <Route path="/patient/:hhNumber/grantpermission" element={<GrantPermission />} />
-       <Route path="/doctors/:hhNumber" element={<DoctorList />} />
-<Route path="/medecins/:specialty/:hhNumber" element={<DoctorSpecialtyPage />} />
 
-   
-        <Route path="/patient/:hhNumber/viewprofile" element={<ViewProfile />} ></Route>
+
+       <Route path="/patient/:hhNumber" element={<PatientDashBoard />} />
+        <Route path="/patient/:hhNumber/viewprofile" element={<PatientDashBoard />} />
+        <Route path="/patient/:hhNumber/viewrecords" element={<PatientDashBoard />} />
+        <Route path="/patient/:hhNumber/uploadrecord" element={<PatientDashBoard />} />
+        <Route path="/patient/:hhNumber/grantpermission" element={<PatientDashBoard />} />
+        <Route path="/doctors/:hhNumber" element={<PatientDashBoard />} />
+        <Route path="/patient/:hhNumber/appointments" element={<PatientDashBoard />} />
+
+         <Route path="/medecins/:specialty/:hhNumber" element={<DoctorSpecialtyPage />} />
 
  
 
@@ -113,24 +104,11 @@ const BrowseRouter = () => {
         
 
 
-        <Route
-          path="/patient/:hhNumber/viewrecords"
-          element={<ViewPatientRecords />}
-        ></Route>
         <Route path="/patient/:hhNumber/view" element={<PatientView />} />
-        
         <Route path="/patient/:hhNumber/prescription" element={<PrescriptionForm/>} />
-
-<Route path="/doctor/viewpatient/:hhNumber" element={<ViewPatientDetails />} />
-
-       
-
-       
-        <Route
-          path="/doctor/:hhNumber/patientlist"
-          element={<ViewPatientList />}
-        ></Route>
-                <Route path="/doctor/revokedpatients/:hhNumber" element={<RevokedPatients />} />
+        <Route path="/doctor/viewpatient/:hhNumber" element={<ViewPatientDetails />} />
+        <Route path="/doctor/:hhNumber/patientlist" element={<ViewPatientList />} ></Route>
+        <Route path="/doctor/revokedpatients/:hhNumber" element={<RevokedPatients />} />
 
        
        

@@ -1,122 +1,163 @@
-/* General Reset */
+/* General container styling */
 .doctor-profile-container {
-  background: rgba(245, 246, 245, 0.082); /* Opacité augmentée pour meilleure lisibilité */
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
   border-radius: 12px;
-  padding: 20px;
-  max-width: 600px;
-  margin: 0 auto;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.5s ease forwards;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Profile Title */
-.profile-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #3D8BFD;
-  text-align: center;
-  margin-bottom: 20px;
+/* Fade-in animation for smooth appearance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Profile Details */
-.profile-details {
+/* Profile header */
+.profile-header {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-/* Detail Item */
+/* Profile image */
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e5e7eb;
+  transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+  ascended: descendant;
+  transform: scale(1.05);
+}
+
+/* Profile title */
+.profile-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Profile details */
+.profile-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
 .detail-item {
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid rgba(61, 139, 253, 0.3); /* Opacité augmentée */
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 }
 
-.detail-item:last-child {
-  border-bottom: none;
+.detail-item:hover {
+  background-color: #f3f4f6;
 }
 
 .detail-label {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  color: #000305; /* Changé à #D3DCE6 */
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .detail-value {
   font-size: 1rem;
-  color: #02244b; /* Changé à #D3DCE6 */
   font-weight: 400;
+  color: #1f2937;
+  margin-top: 0.25rem;
 }
 
-/* Error Message */
-.error-message {
-  text-align: center;
-  color: #D32F2F;
-  font-size: 1rem;
-  padding: 10px;
-  border: 1px solid rgba(211, 47, 47, 0.4); /* Opacité augmentée */
-  border-radius: 6px;
-  background: rgba(211, 47, 47, 0.3); /* Opacité augmentée */
-}
-
-/* Loading Message */
+/* Loading state */
 .profile-loading {
   text-align: center;
-  font-size: 1rem;
-  color: #D3DCE6; /* Changé à #D3DCE6 */
-  padding: 10px;
+  font-size: 1.125rem;
+  color: #6b7280;
+  padding: 2rem;
 }
 
-/* Button Container */
-.text-center {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+/* Error message */
+.error-message {
+  text-align: center;
+  font-size: 1.125rem;
+  color: #dc2626;
+  padding: 2rem;
+  background-color: #fef2f2;
+  border-radius: 8px;
+  margin-bottom: 2rem;
 }
 
-/* Profile Button */
+/* Button styling */
 .profile-button {
-  background: #3D8BFD;
-  color: #D3DCE6; /* Changé à #D3DCE6 */
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
+  background-color: #3b82f6;
+  color: #ffffff;
   font-size: 1rem;
   font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .profile-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(61, 139, 253, 0.5);
+  background-color: #2563eb;
+  transform: translateY(-2px);
 }
 
-/* Responsive Design */
+.profile-button:active {
+  transform: translateY(0);
+}
+
+/* Text center utility */
+.text-center {
+  text-align: center;
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
   .doctor-profile-container {
-    padding: 15px;
-    margin: 0 10px;
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .profile-details {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
   }
 
   .profile-title {
     font-size: 1.5rem;
   }
-
-  .detail-item {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .detail-label,
-  .detail-value {
-    font-size: 0.9rem;
-  }
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }

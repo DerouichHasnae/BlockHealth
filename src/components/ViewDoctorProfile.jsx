@@ -3,6 +3,7 @@ import Web3 from "web3";
 import { useParams } from "react-router-dom";
 import DoctorRegistration from "../build/contracts/DoctorRegistration.json";
 import "../CSS/ViewDoctorProfile.css";
+import med from "../data/images/image.png"; // Assuming you have a med.png image in the images folder
 
 const ViewDoctorProfile = ({ setActiveSection }) => {
   const { hhNumber } = useParams();
@@ -71,7 +72,14 @@ const ViewDoctorProfile = ({ setActiveSection }) => {
 
   return (
     <div className="doctor-profile-container">
-      <h1 className="profile-title">Profil du Médecin</h1>
+      <div className="profile-header">
+        <img
+          src={med}
+          alt="Doctor Profile"
+          className="profile-image"
+        />
+        <h1 className="profile-title">Profil du Médecin</h1>
+      </div>
       {doctorDetails && (
         <div className="profile-details">
           <div className="detail-item">

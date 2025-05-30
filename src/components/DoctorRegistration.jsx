@@ -170,6 +170,8 @@ const DoctorRegistry = () => {
   };
 
   return (
+    <div>
+      <NavBar />
     <div className="doctor-registration-container">
 
       <div className="registration-card">
@@ -437,6 +439,7 @@ const DoctorRegistry = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };

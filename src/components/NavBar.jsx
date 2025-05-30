@@ -1,5 +1,7 @@
 import React from 'react';
 import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
+import { FaUserMd, FaUserInjured, FaStethoscope } from "react-icons/fa";
+import  Footer from "./Footer";
 import "../CSS/NavBar.css";
 import logosvg from "../data/images/logo.png";
 import user from "../data/images/user.svg";
@@ -35,7 +37,7 @@ const NavBar = () => {
       <header className="header" id="header">
         <nav className="nav container">
           <div className="logo">
-            <img className="logo-img" src={logosvg} alt="BlockHealth Logo" />
+             <FaStethoscope className="register-icon" />
             <NavLink to="/" className="nav-logo">
               BlockHealth
             </NavLink>
@@ -244,6 +246,8 @@ const NavBar = () => {
           </section>
         </main>
       )}
+  
+    
     </div>
   );
 };

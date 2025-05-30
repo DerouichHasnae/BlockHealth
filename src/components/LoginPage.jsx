@@ -123,11 +123,12 @@ const LoginPage = () => {
   };
 
   return (
-
+    <div>
+          <NavBar />
     <div className="login-container">
         
- 
       <div className="login-content">
+        
         <h1 className="login-title">Portail Médical</h1>
         {!role ? (
           <>
@@ -207,6 +208,7 @@ const LoginPage = () => {
           </form>
         )}
       </div>
+    </div>
     </div>
   );
 };

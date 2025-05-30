@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import NavBar from "./NavBar";
-
+import Footer from "./Footer"
 
 
 
@@ -16,6 +16,7 @@ function LandingPage() {
   return (
     <div>
         <NavBar></NavBar>
+          <Footer></Footer>
     </div>
   );
 }

@@ -141,7 +141,10 @@ const DoctorDashBoardPage = () => {
       </button>
       <aside className={`dashboard-sidebar ${menuOpen ? "open" : ""}`}>
         <div className="sidebar-header">
-          <h3 className="sidebar-title">Doctor Portal</h3>
+          <h3 className="sidebar-title"></h3>
+          <br />
+          <br />
+          <br />
         </div>
         <ul className="sidebar-menu">
           <li className="menu-item">
@@ -161,7 +164,9 @@ const DoctorDashBoardPage = () => {
               <span className="menu-icon"><FiHome /></span>
               Dashboard
             </Link>
+
           </li>
+          
           <li className="menu-item">
             <Link
               to={isNavigationDisabled ? "#" : `/doctor/${storedHhNumber}/viewdoctorprofile`}

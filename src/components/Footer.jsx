@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInstagram,
@@ -6,118 +6,147 @@ import {
   faLinkedinIn,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope, faMapMarkerAlt, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faMapMarkerAlt, faPhone, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import "../CSS/Footer.css";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState(null);
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(email)) {
+      setNewsletterStatus("success");
+      setEmail("");
+      setTimeout(() => setNewsletterStatus(null), 3000);
+    } else {
+      setNewsletterStatus("error");
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="bg-[#1a237e] text-white pt-16 pb-8 px-6"> {/* Bleu nuit intense */}
-      <div className="container mx-auto">
-        {/* Main Footer Content */}
-        <div className="flex flex-col md:flex-row justify-between gap-8 mb-12">
+    <footer className="footer">
+      <div className="footer-wave"></div>
+      <div className="footer-container">
+        <div className="footer-content">
           {/* About Us */}
-          <div className="w-full md:w-1/4">
-            <h3 className="font-bold text-2xl mb-4 text-blue-100">Global Health Initiative</h3>
-            <p className="mb-4 text-blue-50">
-              We are a non-profit organization dedicated to improving healthcare access and security worldwide through innovation and partnerships.
+          <div className="footer-section about">
+            <h3 className="footer-title">Global Health Initiative</h3>
+            <p className="footer-text">
+              We are a non-profit dedicated to improving healthcare access and security worldwide through blockchain innovation.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-blue-100 hover:text-white transition">
+            <div className="social-links">
+              <a href="https://instagram.com" className="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faInstagram} size="lg" />
               </a>
-              <a href="#" className="text-blue-100 hover:text-white transition">
+              <a href="https://facebook.com" className="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faFacebookF} size="lg" />
               </a>
-              <a href="#" className="text-blue-100 hover:text-white transition">
+              <a href="https://linkedin.com" className="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faLinkedinIn} size="lg" />
               </a>
-              <a href="#" className="text-blue-100 hover:text-white transition">
+              <a href="https://twitter.com" className="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faTwitter} size="lg" />
               </a>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="w-full md:w-1/4">
-            <h3 className="font-bold text-xl mb-4 text-blue-100">Quick Links</h3>
-            <ul className="space-y-2">
+          <div className="footer-section links">
+            <h3 className="footer-title">Quick Links</h3>
+            <ul className="footer-links">
               <li>
-                <a href="#" className="text-blue-50 hover:text-white transition hover:underline">
-                  Our Mission
-                </a>
+                <a href="#" className="footer-link" tabIndex="0">Our Mission</a>
               </li>
               <li>
-                <a href="#" className="text-blue-50 hover:text-white transition hover:underline">
-                  Success Stories
-                </a>
+                <a href="#" className="footer-link" tabIndex="0">Success Stories</a>
               </li>
               <li>
-                <a href="#" className="text-blue-50 hover:text-white transition hover:underline">
-                  Volunteer
-                </a>
+                <a href="#" className="footer-link" tabIndex="0">Volunteer</a>
               </li>
               <li>
-                <a href="#" className="text-blue-50 hover:text-white transition hover:underline">
-                  Annual Report
-                </a>
+                <a href="#" className="footer-link" tabIndex="0">Annual Report</a>
               </li>
             </ul>
           </div>
 
           {/* Programs */}
-          <div className="w-full md:w-1/4">
-            <h3 className="font-bold text-xl mb-4 text-blue-100">Our Programs</h3>
-            <ul className="space-y-2">
+          <div className="footer-section programs">
+            <h3 className="footer-title">Our Programs</h3>
+            <ul className="footer-links">
               <li>
-                <a href="#" className="text-blue-50 hover:text-white transition hover:underline">
-                  Vaccine Access
-                </a>
+                <a href="#" className="footer-link" tabIndex="0">Vaccine Access</a>
               </li>
               <li>
-                <a href="#" className="text-blue-50 hover:text-white transition hover:underline">
-                  Emergency Response
-                </a>
+                <a href="#" className="footer-link" tabIndex="0">Emergency Response</a>
               </li>
               <li>
-                <a href="#" className="text-blue-50 hover:text-white transition hover:underline">
-                  Medical Training
-                </a>
+                <a href="#" className="footer-link" tabIndex="0">Medical Training</a>
               </li>
               <li>
-                <a href="#" className="text-blue-50 hover:text-white transition hover:underline">
-                  Research Grants
-                </a>
+                <a href="#" className="footer-link" tabIndex="0">Research Grants</a>
               </li>
             </ul>
           </div>
 
           {/* Contact Info */}
-          <div className="w-full md:w-1/4">
-            <h3 className="font-bold text-xl mb-4 text-blue-100">Contact Us</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <FontAwesomeIcon icon={faMapMarkerAlt} className="mt-1 mr-3 text-blue-100" />
-                <span className="text-blue-50">123 Health Avenue, Geneva, Switzerland</span>
+          <div className="footer-section contact">
+            <h3 className="footer-title">Contact Us</h3>
+            <ul className="footer-contact">
+              <li className="contact-item">
+                <FontAwesomeIcon icon={faMapMarkerAlt} className="contact-icon" />
+                <span>123 Health Avenue, Geneva, Switzerland</span>
               </li>
-              <li className="flex items-center">
-                <FontAwesomeIcon icon={faPhone} className="mr-3 text-blue-100" />
-                <span className="text-blue-50">+41 22 123 4567</span>
+              <li className="contact-item">
+                <FontAwesomeIcon icon={faPhone} className="contact-icon" />
+                <a href="tel:+41221234567" className="contact-link">+41 22 123 4567</a>
               </li>
-              <li className="flex items-center">
-                <FontAwesomeIcon icon={faEnvelope} className="mr-3 text-blue-100" />
-                <span className="text-blue-50">contact@globalhealth.org</span>
+              <li className="contact-item">
+                <FontAwesomeIcon icon={faEnvelope} className="contact-icon" />
+                <a href="mailto:contact@globalhealth.org" className="contact-link">contact@globalhealth.org</a>
               </li>
             </ul>
+          </div>
+
+          {/* Newsletter Signup */}
+          <div className="footer-section newsletter">
+            <h3 className="footer-title">Stay Updated</h3>
+            <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="newsletter-input"
+                aria-label="Email for newsletter"
+              />
+              <button type="submit" className="newsletter-button">Subscribe</button>
+            </form>
+            {newsletterStatus === "success" && (
+              <p className="newsletter-message success">Subscribed successfully!</p>
+            )}
+            {newsletterStatus === "error" && (
+              <p className="newsletter-message error">Please enter a valid email.</p>
+            )}
           </div>
         </div>
 
         {/* Copyright Section */}
-        <div className="border-t border-blue-400 pt-6 text-center text-blue-100">
+        <div className="footer-bottom">
           <p>© {new Date().getFullYear()} Global Health Initiative. All rights reserved.</p>
-          <p className="mt-2 text-sm">
-            <a href="#" className="hover:underline">Privacy Policy</a> |{" "}
-            <a href="#" className="hover:underline">Terms of Service</a> |{" "}
-            <a href="#" className="hover:underline">Sitemap</a>
-          </p>
+          <div className="legal-links">
+            <a href="#" className="legal-link" tabIndex="0">Privacy Policy</a>
+            <a href="#" className="legal-link" tabIndex="0">Terms of Service</a>
+            <a href="#" className="legal-link" tabIndex="0">Sitemap</a>
+          </div>
+          <button onClick={scrollToTop} className="scroll-to-top" aria-label="Scroll to top">
+            <FontAwesomeIcon icon={faArrowUp} />
+          </button>
         </div>
       </div>
     </footer>
