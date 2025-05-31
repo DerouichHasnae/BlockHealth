@@ -4,10 +4,10 @@ import Web3 from "web3";
 import PatientRegistrationABI from "../build/contracts/PatientRegistration.json";
 import PrescriptionABI from "../build/contracts/Prescription.json";
 import ClinicalObservationABI from "../build/contracts/ClinicalObservation.json";
-import "../CSS/PatientList.css";
+import "../CSS/list.css";
 
 const PatientList = () => {
-  const { hhNumber } = useParams(); // hhNumber du médecin
+  const { hhNumber } = useParams();
   const navigate = useNavigate();
   const [web3, setWeb3] = useState(null);
   const [patientContract, setPatientContract] = useState(null);
@@ -17,7 +17,7 @@ const PatientList = () => {
   const [revokedPatients, setRevokedPatients] = useState([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [showRevoked, setShowRevoked] = useState(false); // État pour afficher/masquer les patients révoqués
+  const [showRevoked, setShowRevoked] = useState(false);
 
   useEffect(() => {
     const initWeb3AndContracts = async () => {
@@ -36,7 +36,6 @@ const PatientList = () => {
 
         const networkId = await web3Instance.eth.net.getId();
 
-        // Initialiser PatientRegistration
         const patientNetwork = PatientRegistrationABI.networks[networkId];
         if (!patientNetwork) {
           setError("Contrat PatientRegistration non déployé sur ce réseau");
@@ -49,7 +48,6 @@ const PatientList = () => {
         );
         setPatientContract(patientInstance);
 
-        // Initialiser Prescription
         const prescriptionNetwork = PrescriptionABI.networks[networkId];
         if (!prescriptionNetwork) {
           setError("Contrat Prescription non déployé sur ce réseau");
@@ -62,7 +60,6 @@ const PatientList = () => {
         );
         setPrescriptionContract(prescriptionInstance);
 
-        // Initialiser ClinicalObservation
         const observationNetwork = ClinicalObservationABI.networks[networkId];
         if (!observationNetwork) {
           setError("Contrat ClinicalObservation non déployé sur ce réseau");
@@ -90,30 +87,24 @@ const PatientList = () => {
       if (!patientContract || !prescriptionContract || !observationContract || !hhNumber) return;
 
       try {
-        // Récupérer les patients avec prescriptions
         const prescriptionPatients = await prescriptionContract.methods
           .getPatientsByDoctor(hhNumber)
           .call();
 
-        // Récupérer les patients avec observations
         const observationPatients = await observationContract.methods
           .getPatientsByDoctor(hhNumber)
           .call();
 
-        // Fusionner et supprimer les doublons
         const relevantPatientHhNumbers = [...new Set([...prescriptionPatients, ...observationPatients])];
 
-        // Récupérer les patients actifs
         const activePatientList = await patientContract.methods
           .getPatientList(hhNumber)
           .call();
 
-        // Récupérer les patients révoqués
         const revokedPatientList = await patientContract.methods
           .getRevokedPatients(hhNumber)
           .call();
 
-        // Filtrer les patients actifs ayant des prescriptions ou observations
         const filteredActivePatients = await Promise.all(
           activePatientList.map(async (patient) => {
             if (relevantPatientHhNumbers.includes(patient.patient_number)) {
@@ -126,7 +117,6 @@ const PatientList = () => {
           })
         );
 
-        // Filtrer les patients révoqués ayant des prescriptions ou observations
         const filteredRevokedPatients = await Promise.all(
           revokedPatientList.map(async (patient) => {
             if (relevantPatientHhNumbers.includes(patient.patient_number)) {
@@ -139,7 +129,6 @@ const PatientList = () => {
           })
         );
 
-        // Supprimer les entrées nulles et mettre à jour l'état
         setActivePatients(filteredActivePatients.filter((p) => p !== null));
         setRevokedPatients(filteredRevokedPatients.filter((p) => p !== null));
       } catch (err) {
@@ -167,7 +156,6 @@ const PatientList = () => {
         .revokeAccess(hhNumber, patientHhNumber)
         .send({ from: accounts[0] });
 
-      // Mettre à jour la liste après suppression
       setActivePatients((prev) => prev.filter((p) => p.hhNumber !== patientHhNumber));
       const patient = activePatients.find((p) => p.hhNumber === patientHhNumber);
       if (patient) {
@@ -191,7 +179,6 @@ const PatientList = () => {
         .restoreAccess(hhNumber, patientHhNumber)
         .send({ from: accounts[0] });
 
-      // Mettre à jour la liste après restauration
       setRevokedPatients((prev) => prev.filter((p) => p.hhNumber !== patientHhNumber));
       const patient = revokedPatients.find((p) => p.hhNumber === patientHhNumber);
       if (patient) {
@@ -204,95 +191,223 @@ const PatientList = () => {
   };
 
   const toggleRevokedPatients = () => {
-    setShowRevoked((prev) => !prev); // Basculer l'affichage des patients révoqués
+    setShowRevoked((prev) => !prev);
   };
 
   return (
-    <div className="patient-list-container">
-      <div className="header-section">
-        <h2 className="patient-list-title">Liste des Patients</h2>
-        <button onClick={toggleRevokedPatients} className="restore-patient-button">
-          {showRevoked ? "Masquer les patients révoqués" : "Restaurer un patient"}
+    <div className="pl-container">
+      <div className="pl-header">
+        <h2 className="pl-title">Liste des Patients</h2>
+        <button
+          onClick={toggleRevokedPatients}
+          className="pl-button pl-btn-toggle"
+          aria-label={showRevoked ? "Masquer les patients révoqués" : "Afficher les patients révoqués"}
+        >
+          <svg
+            className="pl-btn-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <path d="M20 8v6M23 11h-6"></path>
+          </svg>
+          {showRevoked ? "Masquer Révoqués" : "Afficher Révoqués"}
         </button>
       </div>
 
-      {isLoading && <p className="loading-message">Chargement...</p>}
-      {error && <p className="error-message">{error}</p>}
+      {isLoading && (
+        <div className="pl-loading">
+          <svg
+            className="pl-loading-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+          </svg>
+          Chargement...
+        </div>
+      )}
+      {error && <p className="pl-error" aria-live="polite">{error}</p>}
 
       {!isLoading && !error && (
         <>
-          {/* Patients Actifs */}
-          <div className="patient-list-section">
-            <h3 className="section-title">Patients Actifs</h3>
+          <div className="pl-section">
+            <h3 className="pl-subtitle">Patients Actifs</h3>
             {activePatients.length > 0 ? (
-              <table className="patient-table">
-                <thead>
-                  <tr>
-                    <th>Nom du Patient</th>
-                    <th>Numéro HH</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {activePatients.map((patient, index) => (
-                    <tr key={index}>
-                      <td>{patient.name}</td>
-                      <td>{patient.hhNumber}</td>
-                      <td>
-                        <button
-                          onClick={() => handleViewPatient(patient.hhNumber)}
-                          className="view-button"
+              <div className="pl-patient-list" role="list">
+                {activePatients.map((patient, index) => (
+                  <div key={index} className="pl-patient-card" role="listitem">
+                    <div className="pl-avatar">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                      </svg>
+                    </div>
+                    <div className="pl-patient-info">
+                      <p className="pl-patient-name">{patient.name}</p>
+                      <p className="pl-patient-hh">{patient.hhNumber}</p>
+                    </div>
+                    <div className="pl-patient-actions">
+                      <button
+                        onClick={() => handleViewPatient(patient.hhNumber)}
+                        className="pl-button pl-btn-view"
+                        aria-label={`Voir les détails de ${patient.name}`}
+                      >
+                        <svg
+                          className="pl-btn-icon"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
-                          Voir
-                        </button>
-                        <button
-                          onClick={() => handleDeletePatient(patient.hhNumber)}
-                          className="delete-button"
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                          <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        Voir
+                      </button>
+                      <button
+                        onClick={() => handleDeletePatient(patient.hhNumber)}
+                        className="pl-button pl-btn-delete"
+                        aria-label={`Supprimer l'accès de ${patient.name}`}
+                      >
+                        <svg
+                          className="pl-btn-icon"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
-                          Supprimer
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                          <polyline points="3 6 5 6 21 6"></polyline>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          <line x1="10" y1="11" x2="10" y2="17"></line>
+                          <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                        Supprimer
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : (
-              <p>Aucun patient actif trouvé.</p>
+              <div className="pl-no-data">
+                <svg
+                  className="pl-empty-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <p>Aucun patient actif trouvé.</p>
+              </div>
             )}
           </div>
 
-          {/* Patients Révoqués (affiché conditionnellement) */}
           {showRevoked && (
-            <div className="patient-list-section">
-              <h3 className="section-title">Patients Révoqués</h3>
+            <div className="pl-section">
+              <h3 className="pl-subtitle">Patients Révoqués</h3>
               {revokedPatients.length > 0 ? (
-                <table className="patient-table">
-                  <thead>
-                    <tr>
-                      <th>Nom du Patient</th>
-                      <th>Numéro HH</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {revokedPatients.map((patient, index) => (
-                      <tr key={index}>
-                        <td>{patient.name}</td>
-                        <td>{patient.hhNumber}</td>
-                        <td>
-                          <button
-                            onClick={() => handleRestorePatient(patient.hhNumber)}
-                            className="restore-button"
+                <div className="pl-patient-list" role="list">
+                  {revokedPatients.map((patient, index) => (
+                    <div key={index} className="pl-patient-card pl-revoked" role="listitem">
+                      <div className="pl-avatar">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                          <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                      </div>
+                      <div className="pl-patient-info">
+                        <p className="pl-patient-name">{patient.name}</p>
+                        <p className="pl-patient-hh">{patient.hhNumber}</p>
+                      </div>
+                      <div className="pl-patient-actions">
+                        <button
+                          onClick={() => handleRestorePatient(patient.hhNumber)}
+                          className="pl-button pl-btn-restore"
+                          aria-label={`Restaurer l'accès de ${patient.name}`}
+                        >
+                          <svg
+                            className="pl-btn-icon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           >
-                            Restaurer
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                            <path d="M21 3v5h-5"></path>
+                            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                            <path d="M8 16H3v5"></path>
+                          </svg>
+                          Restaurer
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               ) : (
-                <p>Aucun patient révoqué trouvé.</p>
+                <div className="pl-no-data">
+                  <svg
+                    className="pl-empty-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                  <p>Aucun patient révoqué trouvé.</p>
+                </div>
               )}
             </div>
           )}

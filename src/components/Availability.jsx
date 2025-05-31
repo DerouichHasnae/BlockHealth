@@ -18,12 +18,14 @@ function Availability() {
   const [doctorContract, setDoctorContract] = useState(null);
   const [account, setAccount] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const initWeb3 = async () => {
       setIsLoading(true);
       setError("");
+      setSuccess("");
 
       if (!window.ethereum) {
         setError("Veuillez installer MetaMask !");
@@ -89,7 +91,6 @@ function Availability() {
 
     try {
       const result = await contractInstance.methods.getDisponibilites(normalizedSpecialization).call();
-      console.log("Créneaux reçus:", result);
       const creneauxNormalises = result
         .map((c) => ({
           date: Number(c.date),
@@ -105,20 +106,8 @@ function Availability() {
             c.fin - c.debut <= 12 * 3600 &&
             c.debut >= c.date &&
             c.fin <= c.date + 24 * 3600;
-          if (!isValid) {
-            console.log("Créneau invalide ignoré:", {
-              date: c.date,
-              dateUTC: new Date(c.date * 1000).toUTCString(),
-              debut: c.debut,
-              debutUTC: new Date(c.debut * 1000).toUTCString(),
-              fin: c.fin,
-              finUTC: new Date(c.fin * 1000).toUTCString(),
-              dureeConsultation: c.dureeConsultation,
-            });
-          }
           return isValid;
         });
-      console.log("Créneaux normalisés:", creneauxNormalises);
       setCreneaux(creneauxNormalises);
     } catch (error) {
       console.error("Erreur récupération créneaux:", error);
@@ -176,16 +165,6 @@ function Availability() {
         return;
       }
 
-      console.log("Ajout créneau:", {
-        specialization: normalizedSpecialization,
-        date: new Date(dateTimestamp * 1000).toUTCString(),
-        jourSemaine: parseInt(jourSemaine),
-        debut: new Date(timestampDebut * 1000).toUTCString(),
-        fin: new Date(timestampFin * 1000).toUTCString(),
-        dureeConsultation: dureeConsultationSec,
-      });
-
-      // Envoi de la transaction avec Web3.js
       await contract.methods
         .ajouterCreneau(
           normalizedSpecialization,
@@ -195,13 +174,7 @@ function Availability() {
           timestampFin,
           dureeConsultationSec
         )
-        .send({ from: account })
-        .on('receipt', (receipt) => {
-          console.log("Transaction minée:", receipt);
-        })
-        .on('error', (error) => {
-          throw new Error(`Erreur lors de la transaction: ${error.message}`);
-        });
+        .send({ from: account });
 
       await fetchCreneaux(contract);
 
@@ -210,6 +183,8 @@ function Availability() {
       setHeureFin("");
       setDureeConsultation("15");
       setError("");
+      setSuccess("Créneau créé avec succès !");
+      setTimeout(() => setSuccess(""), 3000);
     } catch (error) {
       console.error("Erreur ajout créneau :", error);
       setError(`Erreur lors de la création : ${error.message}`);
@@ -233,75 +208,98 @@ function Availability() {
       <h2 className="availability-title">Définir vos disponibilités - {specialization}</h2>
       <p className="availability-note">Remarque : Les heures sont en UTC.</p>
 
-      {isLoading && <p className="loading-message">Chargement...</p>}
+      {isLoading && <div className="loading-spinner">Chargement...</div>}
       {error && <p className="error-message">{error}</p>}
+      {success && <p className="success-message">{success}</p>}
 
-      <form onSubmit={handleSubmit} className="availability-form">
-        <div>
-          <label>Date (YYYY-MM-DD) :</label>
-          <input type="date" value={date} onChange={handleDateChange} required />
+      <form onSubmit={handleSubmit} className="availability-form" aria-label="Formulaire de création de créneau">
+        <div className="form-grid">
+          <div className="form-group">
+            <label htmlFor="date">Date :</label>
+            <input
+              id="date"
+              type="date"
+              value={date}
+              onChange={handleDateChange}
+              required
+              aria-required="true"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="jourSemaine">Jour de la semaine :</label>
+            <select
+              id="jourSemaine"
+              value={jourSemaine}
+              onChange={(e) => setJourSemaine(e.target.value)}
+              disabled
+              aria-disabled="true"
+            >
+              {joursSemaine.map((jour, index) => (
+                <option key={index} value={index}>{jour}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="heureDebut">Heure début (UTC) :</label>
+            <input
+              id="heureDebut"
+              type="time"
+              value={heureDebut}
+              onChange={(e) => setHeureDebut(e.target.value)}
+              required
+              aria-required="true"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="heureFin">Heure fin (UTC) :</label>
+            <input
+              id="heureFin"
+              type="time"
+              value={heureFin}
+              onChange={(e) => setHeureFin(e.target.value)}
+              required
+              aria-required="true"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="dureeConsultation">Durée consultation (min) :</label>
+            <input
+              id="dureeConsultation"
+              type="number"
+              value={dureeConsultation}
+              onChange={(e) => setDureeConsultation(e.target.value)}
+              min="5"
+              required
+              aria-required="true"
+            />
+          </div>
         </div>
 
-        <div>
-          <label>Jour de la semaine :</label>
-          <select value={jourSemaine} onChange={(e) => setJourSemaine(e.target.value)} disabled>
-            {joursSemaine.map((jour, index) => (
-              <option key={index} value={index}>{jour}</option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label>Heure début (UTC) :</label>
-          <input
-            type="time"
-            value={heureDebut}
-            onChange={(e) => setHeureDebut(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Heure fin (UTC) :</label>
-          <input
-            type="time"
-            value={heureFin}
-            onChange={(e) => setHeureFin(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Durée consultation (minutes) :</label>
-          <input
-            type="number"
-            value={dureeConsultation}
-            onChange={(e) => setDureeConsultation(e.target.value)}
-            min="5"
-            required
-          />
-        </div>
-
-        <button type="submit">Créer le créneau</button>
+        <button type="submit" className="blockhealth-button">Créer le créneau</button>
       </form>
 
       <div className="availability-creneaux-section">
-        <h3 className="availability-creneaux-title">Créneaux disponibles :</h3>
-        <ul className="availability-creneaux-list">
+        <h3 className="availability-creneaux-title">Créneaux disponibles</h3>
+        <ul className="availability-creneaux-list" role="list">
           {creneaux.length === 0 ? (
-            <li className="no-creneaux">Aucun créneau disponible.</li>
+            <li className="no-creneaux blockhealth-card">Aucun créneau disponible.</li>
           ) : (
             creneaux
               .sort((a, b) => a.debut - b.debut)
               .map((creneau, index) => (
-                <li key={index}>
-                  <strong>
-                    {joursSemaine[creneau.jourSemaine]} {formatDate(creneau.date)}
-                  </strong>
+                <li
+                  key={index}
+                  className="blockhealth-card"
+                  role="listitem"
+                  aria-label={`Créneau le ${joursSemaine[creneau.jourSemaine]} ${formatDate(creneau.date)} de ${formatTime(creneau.debut)} à ${formatTime(creneau.fin)}`}
+                >
+                  <strong>{joursSemaine[creneau.jourSemaine]} {formatDate(creneau.date)}</strong>
                   <br />
-                  {`${formatTime(creneau.debut)} - ${formatTime(creneau.fin)} (Consultations de ${
-                    creneau.dureeConsultation / 60
-                  } min)`}
+                  {`${formatTime(creneau.debut)} - ${formatTime(creneau.fin)} (Consultations de ${creneau.dureeConsultation / 60} min)`}
                 </li>
               ))
           )}

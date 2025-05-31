@@ -1,88 +1,388 @@
-/* General Container */
+/* Availability.css */
+
+/* General container styling with gradient and pattern */
 .availability-container {
-  max-width: 800px !important;
-  margin: 0 auto !important;
-  padding: 20px !important;
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  max-width: 960px !important;
+  margin: 2.5rem auto !important;
+  padding: 2.5rem !important;
+  background: linear-gradient(145deg, #ffffff, #f3f4f6) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+  font-family: 'Inter', sans-serif !important;
+  animation: fadeIn 0.6s ease-in-out;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
-/* Title */
-.availability-title {
-  font-size: 24px !important;
-  margin-bottom: 20px !important;
+.availability-container::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 20%) !important;
+  opacity: 0.5 !important;
+  z-index: 0 !important;
 }
 
-/* Form */
-.availability-form {
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Main title with gradient underline */
+.availability-container .availability-title {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: #1f2937 !important;
+  text-align: center !important;
+  margin-bottom: 1rem !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.availability-container .availability-title::after {
+  content: '' !important;
+  display: block !important;
+  width: 100px !important;
+  height: 3px !important;
+  background: linear-gradient(to right, #3b82f6, #2563eb) !important;
+  margin: 0.5rem auto !important;
+}
+
+/* Note text */
+.availability-container .availability-note {
+  text-align: center !important;
+  font-size: 0.95rem !important;
+  color: #6b7280 !important;
+  margin-bottom: 1.5rem !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Loading spinner */
+.availability-container .loading-spinner {
+  text-align: center !important;
+  font-size: 1rem !important;
+  color: #3b82f6 !important;
+  padding: 1.5rem !important;
+  animation: pulse 1.5s infinite;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Error message */
+.availability-container .error-message {
+  text-align: center !important;
+  font-size: 1rem !important;
+  color: #dc2626 !important;
+  background: #fef2f2 !important;
+  padding: 1.25rem !important;
+  border-radius: 10px !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1) !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Success message */
+.availability-container .success-message {
+  text-align: center !important;
+  font-size: 1rem !important;
+  color: #047857 !important;
+  background: #d1fae5 !important;
+  padding: 1.25rem !important;
+  border-radius: 10px !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: 0 2px 8px rgba(4, 120, 87, 0.1) !important;
+  position: relative !important;
+  z-index: 1 !important;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form styling */
+.availability-container .availability-form {
+  background: rgba(255, 255, 255, 0.95) !important;
+  padding: 2rem !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 2rem !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Grid layout for form */
+.availability-container .form-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+/* Form group */
+.availability-container .form-group {
   display: flex !important;
   flex-direction: column !important;
-  gap: 15px !important;
-  margin-bottom: 30px !important;
 }
 
-/* Form Group */
-.availability-form div {
-  display: flex !important;
-  flex-direction: column !important;
+.availability-container .form-group label {
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  color: #1f2937 !important;
+  margin-bottom: 0.5rem !important;
 }
 
-/* Labels */
-.availability-form label {
-  margin-bottom: 5px !important;
+.availability-container .form-group input,
+.availability-container .form-group select {
+  padding: 0.8rem !important;
+  font-size: 1rem !important;
+  background: #f9fafb !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease;
 }
 
-/* Inputs and Selects */
-.availability-form input,
-.availability-form select {
-  padding: 8px !important;
-  font-size: 16px !important;
+.availability-container .form-group input:focus,
+.availability-container .form-group select:focus {
+  outline: none !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
 
-/* Submit Button */
-.availability-form button {
-  padding: 10px !important;
-  background-color: #007bff !important;
-  color: rgb(0, 0, 0) !important;
+.availability-container .form-group select:disabled {
+  background: #e5e7eb !important;
+  cursor: not-allowed !important;
+}
+
+/* BlockHealth button */
+.availability-container .blockhealth-button {
+  display: block !important;
+  padding: 0.85rem 1.75rem !important;
+  background: linear-gradient(90deg, #3b82f6, #2563eb) !important;
+  color: #ffffff !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
   border: none !important;
+  border-radius: 10px !important;
   cursor: pointer !important;
+  transition: all 0.3s ease;
+  position: relative !important;
+  overflow: hidden !important;
+  margin: 0 auto !important;
 }
 
-/* Button Hover */
-.availability-form button:hover {
-  background-color: #0056b3 !important;
+.availability-container .blockhealth-button:hover {
+  background: linear-gradient(90deg, #2563eb, #1d4ed8) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
 }
 
-/* Creneaux Section */
-.availability-creneaux-section {
-  margin-top: 20px !important;
+.availability-container .blockhealth-button:active {
+  transform: translateY(0);
 }
 
-/* Creneaux Title */
-.availability-creneaux-title {
-  font-size: 20px !important;
-  margin-bottom: 10px !important;
+.availability-container .blockhealth-button:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
 }
 
-/* Creneaux List */
-.availability-creneaux-list {
+/* Ripple effect */
+.availability-container .blockhealth-button::after {
+  content: '' !important;
+  position: absolute !important;
+  width: 100px !important;
+  height: 100px !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-radius: 50% !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) scale(0) !important;
+  transition: transform 0.4s ease;
+  pointer-events: none !important;
+}
+
+.availability-container .blockhealth-button:active::after {
+  transform: translate(-50%, -50%) scale(1) !important;
+  transition: transform 0.2s ease;
+}
+
+/* Créneaux section */
+.availability-container .availability-creneaux-section {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.availability-container .availability-creneaux-title {
+  font-size: 1.6rem !important;
+  font-weight: 600 !important;
+  color: #1f2937 !important;
+  margin-bottom: 1.25rem !important;
+  position: relative !important;
+}
+
+.availability-container .availability-creneaux-title::after {
+  content: '' !important;
+  display: block !important;
+  width: 80px !important;
+  height: 2px !important;
+  background: linear-gradient(to right, #3b82f6, #2563eb) !important;
+  margin: 0.5rem 0 !important;
+}
+
+/* Créneaux list */
+.availability-container .availability-creneaux-list {
   list-style: none !important;
   padding: 0 !important;
 }
 
-/* Creneaux List Items */
-.availability-creneaux-list li {
-  padding: 10px !important;
-  border-bottom: 1px solid #020000 !important;
+/* BlockHealth card for créneaux */
+.availability-container .blockhealth-card {
+  background: linear-gradient(135deg, #ffffff, #f9fafb) !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.3s ease;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
-/* No Creneaux Message */
-.no-creneaux {
-  color: #888 !important;
+.availability-container .blockhealth-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12) !important;
+  background: linear-gradient(135deg, #f9fafb, #e5e7eb) !important;
 }
 
-/* Loading and Error Messages */
-.loading-message,
-.error-message {
-  color: #d32f2f !important;
-  font-weight: bold !important;
+.availability-container .blockhealth-card::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 4px !important;
+  height: 100% !important;
+  background: linear-gradient(to bottom, #3b82f6, #2563eb) !important;
+  border-radius: 12px 0 0 12px !important;
+}
+
+.availability-container .blockhealth-card strong {
+  color: #1f2937 !important;
+  font-weight: 600 !important;
+}
+
+.availability-container .blockhealth-card br + span {
+  color: #4b5563 !important;
+}
+
+/* No créneaux message */
+.availability-container .no-creneaux {
+  text-align: center !important;
+  font-size: 1rem !important;
+  color: #6b7280 !important;
+  padding: 1.25rem !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .availability-container {
+    margin: 1.5rem !important;
+    padding: 2rem !important;
+  }
+
+  .availability-container .availability-title {
+    font-size: 1.75rem !important;
+  }
+
+  .availability-container .availability-creneaux-title {
+    font-size: 1.4rem !important;
+  }
+
+  .availability-container .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .availability-container .blockhealth-card {
+    padding: 1rem !important;
+    font-size: 0.95rem !important;
+  }
+
+  .availability-container .blockhealth-button {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.95rem !important;
+  }
+
+  .availability-container .loading-spinner,
+  .availability-container .error-message,
+  .availability-container .success-message,
+  .availability-container .no-creneaux {
+    font-size: 0.95rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .availability-container {
+    margin: 1rem !important;
+    padding: 1.5rem !important;
+  }
+
+  .availability-container .availability-title {
+    font-size: 1.5rem !important;
+  }
+
+  .availability-container .availability-creneaux-title {
+    font-size: 1.2rem !important;
+  }
+
+  .availability-container .form-group label {
+    font-size: 0.9rem !important;
+  }
+
+  .availability-container .form-group input,
+  .availability-container .form-group select {
+    font-size: 0.9rem !important;
+    padding: 0.6rem !important;
+  }
+
+  .availability-container .blockhealth-card {
+    font-size: 0.9rem !important;
+    padding: 0.75rem !important;
+  }
+
+  .availability-container .blockhealth-button {
+    font-size: 0.9rem !important;
+    padding: 0.6rem 1.25rem !important;
+  }
+
+  .availability-container .loading-spinner,
+  .availability-container .error-message,
+  .availability-container .success-message,
+  .availability-container .no-creneaux {
+    font-size: 0.9rem !important;
+  }
 }

@@ -1,170 +1,189 @@
+/* DoctorSpecialtyPage.css */
 
-
-/* Conteneur principal */
-.availability-container {
-  max-width: 900px;
-  margin: 100px auto;
-  padding: 24px;
+/* General container styling */
+.doctor-specialty-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
   background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  font-family: 'Inter', 'Arial', sans-serif;
-  min-height: 400px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Titre principal */
-.availability-title {
-  font-size: 2rem;
-  font-weight: 700;
+/* Fade-in animation for smooth appearance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Specialty title */
+.specialty-title {
+  font-size: 1.75rem;
+  font-weight: 600;
   color: #1f2937;
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1rem;
 }
 
-/* Message de chargement */
-.loading-message {
-  font-size: 1.2rem;
-  color: #4b5563;
-  text-align: center;
-  padding: 16px;
-  background-color: #f3f4f6;
-  border-radius: 6px;
+/* Slots section */
+.slots-section {
+  margin-top: 1.5rem;
 }
 
-/* Message d'erreur */
-.error-message {
-  font-size: 1.2rem;
-  color: #b91c1c;
-  text-align: center;
-  padding: 16px;
-  background-color: #fee2e2;
-  border-radius: 6px;
-  margin-bottom: 20px;
-}
-
-/* Section des créneaux */
-.availability-creneaux-section {
-  margin-top: 20px;
-}
-
-/* Titre des créneaux (jour et date) */
-.availability-creneaux-title {
+.slots-section-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #374151;
-  margin-bottom: 16px;
+  color: #1f2937;
+  margin-bottom: 1rem;
 }
 
-/* Liste des créneaux */
-.availability-creneaux-list {
+/* Day section */
+.slots-day-section {
+  margin-bottom: 1.5rem;
+}
+
+.slots-day-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+/* Slots list */
+.slots-list {
   list-style: none;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 12px;
+  gap: 1rem;
 }
 
-/* Élément de la liste des créneaux */
-.availability-creneaux-list-item {
-  padding: 12px;
-  font-size: 1rem;
-  border-radius: 6px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-/* Créneau disponible */
-.availability-creneaux-list-item.available {
-  background-color: #dcfce7;
-  color: #15803d;
-  border: 1px solid #15803d;
-}
-
-.availability-creneaux-list-item.available:hover {
-  background-color: #bbf7d0;
-  transform: translateY(-2px);
-}
-
-/* Créneau réservé */
-.availability-creneaux-list-item.reserved {
-  background-color: #f3f4f6;
-  color: #6b7280;
+/* Slot item */
+.slot-item {
+  padding: 0.75rem;
+  background-color: #f9fafb;
   border: 1px solid #d1d5db;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1rem;
+  color: #1f2937;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.slot-item.available {
+  background-color: #d1fae5;
+  border-color: #047857;
+}
+
+.slot-item.available:hover {
+  background-color: #a7f3d0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.slot-item.reserved {
+  background-color: #fef2f2;
+  border-color: #dc2626;
+  color: #6b7280;
   cursor: not-allowed;
 }
 
-/* Message si aucun créneau */
-.no-creneaux {
-  font-size: 1.2rem;
-  color: #6b7280;
-  text-align: center;
-  padding: 20px;
-  background-color: #f9fafb;
-  border-radius: 6px;
+.slot-item:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #2563eb;
 }
 
-/* Responsive design */
+.reserved-label {
+  font-size: 0.875rem;
+  color: #dc2626;
+  margin-left: 0.5rem;
+}
+
+/* Loading and error messages */
+.loading-message {
+  text-align: center;
+  font-size: 1rem;
+  color: #6b7280;
+  padding: 1rem;
+}
+
+.error-message {
+  text-align: center;
+  font-size: 1rem;
+  color: #dc2626;
+  background-color: #fef2f2;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* No slots message */
+.no-slots-message {
+  text-align: center;
+  font-size: 1rem;
+  color: #6b7280;
+  padding: 1rem;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .availability-container {
-    max-width: 90%;
-    margin: 20px auto;
-    padding: 20px;
+  .doctor-specialty-container {
+    margin: 1rem;
+    padding: 1.5rem;
   }
 
-  .availability-title {
-    font-size: 1.8rem;
+  .specialty-title {
+    font-size: 1.5rem;
   }
 
-  .availability-creneaux-title {
-    font-size: 1.4rem;
+  .slots-section-title {
+    font-size: 1.25rem;
   }
 
-  .availability-creneaux-list {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 10px;
-  }
-
-  .availability-creneaux-list-item {
-    font-size: 0.95rem;
-    padding: 10px;
-  }
-
-  .loading-message,
-  .error-message,
-  .no-creneaux {
+  .slots-day-title {
     font-size: 1.1rem;
+  }
+
+  .slots-list {
+    grid-template-columns: 1fr;
+  }
+
+  .slot-item {
+    padding: 0.5rem;
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
-  .availability-container {
-    padding: 16px;
+  .specialty-title {
+    font-size: 1.25rem;
   }
 
-  .availability-title {
-    font-size: 1.6rem;
-    margin-bottom: 20px;
+  .slots-section-title {
+    font-size: 1.1rem;
   }
 
-  .availability-creneaux-title {
-    font-size: 1.3rem;
-  }
-
-  .availability-creneaux-list {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .availability-creneaux-list-item {
-    font-size: 0.9rem;
-    padding: 8px;
-  }
-
-  .loading-message,
-  .error-message,
-  .no-creneaux {
+  .slots-day-title {
     font-size: 1rem;
-    padding: 16px;
+  }
+
+  .slot-item {
+    font-size: 0.9rem;
+  }
+
+  .reserved-label {
+    font-size: 0.8rem;
   }
 }

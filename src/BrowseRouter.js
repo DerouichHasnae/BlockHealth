@@ -12,11 +12,9 @@ import DoctorRegistry from "./components/DoctorRegistration";
 import Footer from "./components/Footer";
 import LandingPage_1 from "./components/LandingPage_1";
 import ViewPatientRecords from "./components/ViewPatientRecords";
-import ViewPatientList from "./components/ViewPatientList";
 import ViewProfile from "./components/ViewProfile";
 import ViewDoctorProfile from "./components/ViewDoctorProfile";
 import AboutUs from "./components/AboutPage"; 
-import ViewPatientDetails from "./components/ViewPatientDetails";
 import RevokedPatients from "./components/RevokedPatients";
 import UploadRecord from "./components/UploadRecord";
 import GrantPermission from "./components/GrantPermission";
@@ -106,8 +104,6 @@ const BrowseRouter = () => {
 
         <Route path="/patient/:hhNumber/view" element={<PatientView />} />
         <Route path="/patient/:hhNumber/prescription" element={<PrescriptionForm/>} />
-        <Route path="/doctor/viewpatient/:hhNumber" element={<ViewPatientDetails />} />
-        <Route path="/doctor/:hhNumber/patientlist" element={<ViewPatientList />} ></Route>
         <Route path="/doctor/revokedpatients/:hhNumber" element={<RevokedPatients />} />
 
        

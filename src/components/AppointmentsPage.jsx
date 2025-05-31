@@ -7,7 +7,7 @@ import PatientRegistrationABI from "../build/contracts/PatientRegistration.json"
 import "../CSS/AppointmentsPage.css";
 
 const AppointmentsPage = () => {
-  const { hhNumber } = useParams(); // hhNumber du médecin
+  const { hhNumber } = useParams();
   const navigate = useNavigate();
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
@@ -17,7 +17,7 @@ const AppointmentsPage = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [specialization, setSpecialization] = useState("");
-  const [searchTerm, setSearchTerm] = useState(""); // État pour la barre de recherche
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const initWeb3AndContract = async () => {
@@ -37,7 +37,6 @@ const AppointmentsPage = () => {
 
         const accounts = await web3Instance.eth.getAccounts();
         setAccount(accounts[0]);
-        console.log("Connected account:", accounts[0]);
 
         const networkId = await web3Instance.eth.net.getId();
         const deployedNetwork = AvailabilityABI.networks[networkId];
@@ -52,7 +51,6 @@ const AppointmentsPage = () => {
           deployedNetwork.address
         );
         setContract(contractInstance);
-        console.log("Contract address:", deployedNetwork.address);
 
         const deployedDoctorRegistration = DoctorRegistrationABI.networks[networkId];
         if (!deployedDoctorRegistration) {
@@ -66,7 +64,6 @@ const AppointmentsPage = () => {
         );
 
         const doctorDetails = await doctorInstance.methods.getDoctorDetails(hhNumber).call();
-        console.log("Doctor details:", doctorDetails);
         if (doctorDetails._walletAddress.toLowerCase() !== accounts[0].toLowerCase()) {
           setError("Vous n'êtes pas le propriétaire de ce hhNumber");
           setIsLoading(false);
@@ -87,7 +84,6 @@ const AppointmentsPage = () => {
           dureeConsultation: Number(c.dureeConsultation),
         }));
         setCreneaux(normalizedCreneaux);
-        console.log("Creneaux:", normalizedCreneaux);
       } catch (err) {
         console.error("Erreur initialisation Web3 :", err);
         setError(`Erreur lors de l'initialisation : ${err.message}`);
@@ -106,22 +102,19 @@ const AppointmentsPage = () => {
   }, [contract, account, specialization]);
 
   const fetchReservations = async (contractInstance) => {
-    console.log("Fetching reservations for hhNumber:", hhNumber, "from account:", account);
     try {
       const reservationsData = await contractInstance.methods
         .getReservations(specialization)
         .call({ from: account });
-      console.log("Raw reservations data:", reservationsData);
 
       const normalizedReservations = reservationsData.map((r) => ({
         creneauIndex: Number(r.creneauIndex),
         timestampDebut: Number(r.timestampDebut),
         patient: r.patient,
         patientHhNumber: r.patientHhNumber,
-        status: Number(r.status), // 0: PENDING, 1: CONFIRMED, 2: CANCELLED
+        status: Number(r.status),
       }));
 
-      console.log("Normalized reservations:", normalizedReservations);
       setReservations(normalizedReservations);
     } catch (err) {
       console.error("Erreur récupération réservations :", err);
@@ -135,7 +128,7 @@ const AppointmentsPage = () => {
         .confirmReservation(specialization, timestampDebut)
         .send({ from: account });
       alert("Réservation confirmée avec succès !");
-      fetchReservations(contract); // Rafraîchir les réservations
+      fetchReservations(contract);
     } catch (err) {
       console.error("Erreur confirmation :", err);
       alert("Erreur lors de la confirmation : " + err.message);
@@ -148,7 +141,7 @@ const AppointmentsPage = () => {
         .cancelReservation(specialization, timestampDebut)
         .send({ from: account });
       alert("Réservation annulée avec succès !");
-      fetchReservations(contract); // Rafraîchir les réservations
+      fetchReservations(contract);
     } catch (err) {
       console.error("Erreur annulation :", err);
       alert("Erreur lors de l'annulation : " + err.message);
@@ -163,7 +156,6 @@ const AppointmentsPage = () => {
         PatientRegistrationABI.networks[networkId].address
       );
       const patientDetails = await patientInstance.methods.getPatientDetails(patientHhNumber).call();
-      // Vérifier la permission du médecin
       const isPermitted = await patientInstance.methods
         .isPermissionGranted(patientHhNumber, hhNumber)
         .call();
@@ -171,7 +163,6 @@ const AppointmentsPage = () => {
         alert("Vous n'avez pas la permission d'accéder aux détails de ce patient.");
         return;
       }
-      // Rediriger avec les détails du patient
       navigate(`/patient/${patientHhNumber}/view`, { state: { patientDetails } });
     } catch (err) {
       console.error("Erreur récupération détails patient :", err);
@@ -206,37 +197,98 @@ const AppointmentsPage = () => {
     }
   };
 
-  // Filtrer les réservations en fonction du terme de recherche
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 0:
+        return "ap-status-pending";
+      case 1:
+        return "ap-status-confirmed";
+      case 2:
+        return "ap-status-cancelled";
+      default:
+        return "";
+    }
+  };
+
   const filteredReservations = reservations.filter((reservation) =>
     reservation.patientHhNumber.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="appointments-container">
-      <h2 className="appointments-title">Réservations </h2>
+    <div className="ap-container">
+      <h2 className="ap-title">Réservations</h2>
 
-      {isLoading && <p className="loading-message">Chargement des réservations...</p>}
-      {error && <p className="error-message">{error}</p>}
+      {isLoading && (
+        <div className="ap-loading">
+          <svg
+            className="ap-loading-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+          </svg>
+          Chargement des réservations...
+        </div>
+      )}
+      {error && <p className="ap-error">{error}</p>}
 
       {!isLoading && !error && (
         <>
-          {/* Barre de recherche */}
-          <div className="search-section">
-            <input
-              type="text"
-              placeholder="Rechercher par HH Number du patient..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
+          <div className="ap-search-section">
+            <div className="ap-search-wrapper">
+              <input
+                type="text"
+                placeholder="Rechercher par HH Number du patient..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="ap-search-input"
+                aria-label="Rechercher des réservations par HH Number"
+              />
+              <svg
+                className="ap-search-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
           </div>
 
-          <div className="appointments-list">
-            <h3 className="appointments-subtitle">Liste des réservations :</h3>
+          <div className="ap-list">
+            <h3 className="ap-subtitle">Liste des réservations</h3>
             {filteredReservations.length === 0 ? (
-              <p className="no-reservations">Aucune réservation trouvée.</p>
+              <div className="ap-no-reservations">
+                <svg
+                  className="ap-empty-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <p>Aucune réservation trouvée.</p>
+              </div>
             ) : (
-              <ul>
+              <div className="ap-reservations">
                 {filteredReservations
                   .sort((a, b) => a.timestampDebut - b.timestampDebut)
                   .map((reservation, index) => {
@@ -245,48 +297,75 @@ const AppointmentsPage = () => {
                       reservation.timestampDebut + (creneau.dureeConsultation || 900);
 
                     return (
-                      <li key={index} className="appointment-item">
-                        <strong>
-                          {formatDate(reservation.timestampDebut)} -{" "}
-                          {formatTime(reservation.timestampDebut)} à {formatTime(timestampFin)}
-                        </strong>
-                        <br />
-                        Patient : {reservation.patientHhNumber || "hhNumber non disponible"}
-                        <br />
-                        Statut : {getStatusLabel(reservation.status)}
-                        <br />
-                        Créneau : {creneau.jourSemaine !== undefined ? (
-                          `(${["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][creneau.jourSemaine]} ${formatDate(creneau.debut)} ${formatTime(creneau.debut)}-${formatTime(creneau.fin)})`
-                        ) : (
-                          "Détails du créneau non disponibles"
-                        )}
-                        <br />
-                        {reservation.status === 0 && (
-                          <div className="action-buttons">
-                            <button
-                              onClick={() => confirmReservation(reservation.timestampDebut)}
-                              className="bg-green-500 text-white px-2 py-1 rounded mr-2"
-                            >
-                              Confirmer
-                            </button>
-                            <button
-                              onClick={() => cancelReservation(reservation.timestampDebut)}
-                              className="bg-red-500 text-white px-2 py-1 rounded mr-2"
-                            >
-                              Annuler
-                            </button>
-                          </div>
-                        )}
-                        <button
-                          onClick={() => viewPatientDetails(reservation.patientHhNumber)}
-                          className="bg-blue-500 text-white px-2 py-1 rounded"
-                        >
-                          Voir
-                        </button>
-                      </li>
+                      <div
+                        key={index}
+                        className={`ap-reservation-card ${index % 2 === 0 ? "ap-even" : "ap-odd"}`}
+                        role="listitem"
+                        aria-label={`Réservation pour ${reservation.patientHhNumber}`}
+                      >
+                        <div className="ap-reservation-details">
+                          <p className="ap-reservation-time">
+                            <strong>
+                              {formatDate(reservation.timestampDebut)} -{" "}
+                              {formatTime(reservation.timestampDebut)} à {formatTime(timestampFin)}
+                            </strong>
+                          </p>
+                          <p>
+                            <span className="ap-label">Patient :</span>{" "}
+                            {reservation.patientHhNumber || "hhNumber non disponible"}
+                          </p>
+                          <p>
+                            <span className="ap-label">Statut :</span>{" "}
+                            <span className={`ap-status-badge ${getStatusClass(reservation.status)}`}>
+                              {getStatusLabel(reservation.status)}
+                            </span>
+                          </p>
+                          <p>
+                            <span className="ap-label">Créneau :</span>{" "}
+                            {creneau.jourSemaine !== undefined ? (
+                              `(${
+                                ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][
+                                  creneau.jourSemaine
+                                ]
+                              } ${formatDate(creneau.debut)} ${formatTime(creneau.debut)}-${formatTime(
+                                creneau.fin
+                              )})`
+                            ) : (
+                              "Détails du créneau non disponibles"
+                            )}
+                          </p>
+                        </div>
+                        <div className="ap-reservation-actions">
+                          {reservation.status === 0 && (
+                            <>
+                              <button
+                                onClick={() => confirmReservation(reservation.timestampDebut)}
+                                className="ap-button ap-btn-confirm"
+                                aria-label={`Confirmer la réservation pour ${reservation.patientHhNumber}`}
+                              >
+                                Confirmer
+                              </button>
+                              <button
+                                onClick={() => cancelReservation(reservation.timestampDebut)}
+                                className="ap-button ap-btn-cancel"
+                                aria-label={`Annuler la réservation pour ${reservation.patientHhNumber}`}
+                              >
+                                Annuler
+                              </button>
+                            </>
+                          )}
+                          <button
+                            onClick={() => viewPatientDetails(reservation.patientHhNumber)}
+                            className="ap-button ap-btn-view"
+                            aria-label={`Voir les détails du patient ${reservation.patientHhNumber}`}
+                          >
+                            Voir
+                          </button>
+                        </div>
+                      </div>
                     );
                   })}
-              </ul>
+              </div>
             )}
           </div>
         </>

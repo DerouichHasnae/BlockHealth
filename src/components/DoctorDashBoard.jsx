@@ -113,22 +113,160 @@ const DoctorDashBoardPage = () => {
         return <AppointmentsPage hhNumber={hhNumber || storedHhNumber} />;
       case "dashboard":
       default:
-        return (
-          <div className="dashboard-grid">
-            <div className="dashboard-card">
-              <h3>Activités Récentes</h3>
-              <p>Vos interactions médicales récentes apparaîtront ici.</p>
+       return (
+  <div className="doctor-dashboard-grid">
+    {/* Carte Statistiques */}
+    <div className="doctor-card doctor-card-stats">
+      <div className="doctor-card-header">
+        <h3 className="doctor-card-title">Statistiques du Jour</h3>
+        <span className="doctor-card-badge">Live</span>
+      </div>
+      <div className="doctor-card-content">
+        <div className="stats-grid">
+          <div className="stat-item">
+            <div className="stat-value">12</div>
+            <div className="stat-label">Patients vus</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-value">5</div>
+            <div className="stat-label">Nouveaux</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-value">3</div>
+            <div className="stat-label">Urgences</div>
+          </div>
+        </div>
+        <div className="stat-chart-placeholder"></div>
+      </div>
+    </div>
+
+    {/* Carte Patients en Attente */}
+    <div className="doctor-card doctor-card-waiting">
+      <div className="doctor-card-header">
+        <h3 className="doctor-card-title">Patients en Attente</h3>
+        <span className="doctor-card-badge">3</span>
+      </div>
+      <div className="doctor-card-content">
+        <ul className="patient-waiting-list">
+          <li className="waiting-patient">
+            <div className="patient-avatar">JD</div>
+            <div className="patient-info">
+              <h4>Jean Dupont</h4>
+              <p>Consultation routine</p>
+              <span className="waiting-time">10 min</span>
             </div>
-            <div className="dashboard-card">
-              <h3>Résumé des Patients</h3>
-              <p>Les informations sur vos patients seront affichées ici.</p>
+            <button className="start-consult-btn">Commencer</button>
+          </li>
+          <li className="waiting-patient">
+            <div className="patient-avatar">MS</div>
+            <div className="patient-info">
+              <h4>Marie Smith</h4>
+              <p>Suivi traitement</p>
+              <span className="waiting-time">5 min</span>
             </div>
-            <div className="dashboard-card">
-              <h3>Rendez-vous à Venir</h3>
-              <p>Vos rendez-vous programmés apparaîtront ici.</p>
+            <button className="start-consult-btn">Commencer</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    {/* Carte Agenda */}
+    <div className="doctor-card doctor-card-schedule">
+      <div className="doctor-card-header">
+        <h3 className="doctor-card-title">Agenda du Jour</h3>
+        <button className="doctor-card-action">Voir tout</button>
+      </div>
+      <div className="doctor-card-content">
+        <div className="schedule-timeline">
+          <div className="schedule-item">
+            <div className="schedule-time">09:00</div>
+            <div className="schedule-details">
+              <h4>Consultation - Jean Dupont</h4>
+              <p>Routine check-up</p>
             </div>
           </div>
-        );
+          <div className="schedule-item upcoming">
+            <div className="schedule-time">10:30</div>
+            <div className="schedule-details">
+              <h4>Consultation - Marie Smith</h4>
+              <p>Suivi traitement</p>
+            </div>
+          </div>
+          <div className="schedule-item">
+            <div className="schedule-time">12:00</div>
+            <div className="schedule-details">
+              <h4>Pause déjeuner</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Carte Prescriptions */}
+    <div className="doctor-card doctor-card-prescriptions">
+      <div className="doctor-card-header">
+        <h3 className="doctor-card-title">Prescriptions Récentes</h3>
+        <button className="doctor-card-action">+ Nouvelle</button>
+      </div>
+      <div className="doctor-card-content">
+        <div className="prescription-item">
+          <div className="prescription-med">Paracétamol 500mg</div>
+          <div className="prescription-patient">Pour: Jean Dupont</div>
+          <div className="prescription-date">12/06/2023</div>
+        </div>
+        <div className="prescription-item">
+          <div className="prescription-med">Ibuprofène 200mg</div>
+          <div className="prescription-patient">Pour: Marie Smith</div>
+          <div className="prescription-date">10/06/2023</div>
+        </div>
+      </div>
+    </div>
+
+    {/* Carte Alertes */}
+    <div className="doctor-card doctor-card-alerts">
+      <div className="doctor-card-header">
+        <h3 className="doctor-card-title">Alertes Médicales</h3>
+        <span className="doctor-card-badge">2</span>
+      </div>
+      <div className="doctor-card-content">
+        <div className="alert-item critical">
+          <div className="alert-icon">⚠️</div>
+          <div className="alert-content">
+            <h4>Allergie détectée</h4>
+            <p>Patient: Jean Dupont - Pénicilline</p>
+          </div>
+        </div>
+        <div className="alert-item warning">
+          <div className="alert-icon">ℹ️</div>
+          <div className="alert-content">
+            <h4>Rappel vaccin</h4>
+            <p>Patient: Marie Smith - Tétanos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Carte Messages */}
+    <div className="doctor-card doctor-card-messages">
+      <div className="doctor-card-header">
+        <h3 className="doctor-card-title">Messages Non Lus</h3>
+        <span className="doctor-card-badge">4</span>
+      </div>
+      <div className="doctor-card-content">
+        <div className="message-item">
+          <div className="message-sender">Dr. Martin</div>
+          <div className="message-preview">Ré: Consultation conjointe...</div>
+          <div className="message-time">10:30</div>
+        </div>
+        <div className="message-item">
+          <div className="message-sender">Clinique Lab</div>
+          <div className="message-preview">Résultats d'analyses dispo...</div>
+          <div className="message-time">Hier</div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
     }
   };
 

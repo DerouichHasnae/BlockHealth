@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 import Web3 from "web3";
 import AvailabilityABI from "../build/contracts/Availability.json";
-import "../CSS/DoctorSpecialtyPage.css"; // Assurez-vous d'avoir ce fichier CSS
+import "../CSS/DoctorSpecialtyPage.css";
+
+
 
 const DoctorSpecialtyPage = () => {
-  const { specialty, hhNumber } = useParams(); // Ajout de hhNumber
+  const { specialty, hhNumber } = useParams();
+    const navigate = useNavigate();
   const normalizedSpecialty = specialty ? specialty.toLowerCase() : "";
   const [web3, setWeb3] = useState(null);
   const [availabilityContract, setAvailabilityContract] = useState(null);
@@ -189,16 +192,15 @@ const DoctorSpecialtyPage = () => {
   const joursSemaine = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
 
   return (
-    <div className="availability-container">
-      <h2 className="availability-title">Créneaux disponibles pour {specialty}</h2>
-   
+    <div className="doctor-specialty-container">
+      <h2 className="specialty-title">Créneaux disponibles pour {specialty}</h2>
 
       {isLoading && <p className="loading-message">Chargement...</p>}
       {error && <p className="error-message">{error}</p>}
 
       {disponibilites.length > 0 ? (
-        <div className="availability-creneaux-section">
-          <h3 className="availability-creneaux-title">Créneaux disponibles</h3>
+        <div className="slots-section">
+          <h3 className="slots-section-title">Créneaux disponibles</h3>
           {disponibilites.map((cr, idx) => {
             const start = cr.debut;
             const end = cr.fin;
@@ -225,11 +227,11 @@ const DoctorSpecialtyPage = () => {
             });
 
             return (
-              <div key={idx} className="availability-creneaux-section">
-                <h4 className="availability-creneaux-title">
+              <div key={idx} className="slots-day-section">
+                <h4 className="slots-day-title">
                   {joursSemaine[cr.jourSemaine]} {formatDate(cr.date)} (Consultations de {cr.dureeConsultation / 60} min)
                 </h4>
-                <ul className="availability-creneaux-list">
+                <ul className="slots-list">
                   {slots.map((slot, i) => {
                     const timestampSec = slot.debut;
                     const slotKey = `${normalizedSpecialty}_${timestampSec}`;
@@ -246,11 +248,15 @@ const DoctorSpecialtyPage = () => {
                     return (
                       <li
                         key={i}
-                        className={`availability-creneaux-list-item ${isReserved ? "reserved" : "available"}`}
+                        className={`slot-item ${isReserved ? "reserved" : "available"}`}
                         onClick={() => !isReserved && reserverCreneau(slot.debut)}
+                        role="button"
+                        tabIndex={isReserved ? -1 : 0}
+                        aria-label={isReserved ? `Créneau réservé de ${formatTime(slot.debut)} à ${formatTime(slot.fin)}` : `Réserver créneau de ${formatTime(slot.debut)} à ${formatTime(slot.fin)}`}
+                        onKeyDown={(e) => !isReserved && e.key === "Enter" && reserverCreneau(slot.debut)}
                       >
                         {formatTime(slot.debut)} - {formatTime(slot.fin)}
-                        {isReserved && <span> (Réservé)</span>}
+                        {isReserved && <span className="reserved-label"> (Réservé)</span>}
                       </li>
                     );
                   })}
@@ -260,8 +266,15 @@ const DoctorSpecialtyPage = () => {
           })}
         </div>
       ) : (
-        <p className="no-creneaux">Aucun créneau disponible pour cette spécialité.</p>
+        <p className="no-slots-message">Aucun créneau disponible pour cette spécialité.</p>
       )}
+          <button
+        onClick={() => navigate(`/patient/${hhNumber}`)}
+        className="back-button"
+        aria-label="Retour au tableau de bord"
+      >
+        Retour au Tableau de Bord
+      </button>
     </div>
   );
 };

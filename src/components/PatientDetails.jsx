@@ -6,7 +6,7 @@ import ClinicalObservationABI from "../build/contracts/ClinicalObservation.json"
 import "../CSS/PatientDetails.css";
 
 const PatientDetails = () => {
-  const { doctorHhNumber, patientHhNumber } = useParams(); // doctorHhNumber et patientHhNumber
+  const { doctorHhNumber, patientHhNumber } = useParams();
   const navigate = useNavigate();
   const [web3, setWeb3] = useState(null);
   const [prescriptionContract, setPrescriptionContract] = useState(null);
@@ -33,7 +33,6 @@ const PatientDetails = () => {
 
         const networkId = await web3Instance.eth.net.getId();
 
-        // Initialiser Prescription
         const prescriptionNetwork = PrescriptionABI.networks[networkId];
         if (!prescriptionNetwork) {
           setError("Contrat Prescription non déployé sur ce réseau");
@@ -46,7 +45,6 @@ const PatientDetails = () => {
         );
         setPrescriptionContract(prescriptionInstance);
 
-        // Initialiser ClinicalObservation
         const observationNetwork = ClinicalObservationABI.networks[networkId];
         if (!observationNetwork) {
           setError("Contrat ClinicalObservation non déployé sur ce réseau");
@@ -74,13 +72,11 @@ const PatientDetails = () => {
       if (!prescriptionContract || !observationContract || !patientHhNumber || !doctorHhNumber) return;
 
       try {
-        // Récupérer les prescriptions du patient pour ce médecin
         const prescriptionData = await prescriptionContract.methods
           .getPrescriptionsByDoctor(patientHhNumber, doctorHhNumber)
           .call();
         setPrescriptions(prescriptionData);
 
-        // Récupérer les observations cliniques du patient pour ce médecin
         const observationData = await observationContract.methods
           .getObservationsByDoctor(patientHhNumber, doctorHhNumber)
           .call();
@@ -104,52 +100,121 @@ const PatientDetails = () => {
   };
 
   return (
-    <div className="patient-details-container">
-      <h2 className="patient-details-title">Détails du Patient </h2>
+    <div className="pd-container">
+      <h2 className="pd-title">Détails du Patient</h2>
 
-      {isLoading && <p className="loading-message">Chargement...</p>}
-      {error && <p className="error-message">{error}</p>}
+      {isLoading && (
+        <div className="pd-loading">
+          <svg
+            className="pd-loading-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+          </svg>
+          Chargement...
+        </div>
+      )}
+      {error && <p className="pd-error" aria-live="polite">{error}</p>}
 
       {!isLoading && !error && (
         <>
-          <div className="prescriptions-section">
-            <h3>Prescriptions</h3>
+          <div className="pd-prescriptions-section">
+            <h3 className="pd-subtitle">Prescriptions</h3>
             {prescriptions.length > 0 ? (
-              <ul className="prescription-list">
+              <div className="pd-prescription-list" role="list">
                 {prescriptions.map((prescription, index) => (
-                  <li key={index} className="prescription-item">
-                    <p><strong>Médicament :</strong> {prescription.medication}</p>
-                    <p><strong>Doses par jour :</strong> {prescription.dosesPerDay}</p>
-                    <p><strong>Horaires :</strong> {prescription.intakeTimes.join(", ")}</p>
-                    <p><strong>Durée (jours) :</strong> {prescription.durationDays}</p>
-                    <p><strong>Date :</strong> {formatDate(prescription.timestamp)}</p>
-                  </li>
+                  <div key={index} className="pd-prescription-card" role="listitem">
+                    <p><span className="pd-label">Médicament :</span> {prescription.medication}</p>
+                    <p><span className="pd-label">Doses par jour :</span> {prescription.dosesPerDay}</p>
+                    <p><span className="pd-label">Horaires :</span> {prescription.intakeTimes.join(", ")}</p>
+                    <p><span className="pd-label">Durée (jours) :</span> {prescription.durationDays}</p>
+                    <p><span className="pd-label">Date :</span> {formatDate(prescription.timestamp)}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
-              <p>Aucune prescription trouvée.</p>
+              <div className="pd-no-data">
+                <svg
+                  className="pd-empty-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <p>Aucune prescription trouvée.</p>
+              </div>
             )}
           </div>
 
-          <div className="observations-section">
-            <h3>Observations Cliniques</h3>
+          <div className="pd-observations-section">
+            <h3 className="pd-subtitle">Observations Cliniques</h3>
             {observations.length > 0 ? (
-              <ul className="observation-list">
+              <div className="pd-observation-list" role="list">
                 {observations.map((observation, index) => (
-                  <li key={index} className="observation-item">
-                    <p><strong>Description :</strong> {observation.description}</p>
-                    <p><strong>Date :</strong> {formatDate(observation.timestamp)}</p>
-                  </li>
+                  <div key={index} className="pd-observation-card" role="listitem">
+                    <p><span className="pd-label">Description :</span> {observation.description}</p>
+                    <p><span className="pd-label">Date :</span> {formatDate(observation.timestamp)}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
-              <p>Aucune observation clinique trouvée.</p>
+              <div className="pd-no-data">
+                <svg
+                  className="pd-empty-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <p>Aucune observation clinique trouvée.</p>
+              </div>
             )}
           </div>
 
-          <div className="action-buttons">
-            <button onClick={handleBack} className="back-button">
-              Retour à la liste
+          <div className="pd-actions">
+            <button
+              onClick={handleBack}
+              className="pd-button pd-btn-back"
+              aria-label="Retour à la liste des patients"
+            >
+              <svg
+                className="pd-btn-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Retour à la Liste
             </button>
           </div>
         </>

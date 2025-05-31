@@ -1,6 +1,376 @@
 /* Importation de la police Inter pour une apparence futuriste */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* ===== STRUCTURE PRINCIPALE ===== */
+.patient-dashboard-container {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding: 2rem;
+}
 
+.patient-main-content {
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+/* ===== GRILLE DES CARTES ===== */
+.patient-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.patient-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Prend toute la hauteur disponible */
+  display: flex;
+  flex-direction: column;
+}
+
+.patient-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== EN-TÊTE DES CARTES ===== */
+.patient-card-header {
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+.patient-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.patient-card-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* ===== CORPS DES CARTES ===== */
+.patient-card-body {
+  padding: 1.5rem;
+    flex: 1; /* Permet au corps de prendre l'espace restant */
+  overflow-y: auto; 
+}
+
+/* ===== CARTE ACTIONS ===== */
+.patient-card-actions {
+  grid-row: span 2;
+}
+
+.patient-action-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.patient-action-icon {
+  margin-right: 1rem;
+  font-size: 1.25rem;
+}
+
+.patient-primary-action {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+}
+
+.patient-secondary-action {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+.patient-emergency-action {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.patient-action-btn:hover {
+  transform: translateX(5px);
+}
+
+/* ===== CARTE TRAITEMENTS ===== */
+.patient-treatment-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.treatment-badge {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 1rem;
+}
+
+.treatment-info h4 {
+  font-size: 1rem;
+  margin: 0 0 0.25rem 0;
+  color: #1e293b;
+}
+
+.treatment-info p {
+  font-size: 0.875rem;
+  margin: 0;
+  color: #64748b;
+}
+
+.treatment-status {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-left: auto;
+}
+
+.treatment-status.active {
+  background-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.treatment-status.inactive {
+  background-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+/* ===== CARTE RAPPELS ===== */
+.patient-reminder-timeline {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.timeline-badge {
+  position: absolute;
+  left: -1.75rem;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.75rem;
+}
+
+.timeline-badge.medical {
+  background-color: #8b5cf6;
+}
+
+.timeline-badge.medication {
+  background-color: #ec4899;
+}
+
+.timeline-content {
+  background: #f8fafc;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.timeline-content h4 {
+  font-size: 0.95rem;
+  margin: 0 0 0.25rem 0;
+  color: #1e293b;
+}
+
+.timeline-content p {
+  font-size: 0.875rem;
+  margin: 0 0 0.25rem 0;
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.timeline-location, .timeline-medication {
+  font-size: 0.75rem;
+  color: #64748b;
+  display: block;
+}
+
+/* ===== CARTE CONTACTS ===== */
+.contact-card {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+}
+
+.contact-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 1rem;
+  background-size: cover;
+  background-position: center;
+}
+
+.contact-avatar.doctor {
+  background-color: #a5b4fc;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"/></svg>');
+}
+
+.contact-avatar.pharmacy {
+  background-color: #86efac;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm-1 15a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1z"/><path d="M12 8v8m-4-4h8"/></svg>');
+}
+
+.contact-details h4 {
+  font-size: 1rem;
+  margin: 0 0 0.25rem 0;
+  color: #1e293b;
+}
+
+.contact-details p {
+  font-size: 0.875rem;
+  margin: 0 0 0.25rem 0;
+  color: #64748b;
+}
+
+.contact-details a {
+  font-size: 0.875rem;
+  color: #3b82f6;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contact-details a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* ===== CARTE DOCUMENTS ===== */
+.document-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.document-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.document-icon {
+  width: 50px;
+  height: 60px;
+  margin-bottom: 0.5rem;
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0.25rem;
+}
+
+.document-icon.prescription {
+  background-color: #c7d2fe;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234f46e5"><path d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm-1 15a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1z"/><path d="M12 8v8m-4-4h8"/></svg>');
+}
+
+.document-icon.report {
+  background-color: #bae6fd;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230ea5e9"><path d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm-1 15a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1z"/><path d="M9 10h1m-1 4h1m4-4h1m-1 4h1m-5-1h4"/></svg>');
+}
+
+.document-icon.scan {
+  background-color: #fbcfe8;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23db2777"><path d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm-1 15a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1z"/><path d="M9 9h6v6H9z"/></svg>');
+}
+
+.document-thumb span {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-align: center;
+}
+
+/* ===== CARTE SANTÉ ===== */
+.health-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.metric-card {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3b82f6;
+  margin-bottom: 0.25rem;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .patient-cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .patient-dashboard-container {
+    padding: 1rem;
+  }
+  
+  .health-metrics, .document-thumbnails {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .patient-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .health-metrics, .document-thumbnails {
+    grid-template-columns: 1fr;
+  }
+}
 /* Conteneur principal */
 .dashboard-container {
   display: flex;
@@ -558,3 +928,4 @@
     padding: 8px;
   }
 }
+

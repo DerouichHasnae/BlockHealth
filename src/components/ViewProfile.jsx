@@ -12,6 +12,7 @@ const ViewProfile = () => {
   const [contract, setContract] = useState(null);
   const [patientDetails, setPatientDetails] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const init = async () => {
@@ -33,9 +34,12 @@ const ViewProfile = () => {
         } catch (error) {
           console.error("Erreur d'initialisation de Web3 :", error);
           setError("Erreur de connexion à la blockchain");
+        } finally {
+          setIsLoading(false);
         }
       } else {
         setError("Veuillez installer l'extension MetaMask");
+        setIsLoading(false);
       }
     };
 
@@ -52,6 +56,8 @@ const ViewProfile = () => {
       } catch (error) {
         console.error("Erreur lors du chargement des détails du patient :", error);
         setError("Erreur de chargement des données du patient");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -62,60 +68,69 @@ const ViewProfile = () => {
     navigate(`/patient/${hhNumber}`); // Navigate back to dashboard
   };
 
+  if (isLoading) {
+    return (
+      <div className="doctor-profile-container">
+        <p className="profile-loading">Chargement des données du patient...</p>
+      </div>
+    );
+  }
+
   if (error) {
     return (
-      <div className="profile-container">
+      <div className="doctor-profile-container">
         <p className="error-message">{error}</p>
+        <div className="text-center">
+          <button className="profile-button" onClick={handleClose}>
+            Retour
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="profile-container">
-      <div className="profile-card">
+    <div className="doctor-profile-container">
+      <div className="profile-header">
+        <img
+          src={defaultAvatar}
+          alt="Patient Profile"
+          className="profile-image"
+        />
         <h1 className="profile-title">Profil Patient</h1>
-        {patientDetails ? (
-          <div className="profile-content">
-            <img
-              src={defaultAvatar}
-              alt="Patient Avatar"
-              className="profile-avatar"
-            />
-            <div className="profile-details">
-              <div className="profile-detail">
-                <span className="profile-detail-label">Nom :</span>
-                <span className="profile-detail-value">{patientDetails.name}</span>
-              </div>
-              <div className="profile-detail">
-                <span className="profile-detail-label">Date de naissance :</span>
-                <span className="profile-detail-value">{patientDetails.dateOfBirth}</span>
-              </div>
-              <div className="profile-detail">
-                <span className="profile-detail-label">Genre :</span>
-                <span className="profile-detail-value">{patientDetails.gender}</span>
-              </div>
-              <div className="profile-detail">
-                <span className="profile-detail-label">Groupe sanguin :</span>
-                <span className="profile-detail-value">{patientDetails.bloodGroup}</span>
-              </div>
-              <div className="profile-detail">
-                <span className="profile-detail-label">Adresse :</span>
-                <span className="profile-detail-value">{patientDetails.homeAddress}</span>
-              </div>
-              <div className="profile-detail">
-                <span className="profile-detail-label">Email :</span>
-                <span className="profile-detail-value">{patientDetails.email}</span>
-              </div>
-            </div>
-            <div className="profile-button-container">
-              <button className="profile-close-btn" onClick={handleClose}>
-                Fermer
-              </button>
-            </div>
+      </div>
+      {patientDetails && (
+        <div className="profile-details">
+          <div className="detail-item">
+            <span className="detail-label">Nom :</span>
+            <span className="detail-value">{patientDetails.name}</span>
           </div>
-        ) : (
-          <p className="profile-loading">Chargement des données du patient...</p>
-        )}
+          <div className="detail-item">
+            <span className="detail-label">Date de naissance :</span>
+            <span className="detail-value">{patientDetails.dateOfBirth}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Genre :</span>
+            <span className="detail-value">{patientDetails.gender}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Groupe sanguin :</span>
+            <span className="detail-value">{patientDetails.bloodGroup}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Adresse :</span>
+            <span className="detail-value">{patientDetails.homeAddress}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Email :</span>
+            <span className="detail-value">{patientDetails.email}</span>
+          </div>
+        </div>
+      )}
+      <div className="text-center">
+        <button className="profile-button" onClick={handleClose}>
+          Fermer
+        </button>
       </div>
     </div>
   );

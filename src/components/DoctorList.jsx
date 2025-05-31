@@ -1,6 +1,6 @@
-// src/components/DoctorList.jsx
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import "../CSS/DoctorList.css";
 
 const DoctorList = ({ onSpecialtyChange }) => {
   const { hhNumber } = useParams();
@@ -11,7 +11,7 @@ const DoctorList = ({ onSpecialtyChange }) => {
     const spec = e.target.value;
     setSelectedSpecialty(spec);
     if (onSpecialtyChange) {
-      onSpecialtyChange(spec); // Appeler la fonction passée en prop
+      onSpecialtyChange(spec); // Call the passed prop function
     } else if (spec && hhNumber) {
       navigate(`/medecins/${spec}/${hhNumber}`);
     } else {
@@ -20,12 +20,13 @@ const DoctorList = ({ onSpecialtyChange }) => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-xl font-bold mb-4">Sélectionner une spécialité</h1>
+    <div className="doctor-list-container">
+      <h1 className="doctor-list-title">Sélectionner une spécialité</h1>
       <select
-        className="border p-2 w-full mb-6"
+        className="select-input"
         value={selectedSpecialty}
         onChange={handleSpecialtyChange}
+        aria-label="Sélectionner une spécialité médicale"
       >
         <option value="">Sélectionner spécialisation</option>
         <option value="Cardiology">Cardiologie</option>

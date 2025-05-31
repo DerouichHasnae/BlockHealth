@@ -1,75 +1,234 @@
-.appointments-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f4f7fa;
+/* PatientAppointments.css - Version avec bouton aligné à droite */
+
+/* STRUCTURE PRINCIPALE */
+.patient-appointments-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* TITRES */
 .appointments-title {
-  font-size: 2rem;
-  color: #2c3e50;
-  margin-bottom: 20px;
+  color: #1e3a8a;
+  text-align: center;
+  font-size: 2.4rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #3b82f6;
+  font-weight: 600;
 }
 
-.error-message {
-  background-color: #ffebee;
-  color: #c62828;
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+/* SECTION RENDEZ-VOUS AVEC BOUTON ALIGNÉ À DROITE */
+.appointments-section {
+  position: relative;
+  margin-bottom: 3rem;
 }
 
-.appointments-section,
+.appointments-section .section-title {
+  display: inline-block;
+  color: #2563eb;
+  font-size: 1.6rem;
+  margin: 0 0 1.5rem 0;
+  padding-left: 1.2rem;
+}
+
+.appointments-section .back-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: #1e40af;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+}
+
+/* AUTRES SECTIONS */
 .prescriptions-section,
 .observations-section {
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 }
 
-.appointments-section h2,
-.prescriptions-section h2,
-.observations-section h2 {
-  font-size: 1.5rem;
-  color: #34495e;
-  margin-bottom: 15px;
+.section-title {
+  color: #2563eb;
+  font-size: 1.6rem;
+  margin: 2rem 0 1.5rem 0;
+  position: relative;
+  padding-left: 1.2rem;
 }
 
-.appointments-list,
-.prescriptions-list,
-.observations-list {
-  list-style: none;
-  padding: 0;
+.section-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 70%;
+  width: 5px;
+  background: #3b82f6;
+  border-radius: 3px;
 }
 
+/* CARTES & LISTES */
 .appointment-item,
 .prescription-item,
 .observation-item {
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 10px;
+  padding: 1.8rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+  border: 1px solid #e0e7ff;
+  transition: all 0.25s ease;
 }
 
-.appointment-item p,
-.prescription-item p,
-.observation-item p {
-  margin: 5px 0;
-  font-size: 0.95rem;
-  color: #555;
+.appointment-item:hover,
+.prescription-item:hover,
+.observation-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.15);
+  border-color: #bfdbfe;
 }
 
-.back-button {
-  background-color: #2c3e50;
-  color: #ffffff;
-  padding: 10px 20px;
+/* BOUTONS */
+.blockhealth-button {
+  background-color: #2563eb;
+  color: white;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
   font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.back-button:hover {
-  background-color: #34495e;
+.blockhealth-button:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+}
+
+.view-button {
+  background-color: #3b82f6;
+  min-width: 220px;
+}
+
+.close-button {
+  background-color: #64748b;
+  margin-top: 2rem;
+}
+
+/* MODALES */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(230, 234, 245, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  max-width: 800px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(30, 58, 138, 0.2);
+  border-top: 6px solid #3b82f6;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ELEMENTS D'ETAT */
+[aria-label*="En attente"] {
+  border-left: 4px solid #93c5fd;
+}
+
+[aria-label*="Confirmé"] {
+  border-left: 4px solid #60a5fa;
+}
+
+[aria-label*="Annulé"] {
+  border-left: 4px solid #94a3b8;
+}
+
+/* MESSAGES */
+.no-data-message {
+  color: #64748b;
+  text-align: center;
+  padding: 2rem;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 2rem;
+  color: #3b82f6;
+  font-size: 1.2rem;
+}
+
+.error-message {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .patient-appointments-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .appointments-title {
+    font-size: 2rem;
+  }
+  
+  .appointments-section .back-button {
+    position: relative;
+    right: auto;
+    top: auto;
+    display: block;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .modal-content {
+    padding: 1.8rem;
+    width: 95%;
+  }
+  
+  .blockhealth-button {
+    width: 100%;
+    margin: 0.8rem 0;
+  }
 }

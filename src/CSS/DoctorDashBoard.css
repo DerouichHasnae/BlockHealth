@@ -214,7 +214,7 @@
 /* En-tête */
 .dashboard-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   animation: fadeIn 0.6s ease;
 }
 
@@ -427,5 +427,299 @@
 
   .sidebar-toggle .icon {
     font-size: 1.3rem;
+  }
+}
+/* ==================== */
+/* DOCTOR DASHBOARD CSS */
+/* ==================== */
+
+.doctor-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+  padding: 20px;
+}
+
+.doctor-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.doctor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.doctor-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+  color: white;
+}
+
+.doctor-card-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.doctor-card-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.doctor-card-action {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doctor-card-action:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.doctor-card-content {
+  padding: 20px;
+}
+
+/* Carte Statistiques */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 15px;
+  background: rgba(58, 123, 213, 0.1);
+  border-radius: 8px;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #3a7bd5;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.stat-chart-placeholder {
+  height: 100px;
+  background: rgba(58, 123, 213, 0.05);
+  border-radius: 8px;
+  border: 1px dashed rgba(58, 123, 213, 0.3);
+}
+
+/* Carte Patients en Attente */
+.patient-waiting-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.waiting-patient {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.patient-avatar {
+  width: 40px;
+  height: 40px;
+  background: #3a7bd5;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-right: 15px;
+}
+
+.patient-info {
+  flex: 1;
+}
+
+.patient-info h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.patient-info p {
+  margin: 3px 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.waiting-time {
+  font-size: 0.8rem;
+  color: #ff7e5f;
+  font-weight: 600;
+}
+
+.start-consult-btn {
+  background: #3a7bd5;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.start-consult-btn:hover {
+  background: #2a6bc5;
+}
+
+/* Carte Agenda */
+.schedule-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.schedule-item {
+  display: flex;
+  padding: 10px 0;
+}
+
+.schedule-item.upcoming {
+  background: rgba(58, 123, 213, 0.05);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 0 -10px;
+}
+
+.schedule-time {
+  width: 60px;
+  font-weight: 600;
+  color: #3a7bd5;
+}
+
+.schedule-details {
+  flex: 1;
+}
+
+.schedule-details h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.schedule-details p {
+  margin: 3px 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Carte Prescriptions */
+.prescription-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.prescription-med {
+  font-weight: 600;
+  color: #3a7bd5;
+}
+
+.prescription-patient, .prescription-date {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 3px;
+}
+
+/* Carte Alertes */
+.alert-item {
+  display: flex;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+  margin-right: 15px;
+}
+
+.alert-content h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.alert-content p {
+  margin: 3px 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.alert-item.critical {
+  background: rgba(255, 71, 71, 0.05);
+  border-left: 3px solid #ff4747;
+  padding-left: 10px;
+}
+
+.alert-item.warning {
+  background: rgba(255, 193, 7, 0.05);
+  border-left: 3px solid #ffc107;
+  padding-left: 10px;
+}
+
+/* Carte Messages */
+.message-item {
+  display: flex;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.message-sender {
+  width: 120px;
+  font-weight: 600;
+  color: #3a7bd5;
+}
+
+.message-preview {
+  flex: 1;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.message-time {
+  font-size: 0.8rem;
+  color: #999;
+  margin-left: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .doctor-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
 }

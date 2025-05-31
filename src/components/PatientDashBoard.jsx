@@ -195,22 +195,167 @@ const PatientDashBoard = () => {
         return <PatientAppointments hhNumber={hhNumber || storedHhNumber} />;
       case "dashboard":
       default:
-        return (
-          <div className="dashboard-grid">
-            <div className="dashboard-card">
-              <h3>Activités Récentes</h3>
-              <p>Vos interactions médicales récentes apparaîtront ici.</p>
+return (
+  <div className="patient-dashboard-container">
+   
+
+    {/* Contenu principal */}
+    <main className="patient-main-content">
+      {/* Grille des cartes patient */}
+      <div className="patient-cards-grid">
+        {/* Carte Actions */}
+        <div className="patient-card patient-card-actions">
+          <div className="patient-card-header">
+            <h3 className="patient-card-title">Accès Rapide</h3>
+            <div className="patient-card-decoration"></div>
+          </div>
+          <div className="patient-card-body">
+            <button className="patient-action-btn patient-primary-action">
+              <span className="patient-action-icon">📅</span>
+              <span>Prendre Rendez-vous</span>
+            </button>
+            <button className="patient-action-btn patient-secondary-action">
+              <span className="patient-action-icon">📝</span>
+              <span>Mes Ordonnances</span>
+            </button>
+            <button className="patient-action-btn patient-emergency-action">
+              <span className="patient-action-icon">🆘</span>
+              <span>Urgences</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Carte Traitements */}
+        <div className="patient-card patient-card-treatments">
+          <div className="patient-card-header">
+            <h3 className="patient-card-title">Mes Traitements</h3>
+            <div className="patient-card-decoration"></div>
+          </div>
+          <div className="patient-card-body">
+            <div className="patient-treatment-item">
+              <div className="treatment-badge">1</div>
+              <div className="treatment-info">
+                <h4>Paracétamol</h4>
+                <p>500mg - Matin et soir</p>
+              </div>
+              <div className="treatment-status active"></div>
             </div>
-            <div className="dashboard-card">
-              <h3>Résumé de Santé</h3>
-              <p>Les métriques clés de santé seront affichées ici.</p>
-            </div>
-            <div className="dashboard-card">
-              <h3>Rendez-vous à Venir</h3>
-              <p>Vos rendez-vous programmés apparaîtront ici.</p>
+            <div className="patient-treatment-item">
+              <div className="treatment-badge">2</div>
+              <div className="treatment-info">
+                <h4>Ibuprofène</h4>
+                <p>200mg - Si douleur</p>
+              </div>
+              <div className="treatment-status inactive"></div>
             </div>
           </div>
-        );
+        </div>
+
+        {/* Carte Rappels */}
+        <div className="patient-card patient-card-reminders">
+          <div className="patient-card-header">
+            <h3 className="patient-card-title">Mes Rappels</h3>
+            <div className="patient-card-decoration"></div>
+          </div>
+          <div className="patient-card-body">
+            <div className="patient-reminder-timeline">
+              <div className="timeline-item">
+                <div className="timeline-badge medical"></div>
+                <div className="timeline-content">
+                  <h4>Consultation Cardiologie</h4>
+                  <p>15/06 à 14h30</p>
+                  <span className="timeline-location">Dr. Dupont - Clinique du Cœur</span>
+                </div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-badge medication"></div>
+                <div className="timeline-content">
+                  <h4>Prise de médicament</h4>
+                  <p>Aujourd'hui à 12h00</p>
+                  <span className="timeline-medication">Oméprazole 20mg</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Carte Contacts */}
+        <div className="patient-card patient-card-contacts">
+          <div className="patient-card-header">
+            <h3 className="patient-card-title">Contacts Utiles</h3>
+            <div className="patient-card-decoration"></div>
+          </div>
+          <div className="patient-card-body">
+            <div className="contact-card">
+              <div className="contact-avatar doctor"></div>
+              <div className="contact-details">
+                <h4>Dr. Martin</h4>
+                <p>Médecin traitant</p>
+                <a href="tel:+33123456789">01 23 45 67 89</a>
+              </div>
+            </div>
+            <div className="contact-card">
+              <div className="contact-avatar pharmacy"></div>
+              <div className="contact-details">
+                <h4>Pharmacie Centrale</h4>
+                <p>Pharmacie de garde</p>
+                <a href="tel:+33198765432">01 98 76 54 32</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Carte Documents */}
+        <div className="patient-card patient-card-documents">
+          <div className="patient-card-header">
+            <h3 className="patient-card-title">Mes Documents</h3>
+            <div className="patient-card-decoration"></div>
+          </div>
+          <div className="patient-card-body">
+            <div className="document-thumbnails">
+              <div className="document-thumb">
+                <div className="document-icon prescription"></div>
+                <span>Ordonnance 10/05</span>
+              </div>
+              <div className="document-thumb">
+                <div className="document-icon report"></div>
+                <span>Compte-rendu</span>
+              </div>
+              <div className="document-thumb">
+                <div className="document-icon scan"></div>
+                <span>Scanner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Carte Santé */}
+        <div className="patient-card patient-card-health">
+          <div className="patient-card-header">
+            <h3 className="patient-card-title">Ma Santé</h3>
+            <div className="patient-card-decoration"></div>
+          </div>
+          <div className="patient-card-body">
+            <div className="health-metrics">
+              <div className="metric-card">
+                <div className="metric-value">72</div>
+                <div className="metric-label">Battements/min</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-value">12.6</div>
+                <div className="metric-label">Hb (g/dL)</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-value">36.8</div>
+                <div className="metric-label">Température</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+);
     }
   };
 

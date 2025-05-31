@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import { useNavigate, useParams } from "react-router-dom";
 import PatientRegistration from "../build/contracts/PatientRegistration.json";
-import NavBar_Logout from "./NavBar_Logout";
-import "../CSS/ViewPatientList.css"; // Import du fichier CSS
+
+import "../CSS/list.css"; // Import du fichier CSS
 
 function RevokedPatients() {
   const { hhNumber } = useParams(); // Récupère le numéro du médecin depuis l'URL
@@ -63,7 +63,7 @@ function RevokedPatients() {
 
   return (
     <div className="view-patient-container">
-      <NavBar_Logout />
+     
       <div className="view-patient-content">
         <h2 className="title">Revoked Patients</h2>
         {revokedPatients.length === 0 ? (
